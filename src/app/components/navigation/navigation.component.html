@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/">🎬 MovieHub</a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="toggleNavbar()"
+      [attr.aria-expanded]="navbarOpen"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div [ngClass]="{ 'collapse': true, 'navbar-collapse': true, 'show': navbarOpen }" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/movie-list" routerLinkActive="active" (click)="closeNavbar()">Movies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/favourites" routerLinkActive="active" (click)="closeNavbar()">Favorites</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/watchlist" routerLinkActive="active" (click)="closeNavbar()">Watch list</a>
+        </li>
+      </ul>
+
+      <!-- movie-search -->
+      <div>
+        <app-movie-search></app-movie-search>
+      </div>
+
+      <button type="button" class="btn btn-outline-light" (click)="toggleTheme()">
+        {{ darkMode() ? '🌙' : '☀️' }}
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Loader -->
+<ng-container *ngIf="loading()">
+  <div class="spinner-border text-primary m-3" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</ng-container>
+
+<!-- Error -->
+<ng-container *ngIf="error()">
+  <div class="alert alert-danger m-3" role="alert">
+    {{ error() }}
+  </div>
+</ng-container>

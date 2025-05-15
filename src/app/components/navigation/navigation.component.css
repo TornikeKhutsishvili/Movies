@@ -1,0 +1,21 @@
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.loading-indicator,
+.error-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-collapse {
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link.active {
+  font-weight: bold;
+  color: #ffc107 !important;
+  transition: all 0.3s ease-in-out;
+}

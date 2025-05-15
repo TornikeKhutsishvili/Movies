@@ -1,0 +1,68 @@
+<!-- Toggle Filter ღილაკი -->
+<div class="toggle-button-wrapper">
+  <button class="toggle-filter-btn" (click)="toggleFilters()">
+    {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
+  </button>
+</div>
+
+<!-- ფილტრის ბლოკი ჩანს მხოლოდ თუ showFilters არის true -->
+<div *ngIf="showFilters" class="filter-container" [formGroup]="filterForm">
+  <h3>Filter</h3>
+
+  <!-- პირველი ხაზი -->
+  <div class="filter-row">
+    <!-- Year -->
+    <div class="form-item">
+      <label for="yearSelect">Year:</label>
+      <select id="yearSelect" formControlName="year">
+        <option [ngValue]="null">All</option>
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+      </select>
+    </div>
+
+    <!-- Genre -->
+    <div class="form-item">
+      <label for="genreSelect">Genre:</label>
+      <select id="genreSelect" formControlName="genre">
+        <option [ngValue]="null">All</option>
+        <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+      </select>
+    </div>
+
+    <!-- Rating -->
+    <div class="form-item">
+      <label for="ratingSelect">US Rating:</label>
+      <select id="ratingSelect" formControlName="rating">
+        <option [ngValue]="null">All</option>
+        <option *ngFor="let rating of ratings" [value]="rating">{{ rating }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- მეორე ხაზი -->
+  <div class="filter-row">
+    <!-- Language -->
+    <div class="form-item">
+      <label for="languageSelect">Language:</label>
+      <select id="languageSelect" formControlName="language">
+        <option [ngValue]="null">All</option>
+        <option *ngFor="let lang of languages" [value]="lang">{{ lang }}</option>
+      </select>
+    </div>
+
+    <!-- Runtime -->
+    <div class="form-item">
+      <label>Runtime (minutes):</label>
+      <div class="runtime-inputs">
+        <input type="number" placeholder="Min" formControlName="minRuntime" min="0" />
+        <input type="number" placeholder="Max" formControlName="maxRuntime" min="0" />
+      </div>
+    </div>
+
+    <!-- ღილაკები -->
+    <div class="button-group">
+      <button (click)="applyFilter()" type="button">Filter</button>
+      <button (click)="resetFilters()" type="button" class="reset-btn">Reset</button>
+    </div>
+  </div>
+</div>

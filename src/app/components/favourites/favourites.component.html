@@ -1,0 +1,42 @@
+<div class="container my-5">
+  <h2 class="text-center text-uppercase fw-bold mb-4">My Favorite Movies</h2>
+
+  <!-- If groupedFavourites is empty -->
+  <div *ngIf="(groupedFavourites() | keyvalue).length === 0" class="text-center text-muted">
+    <p id="favourites">Favourites list is empty 😢</p>
+  </div>
+
+  <div class="row" *ngIf="(groupedFavourites() | keyvalue).length > 0">
+    <ng-container *ngFor="let group of groupedFavourites() | keyvalue">
+      <h4 class="mt-4">{{ group.key }}</h4>
+      <div *ngFor="let movie of group.value" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="card shadow-sm border-0 h-100">
+          <img [src]="movie.posterMedium" class="card-img-top" [alt]="movie.title" title="image"/>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-center text-truncate">{{ movie.title }}</h5>
+            <div class="mt-auto">
+              <button type="button" (click)="remove(movie.imdb_id)" class="btn btn-outline-danger w-100" aria-label="Remove from favourites">
+                <i class="bi bi-trash-fill me-2"></i> delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- Toast Message (Bootstrap) -->
+<div
+  id="toast-message"
+  class="toast align-items-center text-bg-primary border-0 position-fixed bottom-0 end-0 m-3"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+  style="z-index: 1200;"
+>
+  <div class="d-flex">
+    <div class="toast-body"></div>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+</div>

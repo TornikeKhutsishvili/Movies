@@ -1,0 +1,52 @@
+<ng-container *ngIf="movie() as m">
+  <div class="container my-5">
+    <div class="row align-items-center gy-4">
+      <!-- Movie Poster -->
+      <div class="col-md-4 text-center">
+        <img
+          [src]="m.posterMedium"
+          [alt]="m.original_title"
+          class="img-fluid rounded-4 shadow-lg w-100"
+          style="max-height: 500px; object-fit: cover;"
+          title="image"
+        />
+      </div>
+
+      <!-- Movie Details -->
+      <div class="col-md-8">
+        <h1 class="fw-bold mb-3 text-uppercase text-primary">{{ m.original_title }}</h1>
+
+        <ul class="list-group list-group-flush fs-6 mb-3">
+          <li class="list-group-item">
+            <strong class="text-dark">Original Language:</strong> {{ m.original_language }}
+          </li>
+          <li class="list-group-item">
+            <strong class="text-dark">Runtime:</strong> {{ m.runtime_minutes }} minutes
+          </li>
+          <li class="list-group-item">
+            <strong class="text-dark">User Rating:</strong> ⭐ {{ m.user_rating }}
+          </li>
+          <li class="list-group-item">
+            <strong class="text-dark">Release Date:</strong> {{ m.release_date }}
+          </li>
+          <li class="list-group-item">
+            <strong class="text-dark">Relevance:</strong> {{ m.relevance_percentile }}%
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <strong class="text-dark">Genres:</strong>
+            <div class="ps-1">
+              <span class="badge bg-secondary me-1" *ngFor="let genre of m.genre_names">{{ genre }}</span>
+            </div>
+          </li>
+        </ul>
+
+        <div class="mt-4">
+          <h5 id="plot" class="fw-semibold text-muted">Plot Overview</h5>
+          <p class="text-justify text-secondary" style="text-align: justify;">
+            {{ m.plot_overview }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,71 @@
+.carousel-item img {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-container {
+  position: relative;
+  width: 860px; /* 4 სურათი x 200px + პადი */
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-slide {
+  display: flex;
+  position: relative;
+  height: 320px;
+}
+
+.movie-group {
+  display: none;
+  width: 100%;
+  justify-content: space-between;
+  gap: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.movie-group.active {
+  display: flex;
+}
+
+.movie-poster {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  background-color: rgba(0,0,0,0.4);
+  border: none;
+  color: white;
+  font-size: 30px;
+  padding: 8px 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  transform: translateY(-50%);
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  z-index: 1000;
+}
+
+.carousel-control:hover {
+  background-color: rgba(0,0,0,0.7);
+}
+
+.carousel-control.prev {
+  left: 5px;
+}
+
+.carousel-control.next {
+  right: 5px;
+}

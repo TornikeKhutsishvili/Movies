@@ -1,0 +1,40 @@
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  object-fit: cover;
+  height: 250px;
+}
+
+.card-body {
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 1.1rem;
+}
+
+.card-text {
+  font-size: 0.9rem;
+}
+
+.btn {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.container {
+  max-width: 1200px;
+}
