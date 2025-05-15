@@ -7,6 +7,8 @@ import { MovieService } from '../../services/movie.service';
 import { CaruselComponent } from "../carusel/carusel.component";
 import { FilterComponent } from "../filter/filter.component";
 import { MovieFilterService } from '../../services/movie-filter.service';
+import { MovieSearchService } from '../../services/movie-search.service';
+import { MovieSearchComponent } from "../movie-search/movie-search.component";
 
 @Component({
   selector: 'app-movie-list',
@@ -17,7 +19,8 @@ import { MovieFilterService } from '../../services/movie-filter.service';
     ReactiveFormsModule,
     RouterLink,
     CaruselComponent,
-    FilterComponent
+    FilterComponent,
+    MovieSearchComponent
 ],
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.css']
@@ -26,12 +29,14 @@ export class MovieListComponent implements OnInit {
 
   private movieService = inject(MovieService);
   private movieFilterService = inject(MovieFilterService);
+  private movieSearchService = inject(MovieSearchService);
   movie = signal<Movie[]>([]);
   isLoading = true;
   favoriteMovies: Set<string> = new Set();
   watchlistMovies: Set<string> = new Set();
   private platformId = inject(PLATFORM_ID);
   filteredMovies = signal<Movie[]>([]);
+  searchedMovies = signal<Movie[]>([]);
 
   // Current page and items per page
   currentPage = signal(1);
@@ -115,9 +120,17 @@ export class MovieListComponent implements OnInit {
         this.movie.set(res);
         this.isLoading = false;
         this.movieFilterService.setFilteredMovies(res);
+        this.movieFilterService.setsearchedMovies(res);
       });
+
+      // movie filter service
         this.movieFilterService.filteredMovies$.subscribe(filtered => {
         this.filteredMovies.set(filtered);
+      });
+
+      // movie filter service
+        this.movieFilterService.searchedMovies$.subscribe(searched => {
+        this.searchedMovies.set(searched);
       });
 
 

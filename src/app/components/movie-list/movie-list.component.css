@@ -38,3 +38,38 @@
 .container {
   max-width: 1200px;
 }
+
+.search-filter-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search app-movie-search {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.search-filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.search {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filter {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 992px) {
+  .search{
+    display: none !important;
+  }
+}

@@ -1,15 +1,13 @@
 <!-- Toggle Filter ღილაკი -->
-<div class="toggle-button-wrapper">
-  <button class="toggle-filter-btn" (click)="toggleFilters()">
+<div class="toggle-button-wrapper m-0">
+  <button type="button" class="toggle-filter-btn btn-sm" (click)="toggleFilters()">
     {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
   </button>
 </div>
 
 <!-- ფილტრის ბლოკი ჩანს მხოლოდ თუ showFilters არის true -->
 <div *ngIf="showFilters" class="filter-container" [formGroup]="filterForm">
-  <h3>Filter</h3>
 
-  <!-- პირველი ხაზი -->
   <div class="filter-row">
     <!-- Year -->
     <div class="form-item">
@@ -39,7 +37,6 @@
     </div>
   </div>
 
-  <!-- მეორე ხაზი -->
   <div class="filter-row">
     <!-- Language -->
     <div class="form-item">
