@@ -1,11 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', loadComponent: () =>
-    import('./components/movie-list/movie-list.component').then(
-      m => m.MovieListComponent
-    )
-  },
+  { path: '', redirectTo: 'movie-list', pathMatch: 'full' },
   { path: 'movie-list', loadComponent: () =>
     import('./components/movie-list/movie-list.component').then(
       m => m.MovieListComponent

@@ -10,23 +10,8 @@
     </div>
   </div>
 
-    <!-- Carousel Header -->
-    <div class="mb-4" *ngIf="!isLoading">
-      <app-carusel></app-carusel>
-    </div>
-
-    <!-- movie-search -->
-    <div class="d-flex align-items-center me-3 search">
-      <app-movie-search class="search"></app-movie-search>
-    </div>
-
-    <!-- movie-filter -->
-    <div class="mt-2 w-100">
-      <app-filter class="filter"></app-filter>
-    </div>
-
   <ng-template #movieList>
-    <!-- Carousel Header -->
+    <!-- Carousel -->
     <div class="mb-4" *ngIf="!isLoading">
       <app-carusel></app-carusel>
     </div>
