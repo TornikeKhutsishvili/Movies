@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { Movie } from '../models/movieAPI.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +10,28 @@ export class MovieSearchService {
   private apiKey = 'EFCY2h2VghuMcuVW60TvMyWN9glnfkDhg1QKgvrk';
   private baseUrl = 'https://api.watchmode.com/v1';
 
+  private filteredMoviesSubject = new BehaviorSubject<Movie[]>([]);
+  searchedMovies$ = this.filteredMoviesSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
-  searchMovies(title: string): Observable<any> {
-    const params = new HttpParams()
-      .set('apiKey', this.apiKey)
-      .set('search_field', 'name')
-      .set('search_value', title);
+  setSearchedMovies(movies: Movie[]) {
+    this.filteredMoviesSubject.next(movies);
+  }
 
-    return this.http.get(`${this.baseUrl}/search/`, { params });
+  searchMovies(title: string, type?: 'movie' | 'tv' | 'anime'): Observable<Movie[]> {
+    const url = `${this.baseUrl}/search/`;
+    const params: any = {
+      apiKey: this.apiKey,
+      search_value: title
+    };
+
+    if (type) {
+      params.search_type = type;
+    }
+
+    return this.http.get<{ results: Movie[] }>(url, { params }).pipe(
+      map(response => response.results)
+    );
   }
 }

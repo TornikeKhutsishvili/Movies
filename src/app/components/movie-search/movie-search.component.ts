@@ -32,12 +32,16 @@ export class MovieSearchComponent {
       const value = this.form.value;
 
       if (value.title) {
-        this.movieSearchService.searchMovies(value.title).subscribe(
-          res => this.movies.set(res)
-      );
+        this.movieSearchService.searchMovies(value.title).subscribe(res => {
+          this.movies.set(res);
+        });
       } else {
         this.movies.set([]);
       }
+    });
+
+    effect(() => {
+      this.movieSearchService.setSearchedMovies(this.movies());
     });
   }
 }

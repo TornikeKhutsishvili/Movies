@@ -120,7 +120,7 @@ export class MovieListComponent implements OnInit {
         this.movie.set(res);
         this.isLoading = false;
         this.movieFilterService.setFilteredMovies(res);
-        this.movieFilterService.setsearchedMovies(res);
+        this.movieSearchService.setSearchedMovies(res);
       });
 
       // movie filter service
@@ -128,8 +128,8 @@ export class MovieListComponent implements OnInit {
         this.filteredMovies.set(filtered);
       });
 
-      // movie filter service
-        this.movieFilterService.searchedMovies$.subscribe(searched => {
+      // movie search service
+        this.movieSearchService.searchedMovies$.subscribe(searched => {
         this.searchedMovies.set(searched);
       });
 
