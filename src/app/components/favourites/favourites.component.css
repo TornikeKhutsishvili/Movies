@@ -31,3 +31,32 @@
 .toast-container {
   z-index: 1055;
 }
+
+.genre-thumbnails-container {
+  max-width: 100%;
+}
+
+.genre-thumb {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.genre-thumb:hover {
+  transform: scale(1.05);
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
+
+.genres {
+  flex-wrap: wrap;
+}
+
+.highlight-card {
+  transform: scale(1.05) translateY(-10px);
+  transition: transform 0.3s ease;
+  z-index: 1;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+}

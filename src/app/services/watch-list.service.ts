@@ -1,67 +1,60 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Movie } from '../models/movieAPI.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WatchlistService {
   private storageKey = 'watchlist';
+  private isBrowser: boolean;
+  private watchlistSubject = new BehaviorSubject<Movie[]>([]);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  watchlist$ = this.watchlistSubject.asObservable();
 
-  private isPlatformBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    if (this.isBrowser) {
+      const loaded = this.loadWatchlist();
+      this.watchlistSubject.next(loaded);
+    }
+  }
+
+  private loadWatchlist(): Movie[] {
+    try {
+      const data = localStorage.getItem(this.storageKey);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  private saveWatchlist(watchlist: Movie[]) {
+    if (this.isBrowser) {
+      localStorage.setItem(this.storageKey, JSON.stringify(watchlist));
+    }
+    this.watchlistSubject.next(watchlist);
   }
 
   getWatchlist(): Movie[] {
-    if (this.isPlatformBrowser()) {
-      try {
-        return JSON.parse(localStorage.getItem(this.storageKey) || '[]');
-      } catch {
-        return [];
-      }
-    }
-    return [];
+    return this.watchlistSubject.value;
   }
 
   addToWatchlist(movie: Movie): void {
-    if (this.isPlatformBrowser()) {
-      const watchlist = this.getWatchlist();
-      if (!watchlist.find(w => w.imdb_id === movie.imdb_id)) {
-        watchlist.push(movie);
-        localStorage.setItem(this.storageKey, JSON.stringify(watchlist));
-      }
+    const watchlist = this.getWatchlist();
+    if (!watchlist.find(w => w.imdb_id === movie.imdb_id)) {
+      const movieWithDate = { ...movie, addedAt: new Date().toISOString() };
+      this.saveWatchlist([...watchlist, movieWithDate]);
     }
   }
 
   removeFromWatchlist(id: string): void {
-    if (this.isPlatformBrowser()) {
-      const updated = this.getWatchlist().filter(m => m.imdb_id !== id);
-      localStorage.setItem(this.storageKey, JSON.stringify(updated));
-    }
+    const updated = this.getWatchlist().filter(m => m.imdb_id !== id);
+    this.saveWatchlist(updated);
   }
 
   isInWatchlist(id: string): boolean {
-    if (this.isPlatformBrowser()) {
-      return this.getWatchlist().some(m => m.imdb_id === id);
-    }
-    return false;
-  }
-
-  groupByGenre(): Record<string, Movie[]> {
-    const grouped: Record<string, Movie[]> = {};
-    if (this.isPlatformBrowser()) {
-      const watchlist = this.getWatchlist();
-      watchlist.forEach(movie => {
-        if (Array.isArray(movie.genre_names)) {
-          movie.genre_names.forEach(genre => {
-            if (!grouped[genre]) grouped[genre] = [];
-            grouped[genre].push(movie);
-          });
-        }
-      });
-    }
-    return grouped;
+    return this.getWatchlist().some(m => m.imdb_id === id);
   }
 }

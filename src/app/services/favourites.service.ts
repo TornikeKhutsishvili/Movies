@@ -26,12 +26,13 @@ export class FavouritesService {
   }
 
   addFavorite(movie: Movie): void {
-    if (this.isPlatformBrowser()) {
-      const favorites = this.getFavorites();
-      if (!favorites.find(f => f.imdb_id === movie.imdb_id)) {
-        favorites.push(movie);
-        localStorage.setItem(this.storageKey, JSON.stringify(favorites));
-      }
+    if (!this.isPlatformBrowser()) return;
+
+    const favorites = this.getFavorites();
+    const exists = favorites.find(f => f.imdb_id === movie.imdb_id);
+    if (!exists) {
+      favorites.push(movie);
+      localStorage.setItem(this.storageKey, JSON.stringify(favorites));
     }
   }
 
@@ -51,17 +52,18 @@ export class FavouritesService {
 
   groupByGenre(): Record<string, Movie[]> {
     const grouped: Record<string, Movie[]> = {};
-    if (this.isPlatformBrowser()) {
-      const favorites = this.getFavorites();
-      favorites.forEach(movie => {
-        if (Array.isArray(movie.genre_names)) {
-          movie.genre_names.forEach(genre => {
-            if (!grouped[genre]) grouped[genre] = [];
-            grouped[genre].push(movie);
-          });
+    const favorites = this.getFavorites();
+
+    for (const movie of favorites) {
+      const genres = movie.genre_names && movie.genre_names.length > 0 ? movie.genre_names : ['No Genre'];
+      for (const genre of genres) {
+        if (!grouped[genre]) {
+          grouped[genre] = [];
         }
-      });
+        grouped[genre].push(movie);
+      }
     }
+
     return grouped;
   }
 }

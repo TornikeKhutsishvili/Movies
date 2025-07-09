@@ -2,6 +2,7 @@ export interface Movie {
   posterMedium: any;
   title: string;
   year: number;
+  addedAt?: string;
   imdb_id: string;
   type: string;
   id: string;
@@ -11,21 +12,21 @@ export interface Movie {
 
 export interface MovieDetail extends Movie {
   original_title: string;
+  original_language: string;
+  Runtime: string;
+  us_rating: string;
+  release_date: string;
+  relevance_percentile: number;
+  genres: any;
+  genre_names?: string[];
   plot_overview: string;
   runtime_minutes: number;
   end_year: number;
-  release_date: string;
   tmdb_id: number;
   Rated: string;
   Released: string;
-  Runtime: string;
-  us_rating: string;
-  genres: any;
-  genre_names?: string[];
   user_rating: string;
   critic_score: string;
-  relevance_percentile: number;
-  original_language: string;
   network_names: any;
   backdrop: any;
   trailer: any;

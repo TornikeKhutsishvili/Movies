@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Movie } from '../../models/movieAPI.model';
 import { RouterLink } from '@angular/router';
@@ -8,7 +8,9 @@ import { CaruselComponent } from "../carusel/carusel.component";
 import { FilterComponent } from "../filter/filter.component";
 import { MovieFilterService } from '../../services/movie-filter.service';
 import { MovieSearchService } from '../../services/movie-search.service';
-import { MovieSearchComponent } from "../movie-search/movie-search.component";
+import { FavouritesService } from '../../services/favourites.service';
+import { WatchlistService } from '../../services/watch-list.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-movie-list',
@@ -20,45 +22,48 @@ import { MovieSearchComponent } from "../movie-search/movie-search.component";
     RouterLink,
     CaruselComponent,
     FilterComponent,
-    MovieSearchComponent
 ],
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.css']
 })
 export class MovieListComponent implements OnInit {
-
+  private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
+  private watchlistService = inject(WatchlistService);
   private movieFilterService = inject(MovieFilterService);
   private movieSearchService = inject(MovieSearchService);
-  movie = signal<Movie[]>([]);
+  private favouriteService = inject(FavouritesService);
   isLoading = true;
+  searchText: string = '';
   favoriteMovies: Set<string> = new Set();
   watchlistMovies: Set<string> = new Set();
-  private platformId = inject(PLATFORM_ID);
-  filteredMovies = signal<Movie[]>([]);
+  movie = signal<Movie[]>([]);
+  readonly filteredMovies = signal<Movie[]>([]);
   searchedMovies = signal<Movie[]>([]);
+  readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
 
   // Current page and items per page
   currentPage = signal(1);
-  itemsPerPage = 20;
+  itemsPerPage = 18;
 
-  // Paged movie list (already correct)
-  readonly pagedMovies = computed(() => {
-    const start = (this.currentPage() - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
-    return this.movie().slice(start, end);
+  displayedMovies = computed(() => {
+    const filtered = this.filteredMovies();
+    const searched = this.searchedMovies();
+    const search = this.searchQuery().trim();
+
+    return search ? searched : filtered;
   });
 
   // split page
   paginatedMovies = computed(() => {
     const start = (this.currentPage() - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    return this.movie().slice(start, end);
+    return this.displayedMovies().slice(start, end);
   });
 
   // Total pages array for iteration
   get totalPages(): number[] {
-    const totalItems = this.movie().length;
+    const totalItems = this.displayedMovies().length;
     const pageCount = Math.ceil(totalItems / this.itemsPerPage);
     return Array.from({ length: pageCount }, (_, i) => i + 1);
   }
@@ -79,39 +84,43 @@ export class MovieListComponent implements OnInit {
   }
 
 
+  // filter:
+  constructor() {
+    effect(() => {
+      this.movieFilterService.filteredMovies$.subscribe(this.filteredMovies.set);
+    });
+  }
+
 
   // favourites
   toggleFavorite(movie: Movie): void {
-    if (this.favoriteMovies.has(movie.imdb_id)) {
-      this.favoriteMovies.delete(movie.imdb_id);
+    if (this.favouriteService.isFavorite(movie.imdb_id)) {
+      this.favouriteService.removeFavorite(movie.imdb_id);
     } else {
-      this.favoriteMovies.add(movie.imdb_id);
-    }
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('favoriteIds', JSON.stringify(Array.from(this.favoriteMovies)));
+      this.favouriteService.addFavorite(movie);
     }
   }
 
   isFavorite(movie: Movie): boolean {
-    return this.favoriteMovies.has(movie.imdb_id);
+    return this.favouriteService.isFavorite(movie.imdb_id);
   }
 
 
   // watch-list
   toggleWatchlist(movie: Movie): void {
     if (this.watchlistMovies.has(movie.imdb_id)) {
-      this.watchlistMovies.delete(movie.imdb_id);
+      this.watchlistService.removeFromWatchlist(movie.imdb_id);
     } else {
-      this.watchlistMovies.add(movie.imdb_id);
+      this.watchlistService.addToWatchlist(movie);
     }
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.setItem('watchlistIds', JSON.stringify(Array.from(this.watchlistMovies)));
-    }
+    const updatedList = this.watchlistService.getWatchlist();
+    this.watchlistMovies = new Set(updatedList.map(m => m.imdb_id));
   }
 
   isInWatchlist(movie: Movie): boolean {
     return this.watchlistMovies.has(movie.imdb_id);
   }
+
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -120,17 +129,12 @@ export class MovieListComponent implements OnInit {
         this.movie.set(res);
         this.isLoading = false;
         this.movieFilterService.setFilteredMovies(res);
-        this.movieSearchService.setSearchedMovies(res);
       });
+
 
       // movie filter service
-        this.movieFilterService.filteredMovies$.subscribe(filtered => {
+      this.movieFilterService.filteredMovies$.subscribe(filtered => {
         this.filteredMovies.set(filtered);
-      });
-
-      // movie search service
-        this.movieSearchService.searchedMovies$.subscribe(searched => {
-        this.searchedMovies.set(searched);
       });
 
 
@@ -141,11 +145,25 @@ export class MovieListComponent implements OnInit {
       }
 
 
-      // watch-list
-      const storedwatchlist = localStorage.getItem('watchlistIds');
-      if (storedwatchlist) {
-        this.watchlistMovies = new Set(JSON.parse(storedwatchlist));
-      }
+      // watchlist — load from service list
+      const currentWatchlist = this.watchlistService.getWatchlist();
+      this.watchlistMovies = new Set(currentWatchlist.map(m => m.imdb_id));
+
+
+      // subscribe changes, that realtime updates in watchlistMovies
+      this.watchlistService.watchlist$.subscribe(movies => {
+        this.watchlistMovies = new Set(movies.map(m => m.imdb_id));
+      });
+
+
+      // search
+      this.movieSearchService.searchQuery$.subscribe(() => {
+        this.movieSearchService.updateFilteredMovies(this.movie());
+      });
+
+      this.movieSearchService.filteredMovies$.subscribe(searched => {
+        this.searchedMovies.set(searched);
+      });
     }
   }
 }

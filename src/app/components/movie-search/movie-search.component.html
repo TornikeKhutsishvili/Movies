@@ -1,8 +1,8 @@
-<form [formGroup]="form" class="d-flex align-items-center">
+<div class="d-flex align-items-center">
   <input
     type="text"
     class="form-control me-2 search-input"
     placeholder="🔍 Search..."
-    formControlName="title"
+    [formControl]="titleControl"
   />
-</form>
+</div>

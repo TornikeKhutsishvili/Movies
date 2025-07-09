@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Movie } from '../../models/movieAPI.model';
 import { MovieSearchService } from '../../services/movie-search.service';
+import { distinctUntilChanged, filter, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-movie-search',
@@ -15,33 +16,18 @@ import { MovieSearchService } from '../../services/movie-search.service';
   templateUrl: './movie-search.component.html',
   styleUrls: ['./movie-search.component.css']
 })
-export class MovieSearchComponent {
-  private fb = inject(FormBuilder);
+export class MovieSearchComponent implements OnInit {
+  titleControl = new FormControl('');
   private movieSearchService = inject(MovieSearchService);
 
-  form = this.fb.nonNullable.group({
-    title: '',
-    year: ''
-  });
-
-  readonly movies = signal<Movie[]>([]);
-  readonly movieCount = computed(() => this.movies().length);
-
-  constructor() {
-    effect(() => {
-      const value = this.form.value;
-
-      if (value.title) {
-        this.movieSearchService.searchMovies(value.title).subscribe(res => {
-          this.movies.set(res);
-        });
-      } else {
-        this.movies.set([]);
-      }
-    });
-
-    effect(() => {
-      this.movieSearchService.setSearchedMovies(this.movies());
-    });
+  ngOnInit(): void {
+    this.titleControl.valueChanges
+      .pipe(
+        filter(value => value !== null && value !== undefined),
+        distinctUntilChanged()
+      )
+      .subscribe(value => {
+        this.movieSearchService.setSearchQuery(value);
+      });
   }
 }

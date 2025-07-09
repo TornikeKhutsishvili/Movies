@@ -3,7 +3,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-movie-details',
@@ -19,6 +19,7 @@ import { ActivatedRoute } from '@angular/router';
 export class MovieDetailsComponent implements OnInit {
   private movieService = inject(MovieService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   readonly movie = signal<MovieDetail | null>(null);
 
@@ -32,5 +33,9 @@ export class MovieDetailsComponent implements OnInit {
         this.movie.set(data);
       });
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/movie-list']);
   }
 }

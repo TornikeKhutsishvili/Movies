@@ -8,7 +8,7 @@
 
 .carousel-container {
   position: relative;
-  width: 860px; /* 4 სურათი x 200px + პადი */
+  width: 860px;
   margin: auto;
   overflow: hidden;
 }
@@ -63,9 +63,9 @@
 }
 
 .carousel-control.prev {
-  left: 5px;
+  left: 18px;
 }
 
 .carousel-control.next {
-  right: 5px;
+  right: 18px;
 }

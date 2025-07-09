@@ -1,0 +1,32 @@
+.actor-card {
+  max-width: 400px;
+  margin: 20px auto;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background-color: #fff;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.actor-card:hover {
+  transform: scale(1.05);
+}
+
+.actor-img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+h2 {
+  margin: 10px 0;
+}
+
+p {
+  margin: 4px 0;
+  color: #444;
+}

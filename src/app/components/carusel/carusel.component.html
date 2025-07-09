@@ -1,8 +1,12 @@
 <div class="carousel-container">
-  <div class="carousel-slide">
-    <div class="movie-group" *ngFor="let group of groupedMovies; let i = index" [class.active]="i === currentIndex">
-      <img *ngFor="let movie of group" [src]="movie.posterMedium" [alt]="movie.title" class="movie-poster" title="image" />
-    </div>
+  <div class="carousel-slide d-flex justify-content-center gap-2">
+    <img
+      *ngFor="let movie of visibleMovies"
+      [src]="movie.posterMedium"
+      [alt]="movie.title"
+      class="movie-poster"
+      title="image"
+    />
   </div>
 
   <button type="button" class="carousel-control prev" (click)="prevSlide()">&#10094;</button>

@@ -1,4 +1,4 @@
-<ng-container *ngIf="movie() as m">
+<ng-container *ngIf="movie() as m" #unknownGenres>
   <div class="container my-5">
     <div class="row align-items-center gy-4">
       <!-- Movie Poster -->
@@ -32,12 +32,21 @@
           <li class="list-group-item">
             <strong class="text-dark">Relevance:</strong> {{ m.relevance_percentile }}%
           </li>
-          <li class="list-group-item d-flex align-items-center">
-            <strong class="text-dark">Genres:</strong>
-            <div class="ps-1">
-              <span class="badge bg-secondary me-1" *ngFor="let genre of m.genre_names">{{ genre }}</span>
-            </div>
-          </li>
+          @if (m.genre_names?.length) {
+            <li class="list-group-item d-flex align-items-center">
+              <strong class="text-dark">Genres:</strong>
+              <div class="ps-1">
+                <span class="badge bg-secondary me-1" *ngFor="let genre of m.genre_names">
+                  {{ genre }}
+                </span>
+              </div>
+            </li>
+          }
+          <ng-template #unknownGenres>
+            <li class="list-group-item d-flex align-items-center">
+              <strong class="text-dark">Genres: Unknown</strong>
+            </li>
+          </ng-template>
         </ul>
 
         <div class="mt-4">
@@ -46,6 +55,10 @@
             {{ m.plot_overview }}
           </p>
         </div>
+
+        <button type="button" class="btn btn-outline-primary" (click)="goBack()">
+          ⬅ Back to Movies
+        </button>
       </div>
     </div>
   </div>

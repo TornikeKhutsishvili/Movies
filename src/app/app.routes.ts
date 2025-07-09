@@ -21,5 +21,15 @@ export const routes: Routes = [
     import('./components/watch-list/watch-list.component').then(
       m => m.WatchListComponent
     )
+  },
+  { path: 'networks', loadComponent: () =>
+    import('./components/networks/networks.component').then(
+      m => m.NetworksComponent
+    )
+  },
+  { path: 'actors', loadComponent: () =>
+    import('./components/actors/actors.component').then(
+      m => m.ActorsComponent
+    )
   }
 ];

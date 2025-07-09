@@ -9,7 +9,7 @@
 
 .card-img-top {
   object-fit: cover;
-  height: 250px;
+  height: 420px;
 }
 
 .card-body {
@@ -23,16 +23,6 @@
 
 .card-text {
   font-size: 0.9rem;
-}
-
-.btn {
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.btn:hover {
-  background-color: #0056b3;
-  border-color: #004085;
 }
 
 .container {

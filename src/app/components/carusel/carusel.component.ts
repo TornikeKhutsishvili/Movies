@@ -18,17 +18,16 @@ import { interval, Subscription } from 'rxjs';
 })
 export class CaruselComponent implements OnInit, OnDestroy {
   movies: MovieDetail[] = [];
-  groupedMovies: MovieDetail[][] = [];
   currentIndex = 0;
   slideInterval = 3000;
   intervalSub?: Subscription;
+  visibleCount = 4;
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
     this.movieService.getNewTitlesWithPosters().subscribe(data => {
       this.movies = data.filter(movie => movie.posterMedium && movie.posterMedium !== '');
-      this.groupedMovies = this.chunkArray(this.movies, 4);
       this.startAutoSlide();
     });
   }
@@ -48,18 +47,20 @@ export class CaruselComponent implements OnInit, OnDestroy {
   }
 
   nextSlide() {
-    this.currentIndex = (this.currentIndex + 1) % this.groupedMovies.length;
+    this.currentIndex = (this.currentIndex + 1) % this.movies.length;
   }
 
   prevSlide() {
-    this.currentIndex = (this.currentIndex - 1 + this.groupedMovies.length) % this.groupedMovies.length;
+    this.currentIndex = (this.currentIndex - 1 + this.movies.length) % this.movies.length;
   }
 
-  chunkArray(arr: any[], size: number): any[][] {
-    const result = [];
-    for (let i = 0; i < arr.length; i += size) {
-      result.push(arr.slice(i, i + size));
+  get visibleMovies(): MovieDetail[] {
+    const result: MovieDetail[] = [];
+    for (let i = 0; i < this.visibleCount; i++) {
+      const index = (this.currentIndex + i) % this.movies.length;
+      result.push(this.movies[index]);
     }
     return result;
   }
+
 }

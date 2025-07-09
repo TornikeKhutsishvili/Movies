@@ -1,22 +1,68 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { forkJoin, Observable, shareReplay, switchMap, tap, timer } from 'rxjs';
 import { Movie, MovieDetail } from '../models/movieAPI.model';
 import { HttpClient } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
-  private apiKey = 'EFCY2h2VghuMcuVW60TvMyWN9glnfkDhg1QKgvrk';
-  private baseUrl = 'https://api.watchmode.com/v1';
 
+  private apiKey = [
+    'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8',
+    'EFCY2h2VghuMcuVW60TvMyWN9glnfkDhg1QKgvrk',
+    't0XNBuNEaL4lMfCVvx90ks41SrlQlWynqX5gqGB3',
+  ];
+
+
+  private readonly lastSwitchKey = 'api_key_last_switch';
+  private readonly currentIndexKey = 'api_key_index';
+
+  private baseUrl = 'https://api.watchmode.com/v1';
   private cache$: Observable<MovieDetail[]> | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
-  getNewTitlesWithPosters(): Observable<MovieDetail[]> {
+  // tornikexucishvili0@gmail.com
+  // private apiKey = 'EFCY2h2VghuMcuVW60TvMyWN9glnfkDhg1QKgvrk';
+
+  // tornike.khutsishvili347@eab.tsu.edu.ge
+  // private apiKey = 't0XNBuNEaL4lMfCVvx90ks41SrlQlWynqX5gqGB3';
+
+  // torkokhutso4@gmail.com
+  // private apiKey = 'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8';
+
+  // base url:
+
+  private getApiKey(): string {
+    let index = 0;
+
+    if (isPlatformBrowser(this.platformId)) {
+      const now = new Date();
+      const lastSwitchStr = localStorage.getItem(this.lastSwitchKey);
+      const currentIndexStr = localStorage.getItem(this.currentIndexKey);
+
+      index = currentIndexStr ? parseInt(currentIndexStr, 10) : 0;
+      const lastSwitch = lastSwitchStr ? new Date(lastSwitchStr) : new Date(0);
+
+      const oneMonthLater = new Date(lastSwitch);
+      oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+
+      if (now >= oneMonthLater) {
+        index = (index + 1) % this.apiKey.length;
+        localStorage.setItem(this.currentIndexKey, index.toString());
+        localStorage.setItem(this.lastSwitchKey, now.toISOString());
+      }
+    }
+
+    return this.apiKey[index];
+  }
+
+    getNewTitlesWithPosters(): Observable<MovieDetail[]> {
     if (!this.cache$) {
-      const url = `${this.baseUrl}/list-titles/?apiKey=${this.apiKey}&types=movie&sort_by=release_date_desc&limit=60`;
+      const apiKey = this.getApiKey();
+      const url = `${this.baseUrl}/list-titles/?apiKey=${apiKey}&types=movie&sort_by=release_date_desc&limit=60`;
 
       this.cache$ = this.http.get<{ titles: Movie[] }>(url).pipe(
         switchMap(response => {
@@ -36,7 +82,8 @@ export class MovieService {
   }
 
   getMovieById(id: string): Observable<MovieDetail> {
-    const url = `${this.baseUrl}/title/${id}/details/?apiKey=${this.apiKey}&append_to_response=sources&limit=60`;
+    const apiKey = this.getApiKey();
+    const url = `${this.baseUrl}/title/${id}/details/?apiKey=${apiKey}&append_to_response=sources&limit=60`;
 
     return this.http.get<MovieDetail>(url).pipe(
       tap(response => {
