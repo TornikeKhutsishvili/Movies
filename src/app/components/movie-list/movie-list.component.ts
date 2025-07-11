@@ -166,4 +166,15 @@ export class MovieListComponent implements OnInit {
       });
     }
   }
+
+  selectedMovie: Movie | null = null;
+
+  openModal(movie: Movie): void {
+    this.selectedMovie = movie;
+  }
+
+  closeModal(): void {
+    this.selectedMovie = null;
+  }
+
 }

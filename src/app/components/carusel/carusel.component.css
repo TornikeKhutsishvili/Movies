@@ -84,6 +84,11 @@
   left: 10px;
 }
 
+.movieRate,
+.movieLang {
+  border: 1px solid white;
+}
+
 .positionAbsolute {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.7);

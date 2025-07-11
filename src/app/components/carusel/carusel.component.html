@@ -9,12 +9,8 @@
           class="movie-poster"
           [title]="movie.title"
         />
-        <span class="movieRate positionAbsolute border-1" [title]="movie.user_rating">
-          ⭐ {{ movie.user_rating }}
-        </span>
-        <span class="movieLang positionAbsolute border-1" [title]="movie.original_language">
-          {{ movie.original_language }}
-        </span>
+        <span class="movieRate positionAbsolute border-1">⭐ {{ movie.user_rating }}</span>
+        <span class="movieLang positionAbsolute border-1">{{ movie.original_language }}</span>
       </div>
     }
 
