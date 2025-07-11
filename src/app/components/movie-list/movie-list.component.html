@@ -46,7 +46,7 @@
           </button>
 
 
-          <img [src]="movie.posterMedium" [alt]="movie.title" class="card-img-top" title="image" />
+          <img [src]="movie.posterMedium" [alt]="movie.title" class="card-img-top" [title]="[movie.title]" />
           <div class="card-body d-flex flex-column">
             <h5 class="card-title text-center text-uppercase fw-bold">{{ movie.title }}</h5>
             <p class="card-text text-muted text-center">{{ movie.year }}y • {{ movie.type }}</p>

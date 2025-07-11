@@ -87,7 +87,8 @@ export class MovieService {
 
     return this.http.get<MovieDetail>(url).pipe(
       tap(response => {
-        console.log('Movie Details:', response);
+        // console.log('Movie Details:', response);
+        return response;
       })
     );
   }

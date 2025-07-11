@@ -20,12 +20,20 @@ img {
 
 
 
-
 /* Default Light Theme */
 body {
   background-color: #ffffff;
   color: #000000;
   transition: background-color 0.3s ease, color 0.3s ease;
+
+
+  /* background-image: url('https://image.tmdb.org/t/p/original//vBZ0qvaRxqEhZwl6LWmruJqWE8Z.jpg'); */
+  /* background-image: url('https://image.tmdb.org/t/p/original//vZloFAK7NmvMGKE7VkF5UHaz0I.jpg'); */
+  background-image: url('https://image.tmdb.org/t/p/original//8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 /* Dark Theme */
@@ -87,7 +95,8 @@ body.dark-mode #unlike {
   background-color: red !important;
 }
 
-body.dark-mode #newtworkTitle {
+body.dark-mode #newtworkTitle,
+body.dark-mode #movieFavTitle {
   color: #ffffff !important;
 }
 
@@ -95,15 +104,10 @@ body.dark-mode #groupKey {
   color: #909090 !important;
 }
 
+body.dark-mode #regionTitle,
+body.dark-mode #actorsName,
+body.dark-mode #watchlistH5,
 body.dark-mode #groupKeyLength {
-  color: #cccccc !important;
-}
-
-body.dark-mode #movieFavTitle {
-  color: #ffffff !important;
-}
-
-body.dark-mode #watchlistH5 {
   color: #cccccc !important;
 }
 

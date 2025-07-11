@@ -17,6 +17,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   styleUrls: ['./networks.component.css']
 })
 export class NetworksComponent {
+
   private networksService = inject(NetworksService);
   networkArray: Networks[] = [];
   actionsMap = new Map<number, ReturnType<typeof signal>>();
@@ -25,6 +26,7 @@ export class NetworksComponent {
   private movieSearchService = inject(MovieSearchService);
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
 
+  // filter
   readonly filteredNetworks = computed(() => {
     const query = this.searchQuery().toLowerCase();
     return query
@@ -39,38 +41,18 @@ export class NetworksComponent {
     this.getNetworks();
   }
 
-  networkObj: any = {
-    "id": 0,
-    "name": "",
-    "origin_country": "",
-    "tmdb_id": 0
-  }
-
-  // getNetworks() {
-  //   this.networksService.getNetworks().subscribe({
-  //     next: (data) => {
-  //       this.networkArray = data;
-  //     },
-  //     error: (err) => {
-  //       console.error('Error loading networks:', err);
-  //     }
-  //   });
-  // }
-
-
   getNetworks() {
     this.networksService.getNetworks().subscribe({
-      next: (data) => {
+      next: (data: Networks[]) => {
         this.networkArray = data;
 
-        // თითოეული ელემენტისთვის შევქმნათ საკუთარი signal
         this.networkArray.forEach(n => {
           if (!this.actionsMap.has(n.id)) {
             this.actionsMap.set(n.id, signal(''));
           }
         });
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error loading networks:', err);
       }
     });
@@ -80,9 +62,7 @@ export class NetworksComponent {
     return this.actionsMap.get(networkId)!;
   }
 
-
-  actions = signal("");
-
+  // like or dislike
   onLike(network: Networks) {
     this.getActionSignal(network.id).set('Liked');
     console.log('Liked:', network.name);
@@ -92,4 +72,5 @@ export class NetworksComponent {
     this.getActionSignal(network.id).set('Unliked');
     console.log('Unliked:', network.name);
   }
+
 }

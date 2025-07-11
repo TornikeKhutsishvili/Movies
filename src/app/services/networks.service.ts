@@ -15,44 +15,35 @@ export class NetworksService {
     't0XNBuNEaL4lMfCVvx90ks41SrlQlWynqX5gqGB3',
   ];
 
-  // tornikexucishvili0@gmail.com
-  // private apiKey = 'EFCY2h2VghuMcuVW60TvMyWN9glnfkDhg1QKgvrk';
-
-  // tornike.khutsishvili347@eab.tsu.edu.ge
-  // private apiKey = 't0XNBuNEaL4lMfCVvx90ks41SrlQlWynqX5gqGB3';
-
-  // torkokhutso4@gmail.com
-  // private apiKey = 'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8';
-
   private readonly lastSwitchKey = 'api_key_last_switch';
   private readonly currentIndexKey = 'api_key_index';
   private baseUrl = 'https://api.watchmode.com/v1';
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
-    private getApiKey(): string {
-      let index = 0;
+  private getApiKey(): string {
+    let index = 0;
 
-      if (isPlatformBrowser(this.platformId)) {
-        const now = new Date();
-        const lastSwitchStr = localStorage.getItem(this.lastSwitchKey);
-        const currentIndexStr = localStorage.getItem(this.currentIndexKey);
+    if (isPlatformBrowser(this.platformId)) {
+      const now = new Date();
+      const lastSwitchStr = localStorage.getItem(this.lastSwitchKey);
+      const currentIndexStr = localStorage.getItem(this.currentIndexKey);
 
-        index = currentIndexStr ? parseInt(currentIndexStr, 10) : 0;
-        const lastSwitch = lastSwitchStr ? new Date(lastSwitchStr) : new Date(0);
+      index = currentIndexStr ? parseInt(currentIndexStr, 10) : 0;
+      const lastSwitch = lastSwitchStr ? new Date(lastSwitchStr) : new Date(0);
 
-        const oneMonthLater = new Date(lastSwitch);
-        oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+      const oneMonthLater = new Date(lastSwitch);
+      oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
 
-        if (now >= oneMonthLater) {
-          index = (index + 1) % this.apiKey.length;
-          localStorage.setItem(this.currentIndexKey, index.toString());
-          localStorage.setItem(this.lastSwitchKey, now.toISOString());
-        }
+      if (now >= oneMonthLater) {
+        index = (index + 1) % this.apiKey.length;
+        localStorage.setItem(this.currentIndexKey, index.toString());
+        localStorage.setItem(this.lastSwitchKey, now.toISOString());
       }
-
-      return this.apiKey[index];
     }
+
+    return this.apiKey[index];
+  }
 
   // get networks
   getNetworks(): Observable<Networks[]> {

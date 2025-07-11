@@ -19,7 +19,7 @@ import { interval, Subscription } from 'rxjs';
 export class CaruselComponent implements OnInit, OnDestroy {
   movies: MovieDetail[] = [];
   currentIndex = 0;
-  slideInterval = 3000;
+  slideInterval = 4000;
   intervalSub?: Subscription;
   visibleCount = 4;
 

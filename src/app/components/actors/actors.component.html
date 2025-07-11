@@ -1,17 +1,27 @@
-<!-- <div class="container mt-4">
-  <h2 class="text-center fw-bold mb-4">Actors</h2>
+<div class="container my-5">
+  <h2 class="text-center fw-bold mb-4">🎭 Popular Actors</h2>
 
-  <div *ngIf="loading" class="text-center">Loading...</div>
-  <div *ngIf="error" class="text-danger text-center">Error loading actors.</div>
+  <div *ngIf="loading" class="text-center mb-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
 
-  <div class="row">
-    <div class="col-md-3 mb-4" *ngFor="let item of actorsList; trackBy: trackById">
-      <div class="card h-100 actor-card" (click)="selectActor(item.id)">
-        <img [src]="item.headshot_url" class="card-img-top actor-img" [alt]="item.full_name" title="image" />
+  <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+    Error loading actors. Please try again later.
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let item of actorsList; trackBy: trackById">
+      <div class="card actor-card h-100" (click)="selectActor(item.id)">
+        <img [src]="item.headshot_url" [alt]="item.full_name" class="actor-img" />
         <div class="card-body text-center">
-          <h5 class="card-title">{{ item.full_name }}</h5>
+          <h5 id="actorsName" class="card-title" *ngIf="item.full_name">{{ item.full_name || 'unknown'}}</h5>
+          <p class="card-text" *ngIf="item.date_of_birth">🎂 {{ item.date_of_birth || 'N/A' }}</p>
+          <p class="card-text" *ngIf="item.main_profession">💼 main profession: {{ item.main_profession || 'unknown profession'}}</p>
+          <p class="card-text" *ngIf="item.secondary_profession">💼 secondary: {{ item.secondary_profession }}</p>
         </div>
       </div>
     </div>
   </div>
-</div> -->
+</div>
