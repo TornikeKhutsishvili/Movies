@@ -1,12 +1,23 @@
 <div class="carousel-container">
   <div class="carousel-slide d-flex justify-content-center gap-2">
-    <img
-      *ngFor="let movie of visibleMovies"
-      [src]="movie.posterMedium"
-      [alt]="movie.title"
-      class="movie-poster"
-      [title]="movie.title"
-    />
+
+    @for(movie of visibleMovies; track $index) {
+      <div class="poster-wrapper">
+        <img
+          [src]="movie.posterMedium"
+          [alt]="movie.title"
+          class="movie-poster"
+          [title]="movie.title"
+        />
+        <span class="movieRate positionAbsolute border-1" [title]="movie.user_rating">
+          ⭐ {{ movie.user_rating }}
+        </span>
+        <span class="movieLang positionAbsolute border-1" [title]="movie.original_language">
+          {{ movie.original_language }}
+        </span>
+      </div>
+    }
+
   </div>
 
   <button type="button" class="carousel-control prev" (click)="prevSlide()">&#10094;</button>

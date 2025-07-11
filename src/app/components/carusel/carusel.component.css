@@ -69,3 +69,27 @@
 .carousel-control.next {
   right: 18px;
 }
+
+.poster-wrapper {
+  position: relative;
+}
+
+.movieRate {
+  top: 10px;
+  right: 10px;
+}
+
+.movieLang {
+  top: 10px;
+  left: 10px;
+}
+
+.positionAbsolute {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  font-weight: bold;
+}
