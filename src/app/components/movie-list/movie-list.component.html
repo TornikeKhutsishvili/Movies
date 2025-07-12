@@ -67,9 +67,15 @@
 <!-- modal -->
 <div *ngIf="selectedMovie" class="custom-modal">
   <div class="modal-content">
+
+    <!--  -->
     <button type="button" class="close-btn" (click)="closeModal()">×</button>
     <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
     <h2>{{ selectedMovie.title }}</h2>
+
+    <!-- pulse animation -->
+    <app-pulse-animation id="pulsAnim"></app-pulse-animation>
+
   </div>
 </div>
 

@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, effect, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, PLATFORM_ID, signal, ViewEncapsulation } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Movie } from '../../models/movieAPI.model';
 import { RouterLink } from '@angular/router';
@@ -11,6 +11,7 @@ import { MovieSearchService } from '../../services/movie-search.service';
 import { FavouritesService } from '../../services/favourites.service';
 import { WatchlistService } from '../../services/watch-list.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
 
 @Component({
   selector: 'app-movie-list',
@@ -22,6 +23,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     RouterLink,
     CaruselComponent,
     FilterComponent,
+    PulseAnimationComponent
 ],
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.css']

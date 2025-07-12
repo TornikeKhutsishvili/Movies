@@ -7,6 +7,7 @@ import { filter } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
 
 declare const bootstrap: any;
 
@@ -16,8 +17,9 @@ declare const bootstrap: any;
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    PulseAnimationComponent
+],
   templateUrl: './favourites.component.html',
   styleUrls: ['./favourites.component.css']
 })

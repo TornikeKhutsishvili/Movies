@@ -110,6 +110,11 @@ body.dark-mode #groupKeyLength {
   color: #cccccc !important;
 }
 
+#pulsAnim {
+  position: absolute;
+  width: 94%;
+}
+
 
 /* Smooth transition for theme toggle */
 * {
