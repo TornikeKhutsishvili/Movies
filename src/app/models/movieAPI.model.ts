@@ -8,6 +8,7 @@ export interface Movie {
   id: string;
   genres: any;
   genre_names?: string[];
+  runtime_minutes: number;
 }
 
 export interface MovieDetail extends Movie {

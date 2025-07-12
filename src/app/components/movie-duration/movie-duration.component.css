@@ -1,0 +1,28 @@
+.duration-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.start-time,
+.end-time {
+  font-size: 12px;
+  color: #666;
+  min-width: 60px;
+}
+
+.progress-bar-background {
+  flex-grow: 1;
+  height: 3px;
+  background-color: #ccc;
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #1EC6B6;
+  transition: width 0.5s ease-in-out;
+}

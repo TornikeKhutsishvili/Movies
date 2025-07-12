@@ -12,6 +12,7 @@ import { FavouritesService } from '../../services/favourites.service';
 import { WatchlistService } from '../../services/watch-list.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
+import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
 
 @Component({
   selector: 'app-movie-list',
@@ -23,7 +24,8 @@ import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.comp
     RouterLink,
     CaruselComponent,
     FilterComponent,
-    PulseAnimationComponent
+    PulseAnimationComponent,
+    MovieDurationComponent
 ],
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.css']

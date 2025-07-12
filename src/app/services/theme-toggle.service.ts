@@ -12,9 +12,8 @@ export class ThemeToggleService {
 
   darkMode = this._darkMode;
 
-  // Helper function to check if localStorage is available in browser
   private isPlatformBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);  // checks if platform is browser
+    return isPlatformBrowser(this.platformId);
   }
 
   toggleDarkMode(): void {

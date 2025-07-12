@@ -115,6 +115,9 @@ body.dark-mode #groupKeyLength {
   width: 94%;
 }
 
+#movieDurat {
+  margin-top: -53px;
+}
 
 /* Smooth transition for theme toggle */
 * {

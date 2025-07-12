@@ -10,8 +10,8 @@ import { isPlatformBrowser } from '@angular/common';
 export class MovieService {
 
   private apiKey = [
-    'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8',
     'EFCY2h2VghuMcuVW60TvMyWN9glnfkDhg1QKgvrk',
+    'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8',
     't0XNBuNEaL4lMfCVvx90ks41SrlQlWynqX5gqGB3',
   ];
 
@@ -59,7 +59,7 @@ export class MovieService {
     return this.apiKey[index];
   }
 
-    getNewTitlesWithPosters(): Observable<MovieDetail[]> {
+  getNewTitlesWithPosters(): Observable<MovieDetail[]> {
     if (!this.cache$) {
       const apiKey = this.getApiKey();
       const url = `${this.baseUrl}/list-titles/?apiKey=${apiKey}&types=movie&sort_by=release_date_desc&limit=60`;
