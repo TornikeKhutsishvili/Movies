@@ -8,6 +8,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
+import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
+import { MovieService } from '../../services/movie.service';
 
 declare const bootstrap: any;
 
@@ -18,7 +20,8 @@ declare const bootstrap: any;
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    PulseAnimationComponent
+    PulseAnimationComponent,
+    MovieDurationComponent
 ],
   templateUrl: './favourites.component.html',
   styleUrls: ['./favourites.component.css']
@@ -139,4 +142,17 @@ export class FavouritesComponent implements OnInit, OnDestroy {
 
     return Array.from(map.values());
   }
+
+
+
+  selectedMovie: Movie | null = null;
+
+  openModal(movie: Movie): void {
+    this.selectedMovie = movie;
+  }
+
+  closeModal(): void {
+    this.selectedMovie = null;
+  }
+
 }

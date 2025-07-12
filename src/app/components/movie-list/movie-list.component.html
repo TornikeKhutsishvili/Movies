@@ -68,52 +68,78 @@
 <div *ngIf="selectedMovie" class="custom-modal">
   <div class="modal-content">
 
-    <!--  -->
+    <!-- main -->
     <button type="button" class="close-btn" (click)="closeModal()">×</button>
     <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
-    <h2>{{ selectedMovie.title }}</h2>
+    <h2 style="color: #007ACC;">{{ selectedMovie.title }}</h2>
 
     <!-- pulse animation -->
     <app-pulse-animation id="pulsAnim"></app-pulse-animation>
 
-    <!-- film duration -->
+    <!-- movie duration -->
     <app-movie-duration id="movieDurat" [runtimeMinutes]="selectedMovie.runtime_minutes"></app-movie-duration>
 
   </div>
 </div>
 
 
-<!-- Pagination (conditionally rendered if more than 1 page) -->
+
+<!-- Pagination -->
 <div class="d-flex justify-content-center mt-4" *ngIf="totalPages.length > 1">
   <nav>
     <ul class="pagination">
 
-      <!-- First Page -->
-      <li class="page-item" [class.disabled]="currentPage() === 1">
-        <button type="button" class="page-link" (click)="goToFirstPage()">First</button>
-      </li>
+      @if (isMobilePagination) {
 
-      <!-- Previous -->
-      <li class="page-item" [class.disabled]="currentPage() === 1">
-        <button type="button" class="page-link" (click)="changePage(currentPage() - 1)">Previous</button>
-      </li>
+        <!-- Mobile version -->
+        <li class="page-item" [class.disabled]="currentPage() === 1">
+          <button type="button" class="page-link" (click)="goToFirstPage()">«</button>
+        </li>
+        <!-- <li class="page-item" [class.disabled]="currentPage() === 1">
+          <button type="button" class="page-link" (click)="changePage(currentPage() - 1)">‹</button>
+        </li> -->
 
-      <!-- Page numbers -->
-      <li class="page-item"
-          *ngFor="let page of totalPages"
-          [class.active]="currentPage() === page">
-        <button type="button" class="page-link" (click)="changePage(page)">{{ page }}</button>
-      </li>
+        <li class="page-item"
+            *ngFor="let page of totalPages"
+            [class.active]="currentPage() === page">
+          <button type="button" class="page-link" (click)="changePage(page)">
+            {{ page }}
+          </button>
+        </li>
 
-      <!-- Next -->
-      <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
-        <button type="button" class="page-link" (click)="changePage(currentPage() + 1)">Next</button>
-      </li>
+        <!-- <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
+          <button type="button" class="page-link" (click)="changePage(currentPage() + 1)">›</button>
+        </li> -->
+        <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
+          <button type="button" class="page-link" (click)="goToLastPage()">»</button>
+        </li>
 
-      <!-- Last Page -->
-      <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
-        <button type="button" class="page-link" (click)="goToLastPage()">Last</button>
-      </li>
+      } @else {
+
+        <!-- Desktop version -->
+        <li class="page-item" [class.disabled]="currentPage() === 1">
+          <button type="button" class="page-link" (click)="goToFirstPage()">First</button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage() === 1">
+          <button type="button" class="page-link" (click)="changePage(currentPage() - 1)">Previous</button>
+        </li>
+
+        <li class="page-item"
+            *ngFor="let page of totalPages"
+            [class.active]="currentPage() === page">
+          <button type="button" class="page-link" (click)="changePage(page)">
+            {{ page }}
+          </button>
+        </li>
+
+        <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
+          <button type="button" class="page-link" (click)="changePage(currentPage() + 1)">Next</button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
+          <button type="button" class="page-link" (click)="goToLastPage()">Last</button>
+        </li>
+
+      }
 
     </ul>
   </nav>

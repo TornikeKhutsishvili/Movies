@@ -61,6 +61,7 @@
   border-radius: 12px;
 }
 
+/* modal */
 .custom-modal {
   position: fixed;
   top: 0;
@@ -78,9 +79,9 @@
   background: #fff;
   padding: 30px;
   border-radius: 12px;
-  max-width: 1000px;
+  max-width: 1100px;
   width: 90%;
-  max-height: 500px;
+  max-height: 625px;
   height: 90%;
   text-align: center;
   position: relative;
@@ -103,7 +104,7 @@
 .close-btn {
   position: absolute;
   top: -15px;
-  right: -3px;
+  right: -2px;
   background: transparent;
   border: none;
   font-size: 38px;

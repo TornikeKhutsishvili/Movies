@@ -26,6 +26,10 @@ export class CaruselComponent implements OnInit, OnDestroy {
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
+    this.updateVisibleCount();
+
+    window.addEventListener('resize', this.updateVisibleCount);
+
     this.movieService.getNewTitlesWithPosters().subscribe(data => {
       this.movies = data.filter(movie => movie.posterMedium && movie.posterMedium !== '');
       this.startAutoSlide();
@@ -34,6 +38,21 @@ export class CaruselComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stopAutoSlide();
+    window.removeEventListener('resize', this.updateVisibleCount);
+  }
+
+  updateVisibleCount = () => {
+    const width = window.innerWidth;
+
+    if (width <= 500) {
+      this.visibleCount = 1;
+    } else if (width <= 700) {
+      this.visibleCount = 2;
+    } else if (width <= 900) {
+      this.visibleCount = 3;
+    } else {
+      this.visibleCount = 4;
+    }
   }
 
   startAutoSlide() {
@@ -62,5 +81,4 @@ export class CaruselComponent implements OnInit, OnDestroy {
     }
     return result;
   }
-
 }

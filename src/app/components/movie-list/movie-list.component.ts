@@ -49,6 +49,7 @@ export class MovieListComponent implements OnInit {
   // Current page and items per page
   currentPage = signal(1);
   itemsPerPage = 18;
+  isMobilePagination: boolean = false;
 
   displayedMovies = computed(() => {
     const filtered = this.filteredMovies();
@@ -93,6 +94,8 @@ export class MovieListComponent implements OnInit {
     effect(() => {
       this.movieFilterService.filteredMovies$.subscribe(this.filteredMovies.set);
     });
+
+    this.checkPaginationView = this.checkPaginationView.bind(this);
   }
 
 
@@ -168,6 +171,23 @@ export class MovieListComponent implements OnInit {
       this.movieSearchService.filteredMovies$.subscribe(searched => {
         this.searchedMovies.set(searched);
       });
+
+
+      // responsive pagination toggle
+      this.checkPaginationView();
+      window.addEventListener('resize', this.checkPaginationView);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.checkPaginationView);
+    }
+  }
+
+  checkPaginationView(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isMobilePagination = window.innerWidth < 420;
     }
   }
 

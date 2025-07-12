@@ -16,7 +16,7 @@
 .carousel-slide {
   display: flex;
   position: relative;
-  height: 320px;
+  height: 300px;
 }
 
 .movie-group {
@@ -97,4 +97,10 @@
   font-size: 14px;
   border-radius: 6px;
   font-weight: bold;
+}
+
+@media (max-width: 900px) {
+  .carousel-container {
+    width: auto;
+  }
 }

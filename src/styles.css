@@ -1,33 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  transition: all 0.3s ease;
+}
+
+html,
+body {
+  position: relative;
+  z-index: 0;
+}
+
 img {
   max-width: 100%;
   height: auto;
   border-radius: 0.5rem;
 }
+
 .card {
   border: none;
   transition: transform 0.3s ease;
 }
+
 .card:hover {
   transform: scale(1.03);
 }
+
 .btn {
   border-radius: 2rem;
 }
+
 .container {
   max-width: 1200px;
 }
 
 
-
 /* Default Light Theme */
 body {
   background-color: #ffffff;
-  color: #000000;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  color: #007ACC !important;
+  transition: all 0.3s ease;
 
   /* background-image: url('https://image.tmdb.org/t/p/original//vBZ0qvaRxqEhZwl6LWmruJqWE8Z.jpg'); */
-  /* background-image: url('https://image.tmdb.org/t/p/original//vZloFAK7NmvMGKE7VkF5UHaz0I.jpg'); */
   background-image: url('https://image.tmdb.org/t/p/original//8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg');
   background-size: cover;
   background-position: center 30%;
@@ -37,9 +50,23 @@ body {
 
 /* Dark Theme */
 body.dark-mode {
-  background-color: #121212;
-  color: #f1f1f1;
+  background-color: #121212 !important;
+  color: #f1f1f1 !important;
+  background-image: url('https://image.tmdb.org/t/p/original//8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg');
 }
+
+body.dark-mode::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 18, 18, 0.6);
+  z-index: -1;
+  backdrop-filter: blur(2px);
+}
+
 
 /* Optional: Customize links, buttons, cards, etc. */
 body.dark-mode a {
@@ -99,14 +126,11 @@ body.dark-mode #movieFavTitle {
   color: #ffffff !important;
 }
 
-body.dark-mode #groupKey {
-  color: #909090 !important;
-}
-
 body.dark-mode #regionTitle,
 body.dark-mode #actorsName,
 body.dark-mode #watchlistH5,
-body.dark-mode #groupKeyLength {
+body.dark-mode #groupKeyLength,
+body.dark-mode #groupKey {
   color: #cccccc !important;
 }
 
@@ -117,9 +141,4 @@ body.dark-mode #groupKeyLength {
 
 #movieDurat {
   margin-top: -53px;
-}
-
-/* Smooth transition for theme toggle */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease;
 }

@@ -5,6 +5,8 @@ import { WatchlistService } from '../../services/watch-list.service';
 import { Movie } from '../../models/movieAPI.model';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
+import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
 
 declare const bootstrap: any;
 
@@ -14,8 +16,10 @@ declare const bootstrap: any;
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    MovieDurationComponent,
+    PulseAnimationComponent
+],
   templateUrl: './watch-list.component.html',
   styleUrls: ['./watch-list.component.css']
 })
@@ -77,4 +81,16 @@ export class WatchListComponent implements OnInit {
       toast.show();
     }
   }
+
+
+  selectedMovie: Movie | null = null;
+
+  openModal(movie: Movie): void {
+    this.selectedMovie = movie;
+  }
+
+  closeModal(): void {
+    this.selectedMovie = null;
+  }
+
 }
