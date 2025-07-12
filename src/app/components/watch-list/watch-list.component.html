@@ -2,51 +2,66 @@
   <h2 class="text-center fw-bold mb-4">Watchlist 🎬</h2>
 
   <!-- If groupedWatchList is empty -->
-  <div *ngIf="(ScheduleWatchList() | keyvalue).length === 0" class="text-center text-muted">
-    <p id="watch-list">The watchlist is empty 🎬</p>
-  </div>
+  @if ((ScheduleWatchList() | keyvalue).length === 0) {
+    <div class="text-center text-muted">
+      <p id="watch-list">The watchlist is empty 🎬</p>
+    </div>
+  }
 
-  <div class="row" *ngIf="(ScheduleWatchList() | keyvalue).length > 0">
-    <ng-container *ngFor="let group of ScheduleWatchList() | keyvalue">
-      <h4 class="mt-4">added {{ group.key }}</h4>
-      <div *ngFor="let movie of group.value" class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4">
-        <div class="card shadow-sm border-0 h-100">
-          <img [src]="movie.posterMedium" class="card-img-top" [alt]="movie.title" [title]="movie.title" />
-          <div class="card-body d-flex flex-column">
-            <h5 id="watchlistH5" class="card-title text-center text-truncate">{{ movie.title }}</h5>
-            <div class="mt-auto">
-              <button type="button" (click)="remove(movie.imdb_id)" class="btn btn-outline-warning w-100">
-                <i class="bi bi-eye-slash-fill me-2"></i> remove
-              </button>
+  @if ((ScheduleWatchList() | keyvalue).length > 0) {
+    <div class="row">
+
+      @for (group of ScheduleWatchList() | keyvalue; track $index) {
+        <ng-container>
+          <h4 class="mt-4">added {{ group.key }}</h4>
+
+          @for (movie of group.value; track $index) {
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4">
+              <div class="card shadow-sm border-0 h-100">
+                <img [src]="movie.posterMedium" class="card-img-top" [alt]="movie.title" [title]="movie.title" />
+                <div class="card-body d-flex flex-column">
+                  <h5 id="watchlistH5" class="card-title text-center text-truncate">{{ movie.title }}</h5>
+                  <div class="mt-auto">
+                    <button type="button" (click)="remove(movie.imdb_id)" class="btn btn-outline-warning w-100">
+                      <i class="bi bi-eye-slash-fill me-2"></i> remove
+                    </button>
+                  </div>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-success mt-2" (click)="openModal(movie)">Watching a movie</button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="btn-group">
-              <button type="button" class="btn btn-success mt-2" (click)="openModal(movie)">Watching a movie</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-  </div>
+          }
+
+        </ng-container>
+      }
+
+    </div>
+  }
+
 </div>
 
 
 <!-- modal -->
-<div *ngIf="selectedMovie" class="custom-modal">
-  <div class="modal-content">
+@if (selectedMovie) {
+  <div class="custom-modal">
+    <div class="modal-content">
 
-    <!-- main -->
-    <button type="button" class="close-btn" (click)="closeModal()">×</button>
-    <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
-    <h2 style="color: #007ACC;">{{ selectedMovie.title }}</h2>
+      <!-- main -->
+      <button type="button" class="close-btn" (click)="closeModal()">×</button>
+      <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
+      <h2 style="color: #007ACC;">{{ selectedMovie.title }}</h2>
 
-    <!-- pulse animation -->
-    <app-pulse-animation id="pulsAnim"></app-pulse-animation>
+      <!-- pulse animation -->
+      <app-pulse-animation id="pulsAnim"></app-pulse-animation>
 
-    <!-- movie duration -->
-    <app-movie-duration id="movieDurat" [runtimeMinutes]="selectedMovie.runtime_minutes"></app-movie-duration>
+      <!-- movie duration -->
+      <app-movie-duration id="movieDurat" [runtimeMinutes]="selectedMovie.runtime_minutes"></app-movie-duration>
 
+    </div>
   </div>
-</div>
+}
 
 
 <!-- Toast Message (Bootstrap) -->

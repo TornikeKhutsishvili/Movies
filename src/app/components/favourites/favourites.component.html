@@ -2,82 +2,105 @@
   <h2 class="text-center fw-bold mb-4">Favorite Movies ⭐</h2>
 
   <!-- If empty -->
-  <div *ngIf="(groupedFavourites() | keyvalue).length === 0" class="text-center text-muted">
-    <p id="favourites">Favourites list is empty 😢</p>
-  </div>
+  @if ((groupedFavourites() | keyvalue).length === 0) {
+    <div class="text-center text-muted">
+      <p id="favourites">Favourites list is empty 😢</p>
+    </div>
+  }
 
   <!-- Genre Thumbnails – aligned nicely side by side -->
   <div class="container shadow p-2 rounded-5" style="border-top: 1px solid #007bff;">
-  <h4 class="text-center fw-bold mb-4">Grouped by genre</h4>
-  <div *ngIf="(groupedFavourites() | keyvalue).length > 0" class="mb-5 d-flex genres">
-    <ng-container *ngFor="let group of groupedFavourites() | keyvalue">
-      <div *ngIf="group.key !== 'No Genre'" class="genres-cards ms-5">
-        <h5 id="groupKey" class="fw-bold text-primary mt-4">{{ group.key }}
-          <small id="groupKeyLength" class="text-primary">({{ group.value.length }})</small>
-        </h5>
+    <h4 class="text-center fw-bold mb-4">Grouped by genre</h4>
+    @if ((groupedFavourites() | keyvalue).length > 0) {
+      <div class="mb-5 d-flex genres">
 
-        <div class="d-flex flex-wrap gap-2 genre-thumbnails-container">
-          <img *ngFor="let movie of group.value"
-              [src]="movie.posterMedium"
-              [alt]="movie.title"
-              [title]="movie.title"
-              width="60"
-              height="90"
-              class="rounded shadow-sm genre-thumb"
-              style="cursor: pointer; object-fit: cover;"
-              (click)="scrollToMovie(movie.imdb_id)"
-              title="image"
-          />
-        </div>
+        @for (group of groupedFavourites() | keyvalue; track $index) {
+          <ng-container>
+
+            @if (group.key !== 'No Genre') {
+            <div class="genres-cards ms-5">
+
+              <h5 id="groupKey" class="fw-bold text-primary mt-4">{{ group.key }}
+                <small id="groupKeyLength" class="text-primary">({{ group.value.length }})</small>
+              </h5>
+
+              <div class="d-flex flex-wrap gap-2 genre-thumbnails-container">
+                @for (movie of group.value; track $index) {
+                  <img [src]="movie.posterMedium"
+                      [alt]="movie.title"
+                      [title]="movie.title"
+                      width="60"
+                      height="90"
+                      class="rounded shadow-sm genre-thumb"
+                      style="cursor: pointer; object-fit: cover;"
+                      (click)="scrollToMovie(movie.imdb_id)"
+                      title="image"
+                  />
+                }
+              </div>
+
+            </div>
+            }
+
+          </ng-container>
+        }
+
       </div>
-    </ng-container>
-  </div>
+    }
+
   </div>
 
   <!-- Main Movie Cards – only unique movies -->
   <div class="row mt-4">
-    <ng-container *ngFor="let movie of uniqueFavourites()">
-      <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 pt-2" [id]="movie.imdb_id"
-          [ngClass]="{ 'highlight-card': movie.imdb_id === activeCardId }"
-      >
-        <div class="card shadow-sm border-0 h-100">
-          <img [src]="movie.posterMedium" class="card-img-top object-fit-cover"
-            [alt]="movie.title" style="height: 420px;" title="image" />
-          <div class="card-body d-flex flex-column">
-            <h5 id="movieFavTitle" class="card-title text-center text-truncate">{{ movie.title }}</h5>
-            <div class="mt-auto">
-              <button type="button" (click)="remove(movie.imdb_id)"
-                      class="btn btn-outline-danger w-100"
-                      aria-label="Remove from favourites">
-                <i class="bi bi-trash-fill me-2"></i> delete
-              </button>
-              <button type="button" class="btn btn-warning mt-2 w-100" (click)="openModal(movie)">Watching a movie</button>
+
+    @for (movie of filteredFavourites(); track $index) {
+      <ng-container>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 mb-4 pt-2" [id]="movie.imdb_id"
+            [ngClass]="{ 'highlight-card': movie.imdb_id === activeCardId }"
+        >
+          <div class="card shadow-sm border-0 h-100">
+            <img [src]="movie.posterMedium" class="card-img-top object-fit-cover"
+                [alt]="movie.title" style="height: 420px;" title="image" />
+            <div class="card-body d-flex flex-column">
+              <h5 id="movieFavTitle" class="card-title text-center text-truncate">{{ movie.title }}</h5>
+              <div class="mt-auto">
+                <button type="button" (click)="remove(movie.imdb_id)"
+                        class="btn btn-outline-danger w-100"
+                        aria-label="Remove from favourites">
+                  <i class="bi bi-trash-fill me-2"></i> delete
+                </button>
+                <button type="button" class="btn btn-warning mt-2 w-100" (click)="openModal(movie)">Watching a movie</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
+    }
+
   </div>
 </div>
 
 
 <!-- modal -->
-<div *ngIf="selectedMovie" class="custom-modal">
-  <div class="modal-content">
+@if (selectedMovie) {
+  <div class="custom-modal">
+    <div class="modal-content">
 
-    <!-- main -->
-    <button type="button" class="close-btn" (click)="closeModal()">×</button>
-    <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
-    <h2 style="color: #007ACC;">{{ selectedMovie.title }}</h2>
+      <!-- main -->
+      <button type="button" class="close-btn" (click)="closeModal()">×</button>
+      <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
+      <h2 style="color: #007ACC;">{{ selectedMovie.title }}</h2>
 
-    <!-- pulse animation -->
-    <app-pulse-animation id="pulsAnim"></app-pulse-animation>
+      <!-- pulse animation -->
+      <app-pulse-animation id="pulsAnim"></app-pulse-animation>
 
-    <!-- movie duration -->
-    <app-movie-duration id="movieDurat" [runtimeMinutes]="selectedMovie.runtime_minutes"></app-movie-duration>
+      <!-- movie duration -->
+      <app-movie-duration id="movieDurat" [runtimeMinutes]="selectedMovie.runtime_minutes"></app-movie-duration>
 
+    </div>
   </div>
-</div>
+}
+
 
 
 <!-- Toast Message (Bootstrap) -->
@@ -91,6 +114,11 @@
 >
   <div class="d-flex">
     <div class="toast-body"></div>
-    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    <button
+      type="button"
+      class="btn-close btn-close-white me-2 m-auto"
+      data-bs-dismiss="toast"
+      aria-label="Close">
+    </button>
   </div>
 </div>

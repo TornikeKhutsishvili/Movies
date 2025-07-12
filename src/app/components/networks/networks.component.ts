@@ -22,19 +22,23 @@ export class NetworksComponent {
   networkArray: Networks[] = [];
   actionsMap = new Map<number, ReturnType<typeof signal>>();
 
+  loading = true;
+
   // search
   private movieSearchService = inject(MovieSearchService);
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
 
   // filter
   readonly filteredNetworks = computed(() => {
-    const query = this.searchQuery().toLowerCase();
-    return query
-      ? this.networkArray.filter(n =>
-          n.name.toLowerCase().includes(query) ||
-          n.origin_country.toLowerCase().includes(query)
-        )
-      : this.networkArray;
+    const query = this.searchQuery().toLowerCase().trim();
+    if(!query){
+      return this.networkArray;
+    }
+
+    return this.networkArray.filter(networkFilt =>
+      networkFilt.name.toLowerCase().includes(query) ||
+      networkFilt.origin_country.toLowerCase().includes(query)
+    );
   });
 
   ngOnInit(): void {
@@ -42,6 +46,7 @@ export class NetworksComponent {
   }
 
   getNetworks() {
+    this.loading = true;
     this.networksService.getNetworks().subscribe({
       next: (data: Networks[]) => {
         this.networkArray = data;
@@ -51,9 +56,12 @@ export class NetworksComponent {
             this.actionsMap.set(n.id, signal(''));
           }
         });
+
+        this.loading = false;
       },
       error: (err: any) => {
         console.error('Error loading networks:', err);
+        this.loading = false;
       }
     });
   }
@@ -72,5 +80,4 @@ export class NetworksComponent {
     this.getActionSignal(network.id).set('Unliked');
     console.log('Unliked:', network.name);
   }
-
 }

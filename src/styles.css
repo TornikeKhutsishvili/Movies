@@ -122,7 +122,8 @@ body.dark-mode #unlike {
 }
 
 body.dark-mode #newtworkTitle,
-body.dark-mode #movieFavTitle {
+body.dark-mode #movieFavTitle,
+body.dark-mode .actor-body-text {
   color: #ffffff !important;
 }
 

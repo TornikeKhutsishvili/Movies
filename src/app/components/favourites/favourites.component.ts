@@ -9,7 +9,6 @@ import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
 import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
-import { MovieService } from '../../services/movie.service';
 
 declare const bootstrap: any;
 
@@ -28,6 +27,7 @@ declare const bootstrap: any;
 })
 export class FavouritesComponent implements OnInit, OnDestroy {
   private favouriteService = inject(FavouritesService);
+  private movieSearchService = inject(MovieSearchService);
   readonly groupedFavourites = signal<Record<string, Movie[]>>({});
   activeCardId: string | null = null;
 
@@ -36,20 +36,18 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  // search
-  private movieSearchService = inject(MovieSearchService);
+  // Search query signal
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
 
-  readonly filteredFavourites = computed(() => {
-    const all = this.uniqueFavourites();
-    const query = this.searchQuery().toLowerCase();
+  // Get filtered results from MovieSearchService
+  readonly filteredServiceResults = toSignal(this.movieSearchService.filteredMovies$, {
+    initialValue: []
+  });
 
-    return query
-      ? all.filter(movie =>
-          movie.title.toLowerCase().includes(query) ||
-          movie.genre_names?.some(g => g.toLowerCase().includes(query))
-        )
-      : all;
+  // Final list shown in the template
+  readonly filteredFavourites = computed(() => {
+    const query = this.searchQuery().trim();
+    return query ? this.filteredServiceResults() : this.uniqueFavourites();
   });
 
   ngOnInit(): void {
@@ -57,15 +55,18 @@ export class FavouritesComponent implements OnInit, OnDestroy {
 
     if (isPlatformBrowser(this.platformId)) {
       this.restoreScrollPosition();
-
-      // Save scroll on browser unload
       window.addEventListener('beforeunload', this.saveScrollPosition);
 
-      // Save scroll when navigating away
       this.router.events
         .pipe(filter((event) => event instanceof NavigationEnd))
         .subscribe(() => this.saveScrollPosition());
     }
+
+    // Update filtered movies list when search query changes
+    this.movieSearchService.searchQuery$.subscribe(() => {
+      const allFavourites = this.uniqueFavourites();
+      this.movieSearchService.updateFilteredMovies(allFavourites);
+    });
   }
 
   ngOnDestroy(): void {
@@ -91,7 +92,6 @@ export class FavouritesComponent implements OnInit, OnDestroy {
 
     if (toastEl && toastBody) {
       toastBody.textContent = message;
-
       const toast = new bootstrap.Toast(toastEl);
       toast.show();
     }
@@ -101,7 +101,6 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
       this.activeCardId = id;
 
       setTimeout(() => {
@@ -143,8 +142,6 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     return Array.from(map.values());
   }
 
-
-
   selectedMovie: Movie | null = null;
 
   openModal(movie: Movie): void {
@@ -154,5 +151,4 @@ export class FavouritesComponent implements OnInit, OnDestroy {
   closeModal(): void {
     this.selectedMovie = null;
   }
-
 }

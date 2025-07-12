@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Actors } from '../../models/actors.model';
 import { ActorsService } from '../../services/actors.service';
+import { MovieSearchService } from '../../services/movie-search.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-actors',
@@ -17,11 +19,26 @@ import { ActorsService } from '../../services/actors.service';
 export class ActorsComponent {
 
   private actorsService = inject(ActorsService);
-  actorsList: Actors[] = [];
+  actorsList = signal<Actors[]>([]);
   actionsMap = new Map<string, ReturnType<typeof signal>>();
   loading = true;
   error = false;
   selectedActorId: number | null = null;
+
+  // search
+  private movieSearchService = inject(MovieSearchService);
+  readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
+
+  readonly filteredActors = computed(() => {
+    const query = this.searchQuery().toLowerCase().trim();
+    if (!query) return this.actorsList();
+
+    return this.actorsList().filter(actor =>
+      actor.full_name?.toLowerCase().includes(query) ||
+      actor.main_profession?.toLowerCase().includes(query) ||
+      actor.secondary_profession?.toLowerCase().includes(query)
+    );
+  });
 
   ngOnInit(): void {
     this.getAllActors();
@@ -33,7 +50,7 @@ export class ActorsComponent {
 
     this.actorsService.getAllActors().subscribe({
       next: (data: Actors[]) => {
-        this.actorsList = data;
+        this.actorsList.set(data);
         this.loading = false;
       },
       error: () => {

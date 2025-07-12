@@ -47,15 +47,19 @@
 </nav>
 
 <!-- Loader -->
-<ng-container *ngIf="loading()">
-  <div class="spinner-border text-primary m-3" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</ng-container>
+@if (loading()) {
+  <ng-container>
+    <div class="spinner-border text-primary m-3" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </ng-container>
+}
 
 <!-- Error -->
-<ng-container *ngIf="error()">
-  <div class="alert alert-danger m-3" role="alert">
-    {{ error() }}
-  </div>
-</ng-container>
+@if (error()) {
+  <ng-container>
+    <div class="alert alert-danger m-3" role="alert">
+      {{ error() }}
+    </div>
+  </ng-container>
+}

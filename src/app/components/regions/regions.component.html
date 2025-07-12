@@ -2,18 +2,34 @@
   <h2 class="text-center fw-bold mb-4">🌍 Regions</h2>
   <div class="row">
 
-    @for (item of regionsArray; track $index) {
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch mb-4">
-          <div class="card shadow text-center w-100">
-            <div class="card-body">
-              <h5 id="regionTitle" class="card-title">Country: {{ item.country }}</h5>
-              <p class="card-text">Name: {{ item.name }}</p>
-              <p class="card-text">Data Tier: {{ item.data_tier }}</p>
-              <p class="card-text">Plan Enabled: {{ item.plan_enabled ? 'Yes' : 'No' }}</p>
-              <img [src]="item.flag" alt="Flag" class="img-fluid" />
+    @if(loading){
+      <div class="text-center my-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    }
+
+    @if(!loading && filteredRegions().length === 0){
+      <div class="text-center text-muted">
+        No networks found.
+      </div>
+    }
+
+    @if(!loading && filteredRegions().length > 0){
+      @for (item of filteredRegions(); track $index) {
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch mb-4">
+            <div class="card shadow text-center w-100">
+              <div class="card-body">
+                <h5 id="regionTitle" class="card-title">Country: {{ item.country }}</h5>
+                <p class="card-text">Name: {{ item.name }}</p>
+                <p class="card-text">Data Tier: {{ item.data_tier }}</p>
+                <p class="card-text">Plan Enabled: {{ item.plan_enabled ? 'Yes' : 'No' }}</p>
+                <img [src]="item.flag" alt="Flag" class="img-fluid" />
+              </div>
             </div>
           </div>
-        </div>
+      }
     }
 
   </div>

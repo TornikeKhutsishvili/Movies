@@ -1,27 +1,44 @@
 <div class="container my-5">
   <h2 class="text-center fw-bold mb-4">🎭 Popular Actors</h2>
-
-  <div *ngIf="loading" class="text-center mb-4">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
-
-  <div *ngIf="error" class="alert alert-danger text-center" role="alert">
-    Error loading actors. Please try again later.
-  </div>
-
   <div class="row g-4">
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let item of actorsList; trackBy: trackById">
+
+  @if (loading) {
+    <div class="text-center mb-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  }
+
+  @if (error) {
+    <div class="alert alert-danger text-center" role="alert">
+      Error loading actors. Please try again later.
+    </div>
+  }
+
+  @for(item of filteredActors(); track $index){
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
       <div class="card actor-card h-100" (click)="selectActor(item.id)">
         <img [src]="item.headshot_url" [alt]="item.full_name" class="actor-img" [title]="item.full_name" />
         <div class="card-body text-center">
-          <h5 id="actorsName" class="card-title" *ngIf="item.full_name">{{ item.full_name || 'unknown'}}</h5>
-          <p class="card-text" *ngIf="item.date_of_birth">🎂 {{ item.date_of_birth || 'N/A' }}</p>
-          <p class="card-text" *ngIf="item.main_profession">💼 main profession: {{ item.main_profession || 'unknown profession'}}</p>
-          <p class="card-text" *ngIf="item.secondary_profession">💼 secondary: {{ item.secondary_profession }}</p>
+
+          @if (item.full_name) {
+            <h5 id="actorsName" class="card-title">{{ item.full_name || 'unknown'}}</h5>
+          }
+          @if (item.date_of_birth) {
+            <p class="card-text text-dark actor-body-text">🎂 {{ item.date_of_birth || 'N/A' }}</p>
+          }
+          @if (item.main_profession) {
+            <p class="card-text text-dark actor-body-text">💼 main profession: {{ item.main_profession || 'unknown profession'}}</p>
+          }
+          @if (item.secondary_profession) {
+            <p class="card-text text-dark actor-body-text">💼 secondary: {{ item.secondary_profession }}</p>
+          }
+
         </div>
       </div>
     </div>
+  }
+
   </div>
 </div>

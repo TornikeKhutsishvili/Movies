@@ -45,7 +45,7 @@ export class WatchListComponent implements OnInit {
 
   // date
   ScheduleWatchList(): { [date: string]: Movie[] } {
-    const list = this.watchlist();
+    const list = this.filteredWatchlist();
     const grouped: { [key: string]: Movie[] } = {};
 
     for (const movie of list) {
@@ -67,7 +67,7 @@ export class WatchListComponent implements OnInit {
 
   remove(imdb_id: string): void {
     this.watchlistService.removeFromWatchlist(imdb_id);
-    this.showToast('"The movie was successfully removed from the watchlist!');
+    this.showToast('The movie was successfully removed from the watchlist!');
   }
 
   showToast(message: string): void {

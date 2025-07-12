@@ -37,11 +37,13 @@ export class MovieListComponent implements OnInit {
   private movieFilterService = inject(MovieFilterService);
   private movieSearchService = inject(MovieSearchService);
   private favouriteService = inject(FavouritesService);
+
   isLoading = true;
   searchText: string = '';
   favoriteMovies: Set<string> = new Set();
   watchlistMovies: Set<string> = new Set();
   movie = signal<Movie[]>([]);
+
   readonly filteredMovies = signal<Movie[]>([]);
   searchedMovies = signal<Movie[]>([]);
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Movie } from '../../models/movieAPI.model';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { distinctUntilChanged, filter, of, switchMap } from 'rxjs';
 

@@ -36,9 +36,11 @@
             <li class="list-group-item d-flex align-items-center">
               <strong class="text-dark">Genres:</strong>
               <div class="ps-1">
-                <span class="badge bg-secondary me-1" *ngFor="let genre of m.genre_names">
-                  {{ genre }}
-                </span>
+                @for (genre of m.genre_names; track $index) {
+                  <span class="badge bg-secondary me-1">
+                    {{ genre }}
+                  </span>
+                }
               </div>
             </li>
           }

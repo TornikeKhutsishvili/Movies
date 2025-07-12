@@ -12,9 +12,11 @@
 
   <ng-template #movieList>
     <!-- Carousel -->
-    <div class="mb-4" *ngIf="!isLoading">
-      <app-carusel></app-carusel>
-    </div>
+    @if (!isLoading) {
+      <div class="mb-4">
+        <app-carusel></app-carusel>
+      </div>
+    }
 
     <!-- movie-filter -->
     <div class="mt-2 w-100">
@@ -22,125 +24,132 @@
     </div>
 
     <div class="row mt-5">
-      <div *ngFor="let movie of paginatedMovies()" class="col-md-4 mb-4 position-relative">
-        <div class="card shadow-lg border-0 rounded-3 overflow-hidden h-100">
+      @for (movie of paginatedMovies(); track $index) {
+        <div class="col-md-4 mb-4 position-relative">
+          <div class="card shadow-lg border-0 rounded-3 overflow-hidden h-100">
 
-          <!-- Favorite Heart Icon -->
-          <button type="button"
-            class="btn btn-light position-absolute top-0 end-0 m-2 p-2 rounded-circle shadow"
-            (click)="toggleFavorite(movie)"
-            [ngClass]="{ 'text-danger': isFavorite(movie) }"
-            title="Add to favorites"
-          >
-            <i class="bi" [ngClass]="{ 'bi-heart-fill': isFavorite(movie), 'bi-heart': !isFavorite(movie) }"></i>
-          </button>
+            <!-- Favorite Heart Icon -->
+            <button type="button"
+              class="btn btn-light position-absolute top-0 end-0 m-2 p-2 rounded-circle shadow"
+              (click)="toggleFavorite(movie)"
+              [ngClass]="{ 'text-danger': isFavorite(movie) }"
+              title="Add to favorites"
+            >
+              <i class="bi" [ngClass]="{ 'bi-heart-fill': isFavorite(movie), 'bi-heart': !isFavorite(movie) }"></i>
+            </button>
 
-          <!-- Watchlist Icon -->
-          <button type="button"
-            class="btn btn-light position-absolute top-0 start-0 m-2 p-2 rounded-circle shadow"
-            (click)="toggleWatchlist(movie)"
-            [ngClass]="{ 'text-primary': isInWatchlist(movie) }"
-            title="Add to watchlist"
-          >
-            <i class="bi" [ngClass]="{ 'bi-bookmark-check-fill': isInWatchlist(movie), 'bi-bookmark': !isInWatchlist(movie) }"></i>
-          </button>
+            <!-- Watchlist Icon -->
+            <button type="button"
+              class="btn btn-light position-absolute top-0 start-0 m-2 p-2 rounded-circle shadow"
+              (click)="toggleWatchlist(movie)"
+              [ngClass]="{ 'text-primary': isInWatchlist(movie) }"
+              title="Add to watchlist"
+            >
+              <i class="bi" [ngClass]="{ 'bi-bookmark-check-fill': isInWatchlist(movie), 'bi-bookmark': !isInWatchlist(movie) }"></i>
+            </button>
 
-
-          <img [src]="movie.posterMedium" [alt]="movie.title" class="card-img-top" [title]="[movie.title]" />
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title text-center text-uppercase fw-bold">{{ movie.title }}</h5>
-            <p class="card-text text-muted text-center">{{ movie.year }}y • {{ movie.type }}</p>
-            <div class="mt-auto text-center">
-              <a [routerLink]="['/movie-list/movie-details', movie.imdb_id]" class="btn btn-primary w-100 py-2">More Details</a>
-            </div>
-            <div class="btn-group">
-              <button type="button" class="btn btn-warning mt-2" (click)="openModal(movie)">Watching a movie</button>
+            <img [src]="movie.posterMedium" [alt]="movie.title" class="card-img-top" [title]="[movie.title]" />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title text-center text-uppercase fw-bold">{{ movie.title }}</h5>
+              <p class="card-text text-muted text-center">{{ movie.year }}y • {{ movie.type }}</p>
+              <div class="mt-auto text-center">
+                <a [routerLink]="['/movie-list/movie-details', movie.imdb_id]" class="btn btn-primary w-100 py-2">More Details</a>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-warning mt-2" (click)="openModal(movie)">Watching a movie</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
     </div>
   </ng-template>
 </div>
 
 
 <!-- modal -->
-<div *ngIf="selectedMovie" class="custom-modal">
-  <div class="modal-content">
+@if (selectedMovie) {
+  <div class="custom-modal">
+    <div class="modal-content">
 
-    <!-- main -->
-    <button type="button" class="close-btn" (click)="closeModal()">×</button>
-    <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
-    <h2 style="color: #007ACC;">{{ selectedMovie.title }}</h2>
+      <!-- main -->
+      <button type="button" class="close-btn" (click)="closeModal()">×</button>
+      <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
+      <h2 style="color: #007ACC;">{{ selectedMovie.title }}</h2>
 
-    <!-- pulse animation -->
-    <app-pulse-animation id="pulsAnim"></app-pulse-animation>
+      <!-- pulse animation -->
+      <app-pulse-animation id="pulsAnim"></app-pulse-animation>
 
-    <!-- movie duration -->
-    <app-movie-duration id="movieDurat" [runtimeMinutes]="selectedMovie.runtime_minutes"></app-movie-duration>
+      <!-- movie duration -->
+      <app-movie-duration id="movieDurat" [runtimeMinutes]="selectedMovie.runtime_minutes"></app-movie-duration>
 
+    </div>
   </div>
-</div>
+}
 
 
 
 <!-- Pagination -->
-<div class="d-flex justify-content-center mt-4" *ngIf="totalPages.length > 1">
-  <nav>
-    <ul class="pagination">
+@if (totalPages.length > 1) {
+  <div class="d-flex justify-content-center mt-4">
+    <nav>
+      <ul class="pagination">
 
-      @if (isMobilePagination) {
+        @if (isMobilePagination) {
 
-        <!-- Mobile version -->
-        <li class="page-item" [class.disabled]="currentPage() === 1">
-          <button type="button" class="page-link" (click)="goToFirstPage()">«</button>
-        </li>
-        <!-- <li class="page-item" [class.disabled]="currentPage() === 1">
-          <button type="button" class="page-link" (click)="changePage(currentPage() - 1)">‹</button>
-        </li> -->
+          <!-- Mobile version -->
+          <li class="page-item" [class.disabled]="currentPage() === 1">
+            <button type="button" class="page-link" (click)="goToFirstPage()">«</button>
+          </li>
+          <!-- <li class="page-item" [class.disabled]="currentPage() === 1">
+            <button type="button" class="page-link" (click)="changePage(currentPage() - 1)">‹</button>
+          </li> -->
 
-        <li class="page-item"
-            *ngFor="let page of totalPages"
-            [class.active]="currentPage() === page">
-          <button type="button" class="page-link" (click)="changePage(page)">
-            {{ page }}
-          </button>
-        </li>
+          @for (page of totalPages; track $index) {
+            <li class="page-item"
+                [class.active]="currentPage() === page">
+              <button type="button" class="page-link" (click)="changePage(page)">
+                {{ page }}
+              </button>
+            </li>
+          }
 
-        <!-- <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
-          <button type="button" class="page-link" (click)="changePage(currentPage() + 1)">›</button>
-        </li> -->
-        <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
-          <button type="button" class="page-link" (click)="goToLastPage()">»</button>
-        </li>
+          <!-- <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
+            <button type="button" class="page-link" (click)="changePage(currentPage() + 1)">›</button>
+          </li> -->
+          <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
+            <button type="button" class="page-link" (click)="goToLastPage()">»</button>
+          </li>
 
-      } @else {
+        } @else {
 
-        <!-- Desktop version -->
-        <li class="page-item" [class.disabled]="currentPage() === 1">
-          <button type="button" class="page-link" (click)="goToFirstPage()">First</button>
-        </li>
-        <li class="page-item" [class.disabled]="currentPage() === 1">
-          <button type="button" class="page-link" (click)="changePage(currentPage() - 1)">Previous</button>
-        </li>
+          <!-- Desktop version -->
+          <li class="page-item" [class.disabled]="currentPage() === 1">
+            <button type="button" class="page-link" (click)="goToFirstPage()">First</button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage() === 1">
+            <button type="button" class="page-link" (click)="changePage(currentPage() - 1)">Previous</button>
+          </li>
 
-        <li class="page-item"
-            *ngFor="let page of totalPages"
-            [class.active]="currentPage() === page">
-          <button type="button" class="page-link" (click)="changePage(page)">
-            {{ page }}
-          </button>
-        </li>
+          @for (page of totalPages; track $index) {
+            <li class="page-item"
+                [class.active]="currentPage() === page">
+              <button type="button" class="page-link" (click)="changePage(page)">
+                {{ page }}
+              </button>
+            </li>
+          }
 
-        <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
-          <button type="button" class="page-link" (click)="changePage(currentPage() + 1)">Next</button>
-        </li>
-        <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
-          <button type="button" class="page-link" (click)="goToLastPage()">Last</button>
-        </li>
+          <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
+            <button type="button" class="page-link" (click)="changePage(currentPage() + 1)">Next</button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
+            <button type="button" class="page-link" (click)="goToLastPage()">Last</button>
+          </li>
 
-      }
+        }
 
-    </ul>
-  </nav>
-</div>
+      </ul>
+    </nav>
+  </div>
+}

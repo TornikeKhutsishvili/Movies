@@ -18,9 +18,12 @@ export class MovieSearchService {
 
   updateFilteredMovies(allMovies: Movie[]) {
     const query = this.searchQuerySubject.getValue().toLowerCase();
+    console.log('[SEARCH]', query);
+
     const filtered = allMovies.filter(movie =>
       movie.title.toLowerCase().includes(query)
     );
+
     this.filteredMoviesSubject.next(filtered);
   }
 }
