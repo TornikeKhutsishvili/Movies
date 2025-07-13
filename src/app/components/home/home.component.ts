@@ -8,7 +8,6 @@ import { MovieFilterService } from '../../services/movie-filter.service';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { FavouritesService } from '../../services/favourites.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MovieListComponent } from '../movie-list/movie-list.component';
 import { PulseAnimationComponent } from '../pulse-animation/pulse-animation.component';
 import { MovieDurationComponent } from '../movie-duration/movie-duration.component';
 import { CaruselComponent } from '../carusel/carusel.component';
@@ -20,7 +19,6 @@ import { TopMoviesComponent } from '../top-movies/top-movies.component';
   imports: [
     CommonModule,
     FormsModule,
-    MovieListComponent,
     PulseAnimationComponent,
     MovieDurationComponent,
     CaruselComponent,

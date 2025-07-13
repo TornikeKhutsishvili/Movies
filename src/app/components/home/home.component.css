@@ -1,0 +1,9 @@
+body {
+    background-image: url('https://adjaranets.to/templates/adjaratest-2/images/section-blur.jpg');
+    background-size: cover;
+    border-radius: .5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    padding-top: 1.5rem;
+}

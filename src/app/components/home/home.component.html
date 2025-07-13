@@ -14,24 +14,28 @@
   <ng-template #movieList>
     <!-- Carousel -->
     @if (!isLoading) {
-      @for(movie of moviedetail; track movie.id) {
+      @for(movie of moviedetail(); track movie.id) {
 
         @if (movie.original_language == 'en') {
           <div class="mb-4">
-            <h1>American films</h1>
-            <app-carusel ></app-carusel>
+            <h1>Movies in English</h1>
+            <app-carusel></app-carusel>
           </div>
         }
 
-        <div class="mb-4">
-          <h1>English films</h1>
-          <app-carusel></app-carusel>
-        </div>
+        @if (movie.original_language == 'fr') {
+          <div class="mb-4">
+            <h1>Movies in French</h1>
+            <app-carusel></app-carusel>
+          </div>
+        }
 
-        <div class="mb-4">
-          <h1>French films</h1>
-          <app-carusel></app-carusel>
-        </div>
+        <!-- @if (movie.original_language == 'ge') {
+          <div class="mb-4">
+            <h1>Movies in English</h1>
+            <app-carusel></app-carusel>
+          </div>
+        } -->
 
         <!-- Top movies -->
         <div class="mb-4">
