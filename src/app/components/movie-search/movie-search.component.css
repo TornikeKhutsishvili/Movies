@@ -24,3 +24,11 @@
   transition: all 0.3s ease-in-out;
   color: black;
 }
+
+
+@media (max-width: 1080px) {
+  .search-input {
+    min-width: 100px;
+    max-width: 145px;
+  }
+}

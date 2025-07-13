@@ -21,21 +21,25 @@ export class CaruselComponent implements OnInit, OnDestroy {
   @Input() movies: MovieDetail[] = [];
 
   currentIndex = 0;
+  visibleCount = 8;
   slideInterval = 4000;
   intervalSub?: Subscription;
-  visibleCount = 8;
+
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
     this.updateVisibleCount();
-
     window.addEventListener('resize', this.updateVisibleCount);
 
-    this.movieService.getNewTitlesWithPosters().subscribe(data => {
-      this.movies = data.filter(movie => movie.posterMedium && movie.posterMedium !== '');
+    if (this.movies.length === 0) {
+      this.movieService.getNewTitlesWithPosters().subscribe(data => {
+        this.movies = data.filter(m => m.posterMedium);
+        this.startAutoSlide();
+      });
+    } else {
       this.startAutoSlide();
-    });
+    }
   }
 
   ngOnDestroy(): void {
@@ -45,28 +49,17 @@ export class CaruselComponent implements OnInit, OnDestroy {
 
   updateVisibleCount = () => {
     const width = window.innerWidth;
-
-    if (width <= 500) {
-      this.visibleCount = 2;
-    } else if (width <= 700) {
-      this.visibleCount = 3;
-    } else if (width <= 900) {
-      this.visibleCount = 4;
-    } else if (width <= 1100) {
-      this.visibleCount = 5;
-    } else if (width <= 1300) {
-      this.visibleCount = 6;
-    } else if (width <= 1500) {
-      this.visibleCount = 7;
-    }else {
-      this.visibleCount = 8;
-    }
-  }
+    if (width <= 500) this.visibleCount = 2;
+    else if (width <= 700) this.visibleCount = 3;
+    else if (width <= 900) this.visibleCount = 4;
+    else if (width <= 1100) this.visibleCount = 5;
+    else if (width <= 1300) this.visibleCount = 6;
+    else if (width <= 1500) this.visibleCount = 7;
+    else this.visibleCount = 8;
+  };
 
   startAutoSlide() {
-    this.intervalSub = interval(this.slideInterval).subscribe(() => {
-      this.nextSlide();
-    });
+    this.intervalSub = interval(this.slideInterval).subscribe(() => this.nextSlide());
   }
 
   stopAutoSlide() {
@@ -74,16 +67,20 @@ export class CaruselComponent implements OnInit, OnDestroy {
   }
 
   nextSlide() {
-    this.currentIndex = (this.currentIndex + 1) % this.movies.length;
+    if (this.movies.length > 0) {
+      this.currentIndex = (this.currentIndex + 1) % this.movies.length;
+    }
   }
 
   prevSlide() {
-    this.currentIndex = (this.currentIndex - 1 + this.movies.length) % this.movies.length;
+    if (this.movies.length > 0) {
+      this.currentIndex = (this.currentIndex - 1 + this.movies.length) % this.movies.length;
+    }
   }
 
   get visibleMovies(): MovieDetail[] {
     const result: MovieDetail[] = [];
-    for (let i = 0; i < this.visibleCount; i++) {
+    for (let i = 0; i < this.visibleCount && this.movies.length > 0; i++) {
       const index = (this.currentIndex + i) % this.movies.length;
       result.push(this.movies[index]);
     }

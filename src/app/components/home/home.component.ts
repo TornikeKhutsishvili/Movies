@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, effect, inject, Input, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, inject, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Movie, MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
@@ -9,6 +9,7 @@ import { PulseAnimationComponent } from '../pulse-animation/pulse-animation.comp
 import { MovieDurationComponent } from '../movie-duration/movie-duration.component';
 import { CaruselComponent } from '../carusel/carusel.component';
 import { TopMoviesComponent } from '../top-movies/top-movies.component';
+import { NewestMoviesComponent } from "../newest-movies/newest-movies.component";
 
 @Component({
   selector: 'app-home',
@@ -19,8 +20,9 @@ import { TopMoviesComponent } from '../top-movies/top-movies.component';
     PulseAnimationComponent,
     MovieDurationComponent,
     CaruselComponent,
-    TopMoviesComponent
-  ],
+    TopMoviesComponent,
+    NewestMoviesComponent
+],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -61,6 +63,7 @@ export class HomeComponent {
     if (isPlatformBrowser(this.platformId)) {
       // movies
       this.movieService.getNewTitlesWithPosters().subscribe(res => {
+        this.moviedetail.set(res);
         this.movie.set(res);
         this.isLoading = false;
       });
@@ -77,7 +80,7 @@ export class HomeComponent {
     }
   }
 
-
+  // modal
   selectedMovie: Movie | null = null;
 
   openModal(movie: Movie): void {
