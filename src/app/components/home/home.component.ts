@@ -1,9 +1,8 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, effect, inject, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, effect, inject, Input, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Movie, MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
-import { MovieFilterService } from '../../services/movie-filter.service';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PulseAnimationComponent } from '../pulse-animation/pulse-animation.component';
@@ -29,7 +28,6 @@ export class HomeComponent {
 
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
-  private movieFilterService = inject(MovieFilterService);
   private movieSearchService = inject(MovieSearchService);
 
   click = signal(0);
@@ -39,25 +37,24 @@ export class HomeComponent {
   movie = signal<Movie[]>([]);
   moviedetail = signal<MovieDetail[]>([]);
 
+  englishMovies = computed(() =>
+    this.moviedetail().filter(m => m.original_language === 'en')
+  );
+
+  frenchMovies = computed(() =>
+    this.moviedetail().filter(m => m.original_language === 'fr')
+  );
+
   readonly filteredMovies = signal<Movie[]>([]);
   searchedMovies = signal<Movie[]>([]);
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
 
   displayedMovies = computed(() => {
-    const filtered = this.filteredMovies();
     const searched = this.searchedMovies();
     const search = this.searchQuery().trim();
 
-    return search ? searched : filtered;
+    return search ? searched : this.filteredMovies();
   });
-
-
-  // filter:
-  constructor() {
-    effect(() => {
-      this.movieFilterService.filteredMovies$.subscribe(this.filteredMovies.set);
-    });
-  }
 
 
   ngOnInit(): void {
@@ -66,12 +63,6 @@ export class HomeComponent {
       this.movieService.getNewTitlesWithPosters().subscribe(res => {
         this.movie.set(res);
         this.isLoading = false;
-        this.movieFilterService.setFilteredMovies(res);
-      });
-
-      // movie filter service
-      this.movieFilterService.filteredMovies$.subscribe(filtered => {
-        this.filteredMovies.set(filtered);
       });
 
       // search

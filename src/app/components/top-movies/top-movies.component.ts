@@ -46,7 +46,7 @@ export class TopMoviesComponent {
   //       }
   //     });
 
-  //           // search
+  //     // search
   //     this.movieSearchService.searchQuery$.subscribe(() => {
   //       this.movieSearchService.updateFilteredMovies(this.movie());
   //     });

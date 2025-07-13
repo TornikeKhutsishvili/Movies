@@ -1,6 +1,7 @@
 <div class="container-fluid mt-5">
 
-  <div *ngIf="isLoading; else movieList">
+  @if (isLoading) {
+
     <div class="d-flex justify-content-center align-items-center gap-1">
       <div class="spinner-border spinner-border-sm" role="status">
         <span class="visually-hidden"></span>
@@ -9,49 +10,35 @@
         <span role="status">Loading...</span>
       </div>
     </div>
-  </div>
 
-  <ng-template #movieList>
-    <!-- Carousel -->
-    @if (!isLoading) {
-      @for(movie of moviedetail(); track movie.id) {
+  } @else {
 
-        @if (movie.original_language == 'en') {
-          <div class="mb-4">
-            <h1>Movies in English</h1>
-            <app-carusel></app-carusel>
-          </div>
-        }
-
-        @if (movie.original_language == 'fr') {
-          <div class="mb-4">
-            <h1>Movies in French</h1>
-            <app-carusel></app-carusel>
-          </div>
-        }
-
-        <!-- @if (movie.original_language == 'ge') {
-          <div class="mb-4">
-            <h1>Movies in English</h1>
-            <app-carusel></app-carusel>
-          </div>
-        } -->
-
-        <!-- Top movies -->
+    @for (movie of moviedetail(); track movie.id) {
+      @if (englishMovies().length > 0) {
         <div class="mb-4">
-          <h1>Top films</h1>
-          <app-top-movies></app-top-movies>
-        </div>
-
-        <!-- Most popular films -->
-        <div class="mb-4">
-          <h1>Most popular films</h1>
+          <h1>Movies in English</h1>
+          <app-carusel [movies]="englishMovies()"></app-carusel>
         </div>
       }
 
+      @if (frenchMovies().length > 0) {
+        <div class="mb-4">
+          <h1>Movies in French</h1>
+          <app-carusel [movies]="frenchMovies()"></app-carusel>
+        </div>
+      }
     }
-  </ng-template>
 
+    <div class="mb-4">
+      <h1>Top films</h1>
+      <app-top-movies></app-top-movies>
+    </div>
+
+    <div class="mb-4">
+      <h1>The 7 newest movies</h1>
+    </div>
+
+  }
 </div>
 
 

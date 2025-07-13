@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
@@ -17,7 +17,9 @@ import { interval, Subscription } from 'rxjs';
   styleUrls: ['./carusel.component.css']
 })
 export class CaruselComponent implements OnInit, OnDestroy {
-  movies: MovieDetail[] = [];
+
+  @Input() movies: MovieDetail[] = [];
+
   currentIndex = 0;
   slideInterval = 4000;
   intervalSub?: Subscription;
