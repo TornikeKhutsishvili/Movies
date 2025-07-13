@@ -1,7 +1,12 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'movie-list', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', loadComponent: () =>
+    import('./components/home/home.component').then(
+      m => m.HomeComponent
+    )
+  },
   { path: 'movie-list', loadComponent: () =>
     import('./components/movie-list/movie-list.component').then(
       m => m.MovieListComponent
@@ -36,5 +41,20 @@ export const routes: Routes = [
     import('./components/regions/regions.component').then(
       m => m.RegionsComponent
     )
-  }
+  },
+  { path: 'login', loadComponent: () =>
+    import('./components/auth/login/login.component').then(
+      m => m.LoginComponent
+    )
+  },
+  { path: 'register', loadComponent: () =>
+    import('./components/auth/register/register.component').then(
+      m => m.RegisterComponent
+    )
+  },
+  { path: 'footer', loadComponent: () =>
+    import('./components/footer/footer.component').then(
+      m => m.FooterComponent
+    )
+  },
 ];

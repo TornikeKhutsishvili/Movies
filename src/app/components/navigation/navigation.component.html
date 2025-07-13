@@ -15,7 +15,10 @@
     <div [ngClass]="{ 'collapse': true, 'navbar-collapse': true, 'show': navbarOpen }" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/movie-list" routerLinkActive="active" (click)="closeNavbar()">Movies</a>
+          <a class="nav-link active" routerLink="/home" routerLinkActive="active" (click)="closeNavbar()">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/movie-list" routerLinkActive="active" (click)="closeNavbar()">Movies list</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/favourites" routerLinkActive="active" (click)="closeNavbar()">Favorites</a>
@@ -31,6 +34,16 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/networks" routerLinkActive="active" (click)="closeNavbar()">Networks</a>
+        </li>
+      </ul>
+
+      <!-- register -->
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="closeNavbar()">Log In</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/register" routerLinkActive="active" (click)="closeNavbar()">Sign In</a>
         </li>
       </ul>
 

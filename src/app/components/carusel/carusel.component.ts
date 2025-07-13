@@ -21,7 +21,7 @@ export class CaruselComponent implements OnInit, OnDestroy {
   currentIndex = 0;
   slideInterval = 4000;
   intervalSub?: Subscription;
-  visibleCount = 4;
+  visibleCount = 8;
 
   constructor(private movieService: MovieService) {}
 
@@ -45,13 +45,19 @@ export class CaruselComponent implements OnInit, OnDestroy {
     const width = window.innerWidth;
 
     if (width <= 500) {
-      this.visibleCount = 1;
-    } else if (width <= 700) {
       this.visibleCount = 2;
-    } else if (width <= 900) {
+    } else if (width <= 700) {
       this.visibleCount = 3;
-    } else {
+    } else if (width <= 900) {
       this.visibleCount = 4;
+    } else if (width <= 1100) {
+      this.visibleCount = 5;
+    } else if (width <= 1300) {
+      this.visibleCount = 6;
+    } else if (width <= 1500) {
+      this.visibleCount = 7;
+    }else {
+      this.visibleCount = 8;
     }
   }
 

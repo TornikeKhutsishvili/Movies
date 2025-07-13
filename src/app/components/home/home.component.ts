@@ -1,34 +1,35 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, effect, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Movie } from '../../models/movieAPI.model';
-import { RouterLink } from '@angular/router';
+import { Component, computed, effect, inject, PLATFORM_ID, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Movie, MovieDetail } from '../../models/movieAPI.model';
+import { WatchlistService } from '../../services/watch-list.service';
 import { MovieService } from '../../services/movie.service';
-import { FilterComponent } from "../filter/filter.component";
 import { MovieFilterService } from '../../services/movie-filter.service';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { FavouritesService } from '../../services/favourites.service';
-import { WatchlistService } from '../../services/watch-list.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
-import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
+import { MovieListComponent } from '../movie-list/movie-list.component';
+import { PulseAnimationComponent } from '../pulse-animation/pulse-animation.component';
+import { MovieDurationComponent } from '../movie-duration/movie-duration.component';
+import { CaruselComponent } from '../carusel/carusel.component';
+import { TopMoviesComponent } from '../top-movies/top-movies.component';
 
 @Component({
-  selector: 'app-movie-list',
+  selector: 'app-home',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    RouterLink,
-    FilterComponent,
+    MovieListComponent,
     PulseAnimationComponent,
-    MovieDurationComponent
-],
-  templateUrl: './movie-list.component.html',
-  styleUrls: ['./movie-list.component.css']
+    MovieDurationComponent,
+    CaruselComponent,
+    TopMoviesComponent
+  ],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class MovieListComponent implements OnInit {
+export class HomeComponent {
 
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
@@ -37,11 +38,14 @@ export class MovieListComponent implements OnInit {
   private movieSearchService = inject(MovieSearchService);
   private favouriteService = inject(FavouritesService);
 
+  click = signal(0);
+
   isLoading = true;
   searchText: string = '';
   favoriteMovies: Set<string> = new Set();
   watchlistMovies: Set<string> = new Set();
   movie = signal<Movie[]>([]);
+  moviedetail = signal<MovieDetail[]>([]);
 
   readonly filteredMovies = signal<Movie[]>([]);
   searchedMovies = signal<Movie[]>([]);
