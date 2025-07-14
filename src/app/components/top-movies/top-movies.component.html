@@ -1,5 +1,5 @@
 <div class="top-movies-container" *ngIf="!isLoading">
-  <h2>Top Rated Movies (9.0+)</h2>
+  <h2>Top Rated Movies</h2>
   <div class="movie-grid">
     @for (movie of highRatedMovies(); track movie.id) {
       <div class="movie-card" (click)="openModal(movie)">
