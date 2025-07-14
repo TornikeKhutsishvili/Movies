@@ -1,6 +1,6 @@
 <div class="top-movies-container" *ngIf="!isLoading">
   <h2>Top Rated Movies</h2>
-  <div class="movie-grid">
+  <div class="movie-flex">
     @for (movie of highRatedMovies(); track movie.id) {
       <div class="movie-card" (click)="openModal(movie)">
         <img [src]="movie.posterMedium" [alt]="movie.title" />

@@ -6,11 +6,11 @@
 
   background-image: url('https://adjaranets.to/templates/adjaratest-2/images/section-blur.jpg');
   background-size: cover;
-  background-position: center 30%;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
-.movie-grid {
+.movie-flex {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;

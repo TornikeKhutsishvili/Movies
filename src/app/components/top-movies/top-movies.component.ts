@@ -59,7 +59,7 @@ export class TopMoviesComponent {
 
       // search
       this.movieSearchService.searchQuery$.subscribe(() => {
-        this.movieSearchService.updateFilteredMovies(this.movie());
+        this.movieSearchService.updateFilteredMovies(this.topMovies());
       });
 
       this.movieSearchService.filteredMovies$.subscribe(searched => {
