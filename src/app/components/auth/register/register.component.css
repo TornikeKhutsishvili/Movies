@@ -38,3 +38,7 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+.log_here {
+  cursor: pointer;
+}
