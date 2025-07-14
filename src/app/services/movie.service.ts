@@ -33,8 +33,6 @@ export class MovieService {
   // torkokhutso4@gmail.com
   // private apiKey = 'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8';
 
-  // base url:
-
   private getApiKey(): string {
     let index = 0;
 
@@ -92,4 +90,5 @@ export class MovieService {
       })
     );
   }
+
 }

@@ -2,17 +2,21 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, computed, inject, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MovieService } from '../../services/movie.service';
-import { Movie } from '../../models/movieAPI.model';
+import { Movie, MovieDetail } from '../../models/movieAPI.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MovieSearchService } from '../../services/movie-search.service';
+import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
+import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
 
 @Component({
   selector: 'app-top-movies',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
-  ],
+    FormsModule,
+    PulseAnimationComponent,
+    MovieDurationComponent
+],
   templateUrl: './top-movies.component.html',
   styleUrls: ['./top-movies.component.css']
 })
@@ -21,10 +25,16 @@ export class TopMoviesComponent {
   private movieService = inject(MovieService);
   private movieSearchService = inject(MovieSearchService);
   isLoading = true;
-  topMovies = signal<Movie[]>([]);
+
+  movie = signal<Movie[]>([]);
+  topMovies = signal<MovieDetail[]>([]);
+  selectedMovie = signal<MovieDetail | null>(null);
   searchedMovies = signal<Movie[]>([]);
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
 
+  readonly highRatedMovies = computed(() =>
+    this.topMovies().filter(m => parseFloat(m.user_rating || '0') >= 9)
+  );
 
   displayedMovies = computed(() => {
     const searched = this.searchedMovies();
@@ -33,38 +43,37 @@ export class TopMoviesComponent {
     return search ? searched : this.topMovies();
   });
 
-  // ngOnInit(): void {
-  //   if (isPlatformBrowser(this.platformId)) {
-  //     this.movieService.getTopMovies().subscribe({
-  //       next: (movies: Movie) => {
-  //         this.topMovies.set(movies);
-  //         this.isLoading = false;
-  //       },
-  //       error: (error) => {
-  //         console.error('Error fetching top movies:', error);
-  //         this.isLoading = false;
-  //       }
-  //     });
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
 
-  //     // search
-  //     this.movieSearchService.searchQuery$.subscribe(() => {
-  //       this.movieSearchService.updateFilteredMovies(this.movie());
-  //     });
+      this.movieService.getNewTitlesWithPosters().subscribe({
+        next: (movies: MovieDetail[]) => {
+          this.topMovies.set(movies);
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error fetching top movies:', error);
+          this.isLoading = false;
+        }
+      });
 
-  //     this.movieSearchService.filteredMovies$.subscribe(searched => {
-  //       this.searchedMovies.set(searched);
-  //     });
-  //   }
-  // }
+      // search
+      this.movieSearchService.searchQuery$.subscribe(() => {
+        this.movieSearchService.updateFilteredMovies(this.movie());
+      });
 
-  selectedMovie: Movie | null = null;
+      this.movieSearchService.filteredMovies$.subscribe(searched => {
+        this.searchedMovies.set(searched);
+      });
 
-  openModal(movie: Movie): void {
-    this.selectedMovie = movie;
+    }
+  }
+
+  openModal(movie: MovieDetail): void {
+    this.selectedMovie.set(movie);
   }
 
   closeModal(): void {
-    this.selectedMovie = null;
+    this.selectedMovie.set(null);
   }
 }
-
