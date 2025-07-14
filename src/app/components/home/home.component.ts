@@ -10,8 +10,6 @@ import { MovieDurationComponent } from '../movie-duration/movie-duration.compone
 import { CaruselComponent } from '../carusel/carusel.component';
 import { TopMoviesComponent } from '../top-movies/top-movies.component';
 import { NewestMoviesComponent } from "../newest-movies/newest-movies.component";
-import { NavigationComponent } from "../navigation/navigation.component";
-import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-home',
@@ -24,8 +22,6 @@ import { FooterComponent } from "../footer/footer.component";
     CaruselComponent,
     TopMoviesComponent,
     NewestMoviesComponent,
-    NavigationComponent,
-    FooterComponent
 ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
