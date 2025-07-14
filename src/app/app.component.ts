@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NavigationComponent } from "./components/navigation/navigation.component";
 import { RouterOutlet } from '@angular/router';
+import { NavigationComponent } from "./components/navigation/navigation.component";
 
 @Component({
   selector: 'app-root',
@@ -10,8 +10,8 @@ import { RouterOutlet } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
+    RouterOutlet,
     NavigationComponent,
-    RouterOutlet
 ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
