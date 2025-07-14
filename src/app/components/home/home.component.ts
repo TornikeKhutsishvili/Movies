@@ -40,11 +40,11 @@ export class HomeComponent {
   moviedetail = signal<MovieDetail[]>([]);
 
   englishMovies = computed(() =>
-    this.moviedetail().filter(m => m.original_language === 'en')
+    this.moviedetail().filter(m => m.original_language === 'en' && !!m.posterMedium)
   );
 
   frenchMovies = computed(() =>
-    this.moviedetail().filter(m => m.original_language === 'fr')
+    this.moviedetail().filter(m => m.original_language === 'fr' && !!m.posterMedium)
   );
 
   readonly filteredMovies = signal<Movie[]>([]);
@@ -80,10 +80,11 @@ export class HomeComponent {
     }
   }
 
-  // modal
-  selectedMovie: Movie | null = null;
 
-  openModal(movie: Movie): void {
+  // modal
+  selectedMovie: MovieDetail | null = null;
+
+  openModal(movie: MovieDetail): void {
     this.selectedMovie = movie;
   }
 

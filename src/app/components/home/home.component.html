@@ -15,20 +15,20 @@
 
     <div class="mb-4">
       <h1>Movies in all language</h1>
-      <app-carusel></app-carusel>
+      <app-carusel (movieClicked)="openModal($event)"></app-carusel>
     </div>
 
     @if (englishMovies().length > 0) {
       <div class="mb-4">
         <h1>Movies in English</h1>
-        <app-carusel [movies]="englishMovies()"></app-carusel>
+        <app-carusel [movies]="englishMovies()" (movieClicked)="openModal($event)"></app-carusel>
       </div>
     }
 
     @if (frenchMovies().length > 0) {
       <div class="mb-4">
         <h1>Movies in French</h1>
-        <app-carusel [movies]="frenchMovies()"></app-carusel>
+        <app-carusel [movies]="frenchMovies()" (movieClicked)="openModal($event)"></app-carusel>
       </div>
     }
 
