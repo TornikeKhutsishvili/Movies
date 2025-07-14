@@ -33,7 +33,7 @@ export class TopMoviesComponent {
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
 
   readonly highRatedMovies = computed(() =>
-    this.topMovies().filter(m => parseFloat(m.user_rating || '0') >= 8.4 && !!m.posterMedium)
+    this.topMovies().filter(m => parseFloat(m.user_rating || '0') >= 8 && !!m.posterMedium)
   );
 
   displayedMovies = computed(() => {

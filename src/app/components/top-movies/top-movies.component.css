@@ -1,15 +1,20 @@
 
 .top-movies-container {
-  padding: 2rem;
+  padding: 32px;
   background: #f7f9fc;
   border-radius: 12px;
+
   background-image: url('https://adjaranets.to/templates/adjaratest-2/images/section-blur.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
 }
 
 .movie-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
 }
 
 .movie-card {
@@ -20,7 +25,10 @@
   cursor: pointer;
   transition: transform 0.2s ease;
   text-align: center;
-  padding-bottom: 1rem;
+  padding-bottom: 16px;
+  flex: 1 1 180px;
+  max-width: auto;
+  box-sizing: border-box;
 }
 
 .movie-card img {
@@ -35,8 +43,8 @@
 }
 
 .movie-card h3 {
-  margin: 0.5rem 0 0.3rem;
-  font-size: 1rem;
+  margin: 8px 0 5px;
+  font-size: 16px;
   color: #007ACC;
 }
 
@@ -45,6 +53,7 @@
   color: #333;
   font-weight: bold;
 }
+
 
 /* modal */
 .custom-modal {
