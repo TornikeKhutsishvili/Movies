@@ -1,1 +1,9 @@
-<p>profile works!</p>
+<div class="profile-container">
+  <h2>Welcome, {{ user?.name || 'User' }}! 👋</h2>
+  <p>Your email: <strong>{{ user?.email }}</strong></p>
+
+  <div class="profile-actions">
+    <button type="button" (click)="goToEditProfile()" class="me-1">✏️ Edit Profile</button>
+    <button type="button" (click)="logout()" class="ms-1">🚪 Logout</button>
+  </div>
+</div>

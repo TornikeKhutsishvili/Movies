@@ -1,0 +1,79 @@
+.profile-container {
+  max-width: 500px;
+  margin: 5rem auto;
+  padding: 2rem;
+  background-color: var(--card-bg);
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.profile-container h2 {
+  font-size: 2rem;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+.profile-container p {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  margin-bottom: 2rem;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.profile-actions button {
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Edit Button */
+.profile-actions button:first-child {
+  background-color: #22c55e;
+  color: white;
+}
+.profile-actions button:first-child:hover {
+  background-color: #16a34a;
+}
+
+/* Logout Button */
+.profile-actions button:last-child {
+  background-color: #ef4444;
+  color: white;
+}
+.profile-actions button:last-child:hover {
+  background-color: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .profile-container {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .profile-container h2 {
+    font-size: 1.6rem;
+  }
+
+  .profile-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .profile-actions button {
+    width: 100%;
+  }
+}

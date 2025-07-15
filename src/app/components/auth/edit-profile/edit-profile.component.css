@@ -1,0 +1,214 @@
+/* PROFILE EDIT CONTAINER */
+.edit-profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f7fa;
+  padding: 80px 20px;
+}
+
+h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 450px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.profile-photo img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4CAF50;
+  margin-bottom: 10px;
+}
+
+.upload-label {
+  background-color: #4CAF50;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.upload-label:hover {
+  background-color: #45a049;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  transition: all 0.3s ease;
+}
+
+input:hover {
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px #4CAF50;
+}
+
+input:focus {
+  border-color: #4CAF50;
+  box-shadow: 0 0 8px #4CAF50;
+}
+
+.error-summary {
+  width: 100%;
+  color: #f44336;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+}
+
+label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 0.9rem;
+  color: #777;
+  background: white;
+  padding: 0 4px;
+  transition: 0.2s;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+  top: -10px;
+  font-size: 0.8rem;
+  color: #4CAF50;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.password-group {
+  position: relative;
+}
+
+button.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.error {
+  color: #f44336;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.success-msg {
+  color: #4CAF50;
+  font-size: 1rem;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 18px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.secondary {
+  background-color: #777;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button.secondary:hover {
+  background-color: #5a5a5a;
+}
+
+button:disabled {
+  background-color: #dcdcdc;
+  cursor: not-allowed;
+}
+
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  form {
+    padding: 20px;
+    width: 100%;
+  }
+
+  input,
+  button {
+    font-size: 0.95rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
