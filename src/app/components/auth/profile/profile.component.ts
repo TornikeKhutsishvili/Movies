@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
+
   user: any;
 
   constructor(private auth: AuthService, private router: Router) {
@@ -34,4 +35,5 @@ export class ProfileComponent {
   goToEditProfile(): void {
     this.router.navigate(['/edit-profile']);
   }
+
 }

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -9,28 +10,42 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private router: Router) {}
   registerForm!: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.registerForm.valid) {
-      localStorage.setItem('auth_token', 'dummy_token');
-      this.router.navigate(['/']);
+      const user = this.registerForm.value;
+      const success = this.auth.register(user);
+
+      if (success) {
+        alert('Registration successful!');
+        this.router.navigate(['/login']);
+      } else {
+        alert('User with this email already exists!');
+      }
     }
   }
+
 }

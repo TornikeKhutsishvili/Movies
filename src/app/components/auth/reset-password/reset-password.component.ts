@@ -24,23 +24,33 @@ export class ResetPasswordComponent {
 
   constructor(private auth: AuthService, private router: Router) {}
 
-  reset() {
+  reset(): void {
     const user = this.auth.getUserByEmail(this.email);
     if (!user) {
       this.error = 'User not found!';
       return;
     }
 
-    // update password
+    // Update password
     user.password = this.newPassword;
 
-    // The password will be deleted from the temporarily stored data
-    const { password, ...userWithoutPassword } = user;
-    localStorage.setItem(user.email, JSON.stringify(userWithoutPassword));
+    try {
+      // Save updated user
+      localStorage.setItem(user.email, JSON.stringify(user));
 
-    this.success = true;
+      // If currently logged in, update current session too
+      const current = this.auth.getUser();
+      if (current?.email === user.email) {
+        localStorage.setItem('auth_user', JSON.stringify(user));
+      }
 
-    setTimeout(() => this.router.navigate(['/login']), 2000);
+      this.success = true;
+
+      setTimeout(() => this.router.navigate(['/login']), 2000);
+    } catch (error) {
+      this.error = 'Failed to reset password.';
+      console.error(error);
+    }
   }
 
 }

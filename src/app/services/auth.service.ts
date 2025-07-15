@@ -5,6 +5,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
+
   private readonly STORAGE_KEY = 'auth_user';
   public showMarketCap = false; // Added to determine if the input is provided
 
@@ -121,4 +122,5 @@ export class AuthService {
       }
     }
   }
+
 }

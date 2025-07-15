@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,27 +10,46 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  constructor(private fb: FormBuilder, private router: Router) {}
+export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
+  error = '';
+  returnUrl = '/';
+
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
     });
+
+    // Get returnUrl from query parameters
+    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.loginForm.valid) {
-      localStorage.setItem('auth_token', 'dummy_token');
-      this.router.navigate(['/']);
+      const { email, password } = this.loginForm.value;
+      const success = this.auth.login(email, password);
+
+      if (success) {
+        this.router.navigate([this.returnUrl]);
+      } else {
+        this.error = 'Invalid email or password.';
+      }
     }
   }
+
 }
