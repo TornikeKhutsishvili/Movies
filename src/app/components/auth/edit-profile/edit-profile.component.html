@@ -37,7 +37,7 @@
 
     <div class="form-group password-group">
       <input
-        [type]="showPassword ? 'text' : 'password'"
+        [type]="showPassword() ? 'text' : 'password'"
         id="password"
         name="password"
         minlength="6"
@@ -47,13 +47,13 @@
       />
       <label for="password">New Password</label>
       <button type="button" class="toggle-password" (click)="togglePassword()">
-        {{ showPassword ? '🙈' : '👁️' }}
+        {{ showPassword() ? '🙈' : '👁️' }}
       </button>
     </div>
 
     <div *ngIf="password.length >= 6" class="form-group password-group">
       <input
-        [type]="showPassword ? 'text' : 'password'"
+        [type]="showPassword() ? 'text' : 'password'"
         id="confirmPassword"
         name="confirmPassword"
         [(ngModel)]="confirmPassword"
@@ -72,7 +72,7 @@
       <div *ngIf="passwordInput.invalid && passwordInput.touched">
         🔸 Password must be at least 6 characters.
       </div>
-      <div *ngIf="confirmPassword && confirmPassword !== password">
+      <div *ngIf="confirmPassword() && confirmPassword !== password">
         🔸 Passwords do not match.
       </div>
     </div>
@@ -85,3 +85,102 @@
     <p *ngIf="success" class="success-msg">✅ Profile updated successfully!</p>
   </form>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="edit-profile-container">
+  <h2>Edit Profile 📝</h2> -->
+
+  <!-- Profile Image Upload -->
+  <!-- <div class="profile-photo">
+    <img [src]="profileImage() || 'assets/default-avatar.png'" alt="Profile Photo" />
+    <label for="photoUpload" class="upload-label">📷 Upload Photo</label>
+    <input type="file" id="photoUpload" (change)="onPhotoSelected($event)" accept="image/*" />
+  </div> -->
+
+  <!-- <form (ngSubmit)="save()" #profileForm="ngForm">
+    <div class="form-group">
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        minlength="3"
+        [(ngModel)]="usernameValue"
+        #nameInput="ngModel"
+        placeholder=" "
+      />
+      <label for="name">Name</label>
+    </div>
+
+    <div class="form-group">
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="email"
+        readonly
+        placeholder=" "
+      />
+      <label for="email">Email</label>
+    </div>
+
+    <div class="form-group password-group">
+      <input
+        [type]="showPassword() ? 'text' : 'password'"
+        id="password"
+        name="password"
+        minlength="6"
+        [(ngModel)]="passwordValue"
+        #passwordInput="ngModel"
+        placeholder=" "
+      />
+      <label for="password">New Password</label>
+      <button type="button" class="toggle-password" (click)="togglePassword()">
+        {{ showPassword() ? '🙈' : '👁️' }}
+      </button>
+    </div>
+
+    <div *ngIf="passwordValue.length >= 6" class="form-group password-group">
+      <input
+        [type]="showPassword() ? 'text' : 'password'"
+        id="confirmPassword"
+        name="confirmPassword"
+        [(ngModel)]="confirmPasswordValue"
+        #confirmPasswordInput="ngModel"
+        placeholder=" "
+        required
+      />
+      <label for="confirmPassword">Confirm Password</label>
+    </div> -->
+
+    <!-- Validation Summary -->
+    <!-- <div class="error-summary" *ngIf="profileForm.submitted || profileForm.touched">
+      <div *ngIf="nameInput.invalid && nameInput.touched">
+        🔸 Name is required and must be at least 3 characters.
+      </div>
+      <div *ngIf="passwordInput.invalid && passwordInput.touched">
+        🔸 Password must be at least 6 characters.
+      </div>
+      <div *ngIf="confirmPasswordValue && confirmPasswordValue !== passwordValue">
+        🔸 Passwords do not match.
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button type="submit" [disabled]="profileForm.invalid" class="me-1">💾 Save</button>
+      <button type="button" (click)="goBack()" class="ms-1">🔙 Back</button>
+    </div>
+
+    <p *ngIf="success()" class="success-msg">✅ Profile updated successfully!</p>
+  </form>
+</div> -->

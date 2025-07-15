@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -19,7 +19,7 @@ import { AuthService } from '../../../services/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-  error = '';
+  error = signal('');
   returnUrl = '/';
 
   constructor(
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
       if (success) {
         this.router.navigate([this.returnUrl]);
       } else {
-        this.error = 'Invalid email or password.';
+        this.error.set('Invalid email or password.');
       }
     }
   }

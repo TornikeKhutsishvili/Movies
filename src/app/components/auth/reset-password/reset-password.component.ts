@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -17,22 +17,24 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class ResetPasswordComponent {
 
-  email = '';
-  newPassword = '';
-  error = '';
-  success = false;
+  email = signal('');
+  newPassword = signal('');
+  error = signal('');
+  success = signal(false);
 
   constructor(private auth: AuthService, private router: Router) {}
 
   reset(): void {
-    const user = this.auth.getUserByEmail(this.email);
+    const user = this.auth.getUserByEmail(this.email());
+
     if (!user) {
-      this.error = 'User not found!';
+      this.error.set('User not found!');
+      this.success.set(false);
       return;
     }
 
     // Update password
-    user.password = this.newPassword;
+    user.password = this.newPassword();
 
     try {
       // Save updated user
@@ -44,13 +46,25 @@ export class ResetPasswordComponent {
         localStorage.setItem('auth_user', JSON.stringify(user));
       }
 
-      this.success = true;
+      this.success.set(true);
+      this.error.set('');
 
       setTimeout(() => this.router.navigate(['/login']), 2000);
     } catch (error) {
-      this.error = 'Failed to reset password.';
+      this.error.set('Failed to reset password.');
+      this.success.set(false);
       console.error(error);
     }
+  }
+
+  onEmailInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.email.set(input.value);
+  }
+
+  onPasswordInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.newPassword.set(input.value);
   }
 
 }
