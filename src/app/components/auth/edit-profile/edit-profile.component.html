@@ -1,14 +1,14 @@
-<div class="edit-profile-container">
-  <h2>Edit Profile 📝</h2>
+<!-- <div class="edit-profile-container">
+  <h2>Edit Profile 📝</h2> -->
 
   <!-- Profile Image Upload -->
-  <div class="profile-photo">
+  <!-- <div class="profile-photo">
     <img [src]="profileImage || 'assets/default-avatar.png'" alt="Profile Photo" />
     <label for="photoUpload" class="upload-label">📷 Upload Photo</label>
     <input type="file" id="photoUpload" (change)="onPhotoSelected($event)" accept="image/*" />
-  </div>
+  </div> -->
 
-  <form (ngSubmit)="save()" #profileForm="ngForm">
+  <!-- <form (ngSubmit)="save()" #profileForm="ngForm">
     <div class="form-group">
       <input
         type="text"
@@ -62,10 +62,10 @@
         required
       />
       <label for="confirmPassword">Confirm Password</label>
-    </div>
+    </div> -->
 
     <!-- Validation Summary -->
-    <div class="error-summary" *ngIf="profileForm.submitted || profileForm.touched">
+    <!-- <div class="error-summary" *ngIf="profileForm.submitted || profileForm.touched">
       <div *ngIf="nameInput.invalid && nameInput.touched">
         🔸 Name is required and must be at least 3 characters.
       </div>
@@ -84,7 +84,7 @@
 
     <p *ngIf="success" class="success-msg">✅ Profile updated successfully!</p>
   </form>
-</div>
+</div> -->
 
 
 
@@ -92,22 +92,17 @@
 
 
 
-
-
-
-
-
-<!-- <div class="edit-profile-container">
-  <h2>Edit Profile 📝</h2> -->
+<div class="edit-profile-container">
+  <h2>Edit Profile 📝</h2>
 
   <!-- Profile Image Upload -->
-  <!-- <div class="profile-photo">
+  <div class="profile-photo">
     <img [src]="profileImage() || 'assets/default-avatar.png'" alt="Profile Photo" />
     <label for="photoUpload" class="upload-label">📷 Upload Photo</label>
     <input type="file" id="photoUpload" (change)="onPhotoSelected($event)" accept="image/*" />
-  </div> -->
+  </div>
 
-  <!-- <form (ngSubmit)="save()" #profileForm="ngForm">
+  <form (ngSubmit)="save()" #profileForm="ngForm">
     <div class="form-group">
       <input
         type="text"
@@ -161,10 +156,10 @@
         required
       />
       <label for="confirmPassword">Confirm Password</label>
-    </div> -->
+    </div>
 
     <!-- Validation Summary -->
-    <!-- <div class="error-summary" *ngIf="profileForm.submitted || profileForm.touched">
+    <div class="error-summary" *ngIf="profileForm.submitted || profileForm.touched">
       <div *ngIf="nameInput.invalid && nameInput.touched">
         🔸 Name is required and must be at least 3 characters.
       </div>
@@ -183,4 +178,4 @@
 
     <p *ngIf="success()" class="success-msg">✅ Profile updated successfully!</p>
   </form>
-</div> -->
+</div>
