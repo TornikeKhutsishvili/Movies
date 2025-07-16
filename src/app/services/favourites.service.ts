@@ -1,11 +1,12 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Movie } from '../models/movieAPI.model';
+import { MovieDetail } from '../models/movieAPI.model';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavouritesService {
+
   private storageKey = 'favorites';
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
@@ -14,7 +15,7 @@ export class FavouritesService {
     return isPlatformBrowser(this.platformId);
   }
 
-  getFavorites(): Movie[] {
+  getFavorites(): MovieDetail[] {
     if (this.isPlatformBrowser()) {
       try {
         return JSON.parse(localStorage.getItem(this.storageKey) || '[]');
@@ -25,7 +26,7 @@ export class FavouritesService {
     return [];
   }
 
-  addFavorite(movie: Movie): void {
+  addFavorite(movie: MovieDetail): void {
     if (!this.isPlatformBrowser()) return;
 
     const favorites = this.getFavorites();
@@ -50,8 +51,8 @@ export class FavouritesService {
     return false;
   }
 
-  groupByGenre(): Record<string, Movie[]> {
-    const grouped: Record<string, Movie[]> = {};
+  groupByGenre(): Record<string, MovieDetail[]> {
+    const grouped: Record<string, MovieDetail[]> = {};
     const favorites = this.getFavorites();
 
     for (const movie of favorites) {
@@ -66,4 +67,5 @@ export class FavouritesService {
 
     return grouped;
   }
+
 }

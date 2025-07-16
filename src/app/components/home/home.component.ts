@@ -1,15 +1,14 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Movie, MovieDetail } from '../../models/movieAPI.model';
+import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { PulseAnimationComponent } from '../pulse-animation/pulse-animation.component';
-import { MovieDurationComponent } from '../movie-duration/movie-duration.component';
 import { CaruselComponent } from '../carusel/carusel.component';
 import { TopMoviesComponent } from '../top-movies/top-movies.component';
 import { NewestMoviesComponent } from "../newest-movies/newest-movies.component";
+import { ModalComponent } from "../modal/modal.component";
 
 @Component({
   selector: 'app-home',
@@ -17,11 +16,12 @@ import { NewestMoviesComponent } from "../newest-movies/newest-movies.component"
   imports: [
     CommonModule,
     FormsModule,
-    PulseAnimationComponent,
-    MovieDurationComponent,
+    // PulseAnimationComponent,
+    // MovieDurationComponent,
     CaruselComponent,
     TopMoviesComponent,
     NewestMoviesComponent,
+    ModalComponent
 ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -34,7 +34,6 @@ export class HomeComponent implements OnInit {
 
   isLoading = signal(true);
   searchText = signal<string>('');
-  movie = signal<Movie[]>([]);
   moviedetail = signal<MovieDetail[]>([]);
 
   englishMovies = computed(() =>
@@ -62,13 +61,12 @@ export class HomeComponent implements OnInit {
       // movies
       this.movieService.getNewTitlesWithPosters().subscribe(res => {
         this.moviedetail.set(res);
-        this.movie.set(res);
         this.isLoading.set(false);
       });
 
       // search
       this.movieSearchService.searchQuery$.subscribe(() => {
-        this.movieSearchService.updateFilteredMovies(this.movie());
+        this.movieSearchService.updateFilteredMovies(this.moviedetail());
       });
 
     }
@@ -80,14 +78,14 @@ export class HomeComponent implements OnInit {
 
 
   // modal
-  selectedMovie: MovieDetail | null = null;
+  @ViewChild('modal') modalComponent!: ModalComponent;
 
-  openModal(movie: MovieDetail): void {
-    this.selectedMovie = movie;
+  openModal(moviedetail: MovieDetail): void {
+    this.modalComponent.openModal(moviedetail);
   }
 
   closeModal(): void {
-    this.selectedMovie = null;
+    this.modalComponent.closeModal();
   }
 
 }

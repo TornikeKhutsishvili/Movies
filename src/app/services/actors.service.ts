@@ -47,34 +47,6 @@ export class ActorsService {
   }
 
 
-
-  // 
-  // private readonly people = [
-  //   7110004,
-  //   710203130,
-  //   73333445,
-  //   710203131,
-  //   710203132,
-  //   710203133,
-  //   710203134,
-  //   710203135
-  // ];
-
-  // // get Actors
-  // getAllActors(): Observable<Actors[]> {
-  //   const apiKey = this.getApiKey();
-
-  //   const requests = this.people.map(id => {
-  //     const url = `${this.baseUrl}/person/${id}?apiKey=${apiKey}`;
-  //     return this.http.get<Actors>(url);
-  //   });
-
-  //   return forkJoin(requests);
-  // }
-  // 
-
-
-
   // get Actors
   getAllActors(): Observable<Actors[]> {
     const apiKey = this.getApiKey();

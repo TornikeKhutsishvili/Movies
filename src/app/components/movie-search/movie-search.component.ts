@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieSearchService } from '../../services/movie-search.service';
-import { distinctUntilChanged, filter, of, switchMap } from 'rxjs';
+import { distinctUntilChanged, filter } from 'rxjs';
 
 @Component({
   selector: 'app-movie-search',

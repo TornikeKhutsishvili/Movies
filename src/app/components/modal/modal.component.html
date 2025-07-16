@@ -1,0 +1,27 @@
+@if (selectedMovie()) {
+
+  <div class="custom-modal">
+    <div class="modal-content">
+
+      <!-- Close Button -->
+      <button type="button" class="close-btn" (click)="closeModal()">×</button>
+
+      <!-- Poster -->
+      <img [src]="selectedMovie()?.posterMedium" [alt]="selectedMovie()?.title" />
+
+      <!-- Title -->
+      <h2 style="color: #007ACC;">{{ selectedMovie()?.title }}</h2>
+
+      <!-- Pulse Animation -->
+      <app-pulse-animation id="pulsAnim"></app-pulse-animation>
+
+      <!-- Movie Duration -->
+      <app-movie-duration
+        id="movieDurat"
+        [runtimeMinutes]="selectedMovie()?.runtime_minutes || 0">
+      </app-movie-duration>
+
+    </div>
+  </div>
+
+}

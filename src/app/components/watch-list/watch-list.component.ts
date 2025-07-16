@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WatchlistService } from '../../services/watch-list.service';
-import { Movie } from '../../models/movieAPI.model';
+import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
-import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
+import { ModalComponent } from "../modal/modal.component";
 
 declare const bootstrap: any;
 
@@ -17,15 +16,14 @@ declare const bootstrap: any;
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MovieDurationComponent,
-    PulseAnimationComponent
+    ModalComponent
 ],
   templateUrl: './watch-list.component.html',
   styleUrls: ['./watch-list.component.css']
 })
 export class WatchListComponent implements OnInit {
 
-  watchlist = signal<Movie[]>([]);
+  watchlist = signal<MovieDetail[]>([]);
 
   constructor(private watchlistService: WatchlistService) {}
 
@@ -45,9 +43,9 @@ export class WatchListComponent implements OnInit {
 
 
   // date
-  ScheduleWatchList(): { [date: string]: Movie[] } {
+  ScheduleWatchList(): { [date: string]: MovieDetail[] } {
     const list = this.filteredWatchlist();
-    const grouped: { [key: string]: Movie[] } = {};
+    const grouped: { [key: string]: MovieDetail[] } = {};
 
     for (const movie of list) {
       const date = movie.addedAt ? movie.addedAt.slice(0, 10) : 'Unknown';
@@ -84,14 +82,16 @@ export class WatchListComponent implements OnInit {
   }
 
 
-  selectedMovie: Movie | null = null;
 
-  openModal(movie: Movie): void {
-    this.selectedMovie = movie;
+  // modal
+  @ViewChild('modal') modalComponent!: ModalComponent;
+
+  openModal(movie: MovieDetail): void {
+    this.modalComponent.openModal(movie);
   }
 
   closeModal(): void {
-    this.selectedMovie = null;
+    this.modalComponent.closeModal();
   }
 
 }

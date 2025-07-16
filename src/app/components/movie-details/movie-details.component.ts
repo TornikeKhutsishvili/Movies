@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./movie-details.component.css']
 })
 export class MovieDetailsComponent implements OnInit {
+
   private movieService = inject(MovieService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -38,4 +39,5 @@ export class MovieDetailsComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/movie-list']);
   }
+
 }

@@ -100,6 +100,8 @@
   font-weight: bold;
 }
 
+
+/* responsive */
 @media (max-width: 900px) {
   .carousel-container {
     width: auto;

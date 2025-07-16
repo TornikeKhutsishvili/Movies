@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
+
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   { path: 'home', loadComponent: () =>
@@ -86,5 +87,6 @@ export const routes: Routes = [
     import('./components/footer/footer.component').then(
       m => m.FooterComponent
     )
-  },
+  }
+
 ];

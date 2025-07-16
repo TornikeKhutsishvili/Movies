@@ -80,4 +80,5 @@ export class NetworksComponent {
     this.getActionSignal(network.id).set('Unliked');
     console.log('Unliked:', network.name);
   }
+
 }

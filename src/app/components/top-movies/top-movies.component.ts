@@ -1,12 +1,11 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, inject, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MovieService } from '../../services/movie.service';
-import { Movie, MovieDetail } from '../../models/movieAPI.model';
+import { MovieDetail } from '../../models/movieAPI.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MovieSearchService } from '../../services/movie-search.service';
-import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
-import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
+import { ModalComponent } from "../modal/modal.component";
 
 @Component({
   selector: 'app-top-movies',
@@ -14,22 +13,21 @@ import { MovieDurationComponent } from "../movie-duration/movie-duration.compone
   imports: [
     CommonModule,
     FormsModule,
-    PulseAnimationComponent,
-    MovieDurationComponent
+    ModalComponent
 ],
   templateUrl: './top-movies.component.html',
   styleUrls: ['./top-movies.component.css']
 })
-export class TopMoviesComponent {
+export class TopMoviesComponent implements OnInit {
+
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
   private movieSearchService = inject(MovieSearchService);
   isLoading = true;
 
-  movie = signal<Movie[]>([]);
   topMovies = signal<MovieDetail[]>([]);
   selectedMovie = signal<MovieDetail | null>(null);
-  searchedMovies = signal<Movie[]>([]);
+  searchedMovies = signal<MovieDetail[]>([]);
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
 
   readonly highRatedMovies = computed(() =>
@@ -69,12 +67,16 @@ export class TopMoviesComponent {
     }
   }
 
+
   // modal
+  @ViewChild('modal') modalComponent!: ModalComponent;
+
   openModal(movie: MovieDetail): void {
-    this.selectedMovie.set(movie);
+    this.modalComponent.openModal(movie);
   }
 
   closeModal(): void {
-    this.selectedMovie.set(null);
+    this.modalComponent.closeModal();
   }
+
 }

@@ -4,7 +4,6 @@
       <div class="movie-card" (click)="openModal(movie)">
         <img [src]="movie.posterMedium" [alt]="movie.title" [title]="movie.title" />
         <h3>{{ movie.title }}</h3>
-        <!-- <p>{{ movie.release_date }}</p> -->
       </div>
     }
   </div>
@@ -12,19 +11,4 @@
 
 
 <!-- Modal -->
-<div class="custom-modal" *ngIf="selectedMovie() as movie">
-  <div class="modal-content">
-
-    <!-- main -->
-    <button type="button" class="close-btn" (click)="closeModal()">×</button>
-    <img [src]="movie.posterMedium" [alt]="movie.title" />
-    <h2 style="color: #007ACC;">{{ movie.title }}</h2>
-
-    <!-- pulse animation -->
-    <app-pulse-animation id="pulsAnim"></app-pulse-animation>
-
-    <!-- movie duration -->
-    <app-movie-duration [runtimeMinutes]="movie.runtime_minutes"></app-movie-duration>
-
-  </div>
-</div>
+<app-modal #modal></app-modal>

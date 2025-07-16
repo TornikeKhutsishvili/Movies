@@ -83,4 +83,5 @@ export class FilterComponent implements OnInit {
   toggleFilters(): void {
     this.showFilters = !this.showFilters;
   }
+
 }

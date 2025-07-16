@@ -1,14 +1,13 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, Inject, inject, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, Inject, inject, OnDestroy, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Movie } from '../../models/movieAPI.model';
+import { MovieDetail } from '../../models/movieAPI.model';
 import { FavouritesService } from '../../services/favourites.service';
 import { filter } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
-import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
+import { ModalComponent } from "../modal/modal.component";
 
 declare const bootstrap: any;
 
@@ -19,16 +18,16 @@ declare const bootstrap: any;
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    PulseAnimationComponent,
-    MovieDurationComponent
+    ModalComponent
 ],
   templateUrl: './favourites.component.html',
   styleUrls: ['./favourites.component.css']
 })
 export class FavouritesComponent implements OnInit, OnDestroy {
+
   private favouriteService = inject(FavouritesService);
   private movieSearchService = inject(MovieSearchService);
-  readonly groupedFavourites = signal<Record<string, Movie[]>>({});
+  readonly groupedFavourites = signal<Record<string, MovieDetail[]>>({});
   activeCardId: string | null = null;
 
   constructor(
@@ -127,9 +126,9 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     }
   }
 
-  uniqueFavourites(): Movie[] {
+  uniqueFavourites(): MovieDetail[] {
     const all = this.groupedFavourites();
-    const map = new Map<string, Movie>();
+    const map = new Map<string, MovieDetail>();
 
     for (const genre in all) {
       all[genre].forEach(movie => {
@@ -142,13 +141,16 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     return Array.from(map.values());
   }
 
-  selectedMovie: Movie | null = null;
 
-  openModal(movie: Movie): void {
-    this.selectedMovie = movie;
+  // modal
+  @ViewChild('modal') modalComponent!: ModalComponent;
+
+  openModal(movie: MovieDetail): void {
+    this.modalComponent.openModal(movie);
   }
 
   closeModal(): void {
-    this.selectedMovie = null;
+    this.modalComponent.closeModal();
   }
+
 }

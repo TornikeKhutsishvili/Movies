@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Movie } from '../models/movieAPI.model';
+import { MovieDetail } from '../models/movieAPI.model';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -10,14 +10,14 @@ export class MovieSearchService {
   private searchQuerySubject = new BehaviorSubject<string>('');
   searchQuery$ = this.searchQuerySubject.asObservable();
 
-  private filteredMoviesSubject = new BehaviorSubject<Movie[]>([]);
+  private filteredMoviesSubject = new BehaviorSubject<MovieDetail[]>([]);
   filteredMovies$ = this.filteredMoviesSubject.asObservable();
 
   setSearchQuery(query: string) {
     this.searchQuerySubject.next(query);
   }
 
-  updateFilteredMovies(allMovies: Movie[]) {
+  updateFilteredMovies(allMovies: MovieDetail[]) {
     const query = this.searchQuerySubject.getValue().toLowerCase();
     console.log('[SEARCH]', query);
 

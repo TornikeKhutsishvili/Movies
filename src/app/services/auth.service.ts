@@ -7,17 +7,17 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 export class AuthService {
 
   private readonly STORAGE_KEY = 'auth_user';
-  public showMarketCap = false; // Added to determine if the input is provided
+  public showMarketCap = false;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   // Registration function
   register(user: any): boolean {
     try {
-      const existingUser = this.safeGetItem(user.email); // Safely retrieve the data
+      const existingUser = this.safeGetItem(user.email);
       if (existingUser) return false;
 
-      this.safeSetItem(user.email, JSON.stringify(user)); // Safely store the data
+      this.safeSetItem(user.email, JSON.stringify(user));
       return true;
     } catch (error) {
       console.error('Registration error:', error);
@@ -28,13 +28,13 @@ export class AuthService {
   // Login function
   login(email: string, password: string): boolean {
     try {
-      const stored = this.safeGetItem(email); // Safely retrieve the data
+      const stored = this.safeGetItem(email);
       if (!stored) return false;
 
       const user = JSON.parse(stored);
       if (user.password === password) {
-        this.safeSetItem(this.STORAGE_KEY, JSON.stringify(user)); // Safely store the data
-        this.showMarketCap = true; // Successful login
+        this.safeSetItem(this.STORAGE_KEY, JSON.stringify(user));
+        this.showMarketCap = true;
         return true;
       }
 
@@ -48,8 +48,8 @@ export class AuthService {
   // Logout
   logout(): void {
     try {
-      this.safeRemoveItem(this.STORAGE_KEY); // Securely delete data
-      this.showMarketCap = false; // Hide if the user is logged out
+      this.safeRemoveItem(this.STORAGE_KEY);
+      this.showMarketCap = false;
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -58,7 +58,7 @@ export class AuthService {
   // User data
   getUser(): any {
     try {
-      const user = this.safeGetItem(this.STORAGE_KEY); // Safely retrieve data
+      const user = this.safeGetItem(this.STORAGE_KEY);
       return user ? JSON.parse(user) : null;
     } catch (error) {
       console.error('Get user error:', error);
@@ -69,25 +69,24 @@ export class AuthService {
   // Logout status
   isLoggedIn(): boolean {
     try {
-      const user = this.safeGetItem(this.STORAGE_KEY); // Safely retrieve data
+      const user = this.safeGetItem(this.STORAGE_KEY);
       if (!user) return false;
 
-      JSON.parse(user); // If an error occurred, we forgot the calculations
+      JSON.parse(user);
       return true;
     } catch (error) {
       console.warn('Corrupted auth_user in storage');
-      this.logout(); // Remove corrupted data
+      this.logout();
       return false;
     }
   }
 
   // Search by user's email
   getUserByEmail(email: string): any {
-    const data = this.safeGetItem(email); // Safely retrieve data
+    const data = this.safeGetItem(email);
     return data ? JSON.parse(data) : null;
   }
 
-  // Safe functions for LocalStorage
 
   // Safe data retrieval
   private safeGetItem(key: string): string | null {

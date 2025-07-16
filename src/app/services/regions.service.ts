@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Regions } from '../models/regions.model';
 import { isPlatformBrowser } from '@angular/common';
@@ -18,6 +18,7 @@ export class RegionsService {
   private baseUrl = 'https://api.watchmode.com/v1';
   private readonly lastSwitchKey = 'api_key_last_switch';
   private readonly currentIndexKey = 'api_key_index';
+
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -55,6 +56,5 @@ export class RegionsService {
       map((regions) => regions.slice(0, 60))
     );
   }
-
 
 }

@@ -1,7 +1,7 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, effect, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Movie } from '../../models/movieAPI.model';
+import { MovieDetail } from '../../models/movieAPI.model';
 import { RouterLink } from '@angular/router';
 import { MovieService } from '../../services/movie.service';
 import { FilterComponent } from "../filter/filter.component";
@@ -10,8 +10,7 @@ import { MovieSearchService } from '../../services/movie-search.service';
 import { FavouritesService } from '../../services/favourites.service';
 import { WatchlistService } from '../../services/watch-list.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
-import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
+import { ModalComponent } from "../modal/modal.component";
 
 @Component({
   selector: 'app-movie-list',
@@ -22,8 +21,7 @@ import { MovieDurationComponent } from "../movie-duration/movie-duration.compone
     ReactiveFormsModule,
     RouterLink,
     FilterComponent,
-    PulseAnimationComponent,
-    MovieDurationComponent
+    ModalComponent
 ],
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.css']
@@ -41,10 +39,10 @@ export class MovieListComponent implements OnInit {
   searchText: string = '';
   favoriteMovies: Set<string> = new Set();
   watchlistMovies: Set<string> = new Set();
-  movie = signal<Movie[]>([]);
+  movie = signal<MovieDetail[]>([]);
 
-  readonly filteredMovies = signal<Movie[]>([]);
-  searchedMovies = signal<Movie[]>([]);
+  readonly filteredMovies = signal<MovieDetail[]>([]);
+  searchedMovies = signal<MovieDetail[]>([]);
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
 
   // Current page and items per page
@@ -101,7 +99,7 @@ export class MovieListComponent implements OnInit {
 
 
   // favourites
-  toggleFavorite(movie: Movie): void {
+  toggleFavorite(movie: MovieDetail): void {
     if (this.favouriteService.isFavorite(movie.imdb_id)) {
       this.favouriteService.removeFavorite(movie.imdb_id);
     } else {
@@ -109,13 +107,13 @@ export class MovieListComponent implements OnInit {
     }
   }
 
-  isFavorite(movie: Movie): boolean {
+  isFavorite(movie: MovieDetail): boolean {
     return this.favouriteService.isFavorite(movie.imdb_id);
   }
 
 
   // watch-list
-  toggleWatchlist(movie: Movie): void {
+  toggleWatchlist(movie: MovieDetail): void {
     if (this.watchlistMovies.has(movie.imdb_id)) {
       this.watchlistService.removeFromWatchlist(movie.imdb_id);
     } else {
@@ -125,7 +123,7 @@ export class MovieListComponent implements OnInit {
     this.watchlistMovies = new Set(updatedList.map(m => m.imdb_id));
   }
 
-  isInWatchlist(movie: Movie): boolean {
+  isInWatchlist(movie: MovieDetail): boolean {
     return this.watchlistMovies.has(movie.imdb_id);
   }
 
@@ -192,14 +190,27 @@ export class MovieListComponent implements OnInit {
     }
   }
 
-  selectedMovie: Movie | null = null;
+  // modal
+  // selectedMovie: MovieDetail | null = null;
 
-  openModal(movie: Movie): void {
-    this.selectedMovie = movie;
+  // openModal(movie: MovieDetail): void {
+  //   this.selectedMovie = movie;
+  // }
+
+  // closeModal(): void {
+  //   this.selectedMovie = null;
+  // }
+
+
+  // modal
+  @ViewChild('modal') modalComponent!: ModalComponent;
+
+  openModal(movie: MovieDetail): void {
+    this.modalComponent.openModal(movie);
   }
 
   closeModal(): void {
-    this.selectedMovie = null;
+    this.modalComponent.closeModal();
   }
 
 }

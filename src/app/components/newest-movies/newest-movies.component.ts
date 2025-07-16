@@ -1,12 +1,11 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, inject, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Movie, MovieDetail } from '../../models/movieAPI.model';
+import { MovieDetail } from '../../models/movieAPI.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { MovieService } from '../../services/movie.service';
-import { MovieDurationComponent } from "../movie-duration/movie-duration.component";
-import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.component";
+import { ModalComponent } from "../modal/modal.component";
 
 @Component({
   selector: 'app-newest-movies',
@@ -14,19 +13,18 @@ import { PulseAnimationComponent } from "../pulse-animation/pulse-animation.comp
   imports: [
     CommonModule,
     FormsModule,
-    MovieDurationComponent,
-    PulseAnimationComponent
+    ModalComponent
 ],
   templateUrl: './newest-movies.component.html',
   styleUrls: ['./newest-movies.component.css']
 })
-export class NewestMoviesComponent {
+export class NewestMoviesComponent implements OnInit {
+
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
   private movieSearchService = inject(MovieSearchService);
   isLoading = true;
 
-  movie = signal<Movie[]>([]);
   newestMovies = signal<MovieDetail[]>([]);
   selectedMovie = signal<MovieDetail | null>(null);
   searchedMovies = signal<MovieDetail[]>([]);
@@ -66,11 +64,26 @@ export class NewestMoviesComponent {
   }
 
   // modal
+  // openModal(newestMovies: MovieDetail): void {
+  //   this.selectedMovie.set(newestMovies);
+  // }
+
+  // closeModal(): void {
+  //   this.selectedMovie.set(null);
+  // }
+
+
+
+
+  // modal
+  @ViewChild('modal') modalComponent!: ModalComponent;
+
   openModal(movie: MovieDetail): void {
-    this.selectedMovie.set(movie);
+    this.modalComponent.openModal(movie);
   }
 
   closeModal(): void {
-    this.selectedMovie.set(null);
+    this.modalComponent.closeModal();
   }
+
 }

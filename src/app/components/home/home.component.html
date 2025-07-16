@@ -1,6 +1,6 @@
-<!-- <div class="container-fluid mt-5">
+<div class="container-fluid mt-5">
 
-  @if (isLoading) {
+  @if (isLoading()) {
 
     <div class="d-flex justify-content-center align-items-center gap-1">
       <div class="spinner-border spinner-border-sm" role="status">
@@ -42,141 +42,8 @@
     </div>
 
   }
-</div> -->
-
-
-
-<!-- modal -->
-<!-- @if (selectedMovie) {
-  <div class="custom-modal">
-    <div class="modal-content"> -->
-
-      <!-- main -->
-      <!-- <button type="button" class="close-btn" (click)="closeModal()">×</button>
-      <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
-      <h2 style="color: #007ACC;">{{ selectedMovie.title }}</h2> -->
-
-      <!-- pulse animation -->
-      <!-- <app-pulse-animation id="pulsAnim"></app-pulse-animation> -->
-
-      <!-- movie duration -->
-      <!-- <app-movie-duration id="movieDurat" [runtimeMinutes]="selectedMovie.runtime_minutes"></app-movie-duration>
-
-    </div>
-  </div>
-} -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="container-fluid mt-5">
-
-  @if (isLoading()) {
-
-    <div class="d-flex justify-content-center align-items-center gap-1">
-      <div class="spinner-border spinner-border-sm" role="status">
-        <span class="visually-hidden"></span>
-      </div>
-      <div>
-        <span role="status">Loading...</span>
-      </div>
-    </div>
-
-  } @else {
-
-    <!-- Search results -->
-    @if (searchQuery().trim()) {
-
-      <div class="mb-4">
-        <h2>Search Results for "{{ searchQuery() }}"</h2>
-
-        @if (displayedMovies().length > 0) {
-          <app-carusel [movies]="displayedMovies()" (movieClicked)="openModal($event)"></app-carusel>
-        } @else {
-          <p>No results found for "{{ searchQuery() }}"</p>
-        }
-
-      </div>
-
-    } @else {
-
-      <!-- Movies in all language -->
-      <div class="mb-4">
-        <h1>Movies in all language</h1>
-        <app-carusel (movieClicked)="openModal($event)"></app-carusel>
-      </div>
-
-      <!-- English Movies -->
-      @if (englishMovies().length > 0) {
-        <div class="mb-4">
-          <h1>Movies in English</h1>
-          <app-carusel [movies]="englishMovies()" (movieClicked)="openModal($event)"></app-carusel>
-        </div>
-      }
-
-      <!-- French Movies -->
-      @if (frenchMovies().length > 0) {
-        <div class="mb-4">
-          <h1>Movies in French</h1>
-          <app-carusel [movies]="frenchMovies()" (movieClicked)="openModal($event)"></app-carusel>
-        </div>
-      }
-
-      <!-- Top Movies -->
-      <div class="mb-4">
-        <app-top-movies></app-top-movies>
-      </div>
-
-      <!-- Newest Movies -->
-      <div class="mb-4">
-        <h1>The newest movies</h1>
-        <app-newest-movies></app-newest-movies>
-      </div>
-
-    }
-
-  }
-
 </div>
 
 
-
-<!-- Movie Modal -->
-@if (selectedMovie) {
-
-  <div class="custom-modal">
-    <div class="modal-content">
-
-      <!-- Close Button -->
-      <button type="button" class="close-btn" (click)="closeModal()">×</button>
-
-      <!-- Poster -->
-      <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
-
-      <!-- Title -->
-      <h2 style="color: #007ACC;">{{ selectedMovie.title }}</h2>
-
-      <!-- Pulse Animation -->
-      <app-pulse-animation id="pulsAnim"></app-pulse-animation>
-
-      <!-- Movie Duration -->
-      <app-movie-duration id="movieDurat" [runtimeMinutes]="selectedMovie.runtime_minutes">
-      </app-movie-duration>
-
-    </div>
-  </div>
-
-}
+<!-- Modal -->
+<app-modal #modal></app-modal>

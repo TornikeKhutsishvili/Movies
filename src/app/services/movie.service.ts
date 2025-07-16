@@ -1,6 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { forkJoin, Observable, shareReplay, switchMap, tap, timer } from 'rxjs';
-import { Movie, MovieDetail } from '../models/movieAPI.model';
+import { MovieDetail } from '../models/movieAPI.model';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -23,15 +23,6 @@ export class MovieService {
   private cache$: Observable<MovieDetail[]> | null = null;
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
-
-  // tornikexucishvili0@gmail.com
-  // private apiKey = 'EFCY2h2VghuMcuVW60TvMyWN9glnfkDhg1QKgvrk';
-
-  // tornike.khutsishvili347@eab.tsu.edu.ge
-  // private apiKey = 't0XNBuNEaL4lMfCVvx90ks41SrlQlWynqX5gqGB3';
-
-  // torkokhutso4@gmail.com
-  // private apiKey = 'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8';
 
   private getApiKey(): string {
     let index = 0;
@@ -62,10 +53,10 @@ export class MovieService {
       const apiKey = this.getApiKey();
       const url = `${this.baseUrl}/list-titles/?apiKey=${apiKey}&types=movie&sort_by=release_date_desc&limit=60`;
 
-      this.cache$ = this.http.get<{ titles: Movie[] }>(url).pipe(
+      this.cache$ = this.http.get<{ titles: MovieDetail[] }>(url).pipe(
         switchMap(response => {
           const titles = response.titles.slice(0, 60);
-          const detailRequests = titles.map((item: Movie) =>
+          const detailRequests = titles.map((item: MovieDetail) =>
             this.getMovieById(item.id)
           );
           return forkJoin(detailRequests);
@@ -85,7 +76,6 @@ export class MovieService {
 
     return this.http.get<MovieDetail>(url).pipe(
       tap(response => {
-        // console.log('Movie Details:', response);
         return response;
       })
     );

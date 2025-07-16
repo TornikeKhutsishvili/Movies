@@ -1,14 +1,4 @@
-body {
-    background-size: cover;
-    border-radius: .5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 1rem;
-    padding-top: 1.5rem;
-}
-
-/* modal */
-/* .custom-modal {
+.custom-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -56,4 +46,4 @@ body {
   font-size: 38px;
   cursor: pointer;
   color: red;
-} */
+}

@@ -1,4 +1,4 @@
-export interface Movie {
+export interface MovieDetail {
   posterMedium: any;
   title: string;
   year: number;
@@ -6,12 +6,6 @@ export interface Movie {
   imdb_id: string;
   type: string;
   id: string;
-  genres: any;
-  genre_names?: string[];
-  runtime_minutes: number;
-}
-
-export interface MovieDetail extends Movie {
   original_title: string;
   original_language: string;
   Runtime: string;
