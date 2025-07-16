@@ -1,5 +1,5 @@
-
 .newest-movies-container {
+  min-height: 80vh;
   padding: 32px;
   background: #f7f9fc;
   border-radius: 12px;
@@ -51,4 +51,3 @@
   color: #333;
   font-weight: bold;
 }
-

@@ -1,3 +1,7 @@
+.container {
+  min-height: 80vh;
+}
+
 .actor-card {
   border: none;
   border-radius: 16px;
