@@ -47,7 +47,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
 
   // Current page and items per page
   currentPage = signal(1);
-  itemsPerPage = signal(20);
+  itemsPerPage = signal(18);
   isMobilePagination = signal<boolean>(false);
 
   displayedMovies = computed(() => {
