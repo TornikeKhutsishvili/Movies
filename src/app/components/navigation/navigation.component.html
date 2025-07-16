@@ -70,11 +70,11 @@
       <!-- register and login -->
       <ng-template #guestLinks>
         <ul class="navbar-nav me-auto" id="auth-links-ul">
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active" (click)="closeNavbar()">Log In</a>
+          <li class="nav-item login_li">
+            <a class="nav-link" [routerLink]="['/login']" [routerLinkActive]="['active']" (click)="closeNavbar()">Log In</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/register']" routerLinkActive="active" (click)="closeNavbar()">Sign In</a>
+          <li class="nav-item register_li">
+            <a class="nav-link" [routerLink]="['/register']" [routerLinkActive]="['active']" (click)="closeNavbar()">Sign In</a>
           </li>
         </ul>
       </ng-template>

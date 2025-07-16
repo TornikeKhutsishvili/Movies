@@ -61,14 +61,17 @@
   color: white;
 }
 
-
-/* responsive */
-@media (max-width: 992px) {
-  .search {
-    display: none !important;
-  }
+.login_li {
+  border-right: 1px solid #ccc;
 }
 
+.register_li {
+  border-left: 1px solid #ccc;
+}
+
+
+
+/* responsive */
 @media (max-width: 1136px) {
   .nav-link {
     font-size: 14px;
