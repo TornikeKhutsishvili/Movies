@@ -1,3 +1,7 @@
+body {
+  min-height: 100vh;
+}
+
 .profile-container {
   max-width: 500px;
   margin: 5rem auto;

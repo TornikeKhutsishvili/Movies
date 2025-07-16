@@ -1,4 +1,8 @@
-/* PROFILE EDIT CONTAINER */
+body {
+  min-height: 100vh;
+}
+
+/* Profile Edit container */
 .edit-profile-container {
   display: flex;
   flex-direction: column;
