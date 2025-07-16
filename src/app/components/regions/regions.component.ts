@@ -21,7 +21,7 @@ export class RegionsComponent implements OnInit, OnDestroy {
 
   private platformId = inject(PLATFORM_ID);
   private regionsService = inject(RegionsService);
-  regionsArray: Regions[] = [];
+  regionsArray = signal<Regions[]>([]);
   actionsMap = new Map<string, ReturnType<typeof signal>>();
   loading = signal(true);
 
@@ -37,9 +37,9 @@ export class RegionsComponent implements OnInit, OnDestroy {
   // filtered
   readonly filteredRegions = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
-    if (!query) return this.regionsArray;
+    if (!query) return this.regionsArray();
 
-    return this.regionsArray.filter(region =>
+    return this.regionsArray().filter(region =>
       region.name.toLowerCase().includes(query) ||
       region.country.toLowerCase().includes(query)
     );
@@ -96,7 +96,7 @@ export class RegionsComponent implements OnInit, OnDestroy {
 
     this.regionsService.getAllRegions().subscribe({
       next: (data: Regions[]) => {
-        this.regionsArray = data;
+        this.regionsArray.set(data);
         data.forEach(region => {
           if (!this.actionsMap.has(region.name)) {
             this.actionsMap.set(region.name, signal(''));
