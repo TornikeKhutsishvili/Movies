@@ -2,7 +2,7 @@
   <div class="auth-container">
     <h2>Create Account</h2>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <input formControlName="username" type="text" placeholder="Username" />
+      <input formControlName="name" type="text" placeholder="Username" />
       <input formControlName="email" type="email" placeholder="Email" />
       <input formControlName="password" type="password" placeholder="Password" />
       <button type="submit" [disabled]="registerForm.invalid">Register</button>
