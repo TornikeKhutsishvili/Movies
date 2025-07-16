@@ -64,7 +64,7 @@
 
 /* responsive */
 @media (max-width: 992px) {
-  .search{
+  .search {
     display: none !important;
   }
 }

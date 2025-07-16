@@ -32,3 +32,12 @@
     max-width: 145px;
   }
 }
+
+@media (max-width: 1024px) {
+  .search-input {
+    margin: 0 !important;
+
+    min-width: 70px;
+    max-width: 115px;
+  }
+}
