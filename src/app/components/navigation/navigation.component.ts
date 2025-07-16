@@ -5,6 +5,7 @@ import { NavigationEnd, Router, RouterLink, RouterModule } from '@angular/router
 import { UiStateService } from '../../services/ui-state.service';
 import { ThemeToggleService } from '../../services/theme-toggle.service';
 import { MovieSearchComponent } from "../movie-search/movie-search.component";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -22,6 +23,7 @@ import { MovieSearchComponent } from "../movie-search/movie-search.component";
 })
 export class NavigationComponent implements OnInit{
 
+  public auth = inject(AuthService);
   private themeService = inject(ThemeToggleService);
   private ui = inject(UiStateService);
   private router = inject(Router);
@@ -53,6 +55,11 @@ export class NavigationComponent implements OnInit{
         }
       });
     }
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 
 }

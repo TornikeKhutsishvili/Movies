@@ -24,6 +24,23 @@
   margin: 10px !important;
 }
 
+.logout-btn {
+  background-color: transparent;
+  border: 1px solid #ff5252;
+  padding: 0.4rem 1rem;
+  color: #ff5252;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #ff5252;
+  color: white;
+}
+
+
+/* responsive */
 @media (max-width: 992px) {
   .search{
     display: none !important;

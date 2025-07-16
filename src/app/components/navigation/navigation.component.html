@@ -37,37 +37,45 @@
     <div [ngClass]="{ 'collapse': true, 'navbar-collapse': true, 'show': navbarOpen() }" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/home" routerLinkActive="active" (click)="closeNavbar()">Home</a>
+          <a class="nav-link active" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="closeNavbar()">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/movie-list" routerLinkActive="active" (click)="closeNavbar()">Movies list</a>
+          <a class="nav-link" [routerLink]="['/movie-list']" [routerLinkActive]="['active']" (click)="closeNavbar()">Movies list</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/favourites" routerLinkActive="active" (click)="closeNavbar()">Favorites</a>
+          <a class="nav-link" [routerLink]="['/favourites']" [routerLinkActive]="['active']" (click)="closeNavbar()">Favorites</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/watchlist" routerLinkActive="active" (click)="closeNavbar()">Watch list</a>
+          <a class="nav-link" [routerLink]="['/watchlist']" [routerLinkActive]="['active']" (click)="closeNavbar()">Watch list</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/actors" routerLinkActive="active" (click)="closeNavbar()">Actors</a>
+          <a class="nav-link" [routerLink]="['/actors']" [routerLinkActive]="['active']" (click)="closeNavbar()">Actors</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/regions" routerLinkActive="active" (click)="closeNavbar()">Regions</a>
+          <a class="nav-link" [routerLink]="['/regions']" [routerLinkActive]="['active']" (click)="closeNavbar()">Regions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/networks" routerLinkActive="active" (click)="closeNavbar()">Networks</a>
+          <a class="nav-link" [routerLink]="['/networks']" [routerLinkActive]="['active']" (click)="closeNavbar()">Networks</a>
         </li>
       </ul>
 
-      <!-- register -->
-      <ul class="navbar-nav me-auto" id="auth-links-ul">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="closeNavbar()">Log In</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/register" routerLinkActive="active" (click)="closeNavbar()">Sign In</a>
-        </li>
-      </ul>
+      <!-- register and login -->
+      <ng-container *ngIf="auth.isLoggedIn(); else guestLinks">
+        <a [routerLink]="['/profile']" [routerLinkActive]="['active']">👤 Profile</a>
+        <button type="button" class="logout-btn" (click)="logout()">🚪 Logout</button>
+      </ng-container>
+
+      <!-- register and login -->
+      <ng-template #guestLinks>
+        <ul class="navbar-nav me-auto" id="auth-links-ul">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/login']" routerLinkActive="active" (click)="closeNavbar()">Log In</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/register']" routerLinkActive="active" (click)="closeNavbar()">Sign In</a>
+          </li>
+        </ul>
+      </ng-template>
 
       <!-- movie-search -->
       <div class="d-flex align-items-center me-3 search">
