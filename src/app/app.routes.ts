@@ -87,6 +87,8 @@ export const routes: Routes = [
     import('./components/footer/footer.component').then(
       m => m.FooterComponent
     )
-  }
+  },
+
+  { path: '**', redirectTo: '' }
 
 ];
