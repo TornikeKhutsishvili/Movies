@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-footer',
@@ -15,5 +16,11 @@ import { FormsModule } from '@angular/forms';
 export class FooterComponent {
 
   currentYear: number = new Date().getFullYear();
+
+  private ui = inject(UiStateService);
+
+  ngOnInit() {
+    this.ui.setLoading(true);
+  }
 
 }

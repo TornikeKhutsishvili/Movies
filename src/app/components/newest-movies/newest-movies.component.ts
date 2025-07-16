@@ -6,6 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { MovieService } from '../../services/movie.service';
 import { ModalComponent } from "../modal/modal.component";
+import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-newest-movies',
@@ -23,6 +24,7 @@ export class NewestMoviesComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
   private movieSearchService = inject(MovieSearchService);
+  private ui = inject(UiStateService);
   isLoading = true;
 
   newestMovies = signal<MovieDetail[]>([]);
@@ -42,6 +44,8 @@ export class NewestMoviesComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.ui.setLoading(true);
+
     if (isPlatformBrowser(this.platformId)) {
 
       this.movieService.getNewTitlesWithPosters().subscribe({

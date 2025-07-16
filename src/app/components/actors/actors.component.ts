@@ -5,6 +5,7 @@ import { Actors } from '../../models/actors.model';
 import { ActorsService } from '../../services/actors.service';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-actors',
@@ -18,11 +19,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class ActorsComponent {
 
+  private ui = inject(UiStateService);
   private actorsService = inject(ActorsService);
   actorsList = signal<Actors[]>([]);
   actionsMap = new Map<string, ReturnType<typeof signal>>();
-  loading = true;
-  error = false;
+  loading = signal(true);
+  error = signal(false);
   selectedActorId: number | null = null;
 
   // search
@@ -41,21 +43,23 @@ export class ActorsComponent {
   });
 
   ngOnInit(): void {
+    this.ui.setLoading(true);
+
     this.getAllActors();
   }
 
   getAllActors(): void {
-    this.loading = true;
-    this.error = false;
+    this.loading.set(true);
+    this.error.set(false);
 
     this.actorsService.getAllActors().subscribe({
       next: (data: Actors[]) => {
         this.actorsList.set(data);
-        this.loading = false;
+        this.loading.set(false);
       },
       error: () => {
-        this.error = true;
-        this.loading = false;
+        this.error.set(true);
+        this.loading.set(false);
       }
     });
   }

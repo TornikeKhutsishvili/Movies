@@ -6,6 +6,7 @@ import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ModalComponent } from "../modal/modal.component";
+import { UiStateService } from '../../services/ui-state.service';
 
 declare const bootstrap: any;
 
@@ -24,6 +25,7 @@ declare const bootstrap: any;
 export class WatchListComponent implements OnInit {
 
   watchlist = signal<MovieDetail[]>([]);
+  private ui = inject(UiStateService);
 
   constructor(private watchlistService: WatchlistService) {}
 
@@ -59,6 +61,8 @@ export class WatchListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.ui.setLoading(true);
+
     this.watchlistService.watchlist$.subscribe(watchlist => {
       this.watchlist.set(watchlist);
     });

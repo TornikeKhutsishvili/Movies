@@ -46,6 +46,8 @@ export class NavigationComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.ui.setLoading(true);
+
     if (isPlatformBrowser(this.platformId)) {
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from "./components/navigation/navigation.component";
 import { FooterComponent } from "./components/footer/footer.component";
+import { UiStateService } from './services/ui-state.service';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +19,22 @@ import { FooterComponent } from "./components/footer/footer.component";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   title = 'Movies';
 
-  constructor(){}
+  private ui = inject(UiStateService);
+
+  ngOnInit(): void {
+    this.ui.setLoading(true);
+
+    setTimeout(() => {
+      this.ui.setLoading(false);
+    }, 3000);
+  }
+
+  get isLoading() {
+    return this.ui.isLoading();
+  }
 
 }

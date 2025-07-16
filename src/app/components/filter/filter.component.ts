@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
 import { MovieFilterService } from '../../services/movie-filter.service';
+import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-filter',
@@ -26,6 +27,8 @@ export class FilterComponent implements OnInit {
   ratings: string[] = [];
   languages: string[] = [];
 
+  private ui = inject(UiStateService);
+
   constructor(
     private fb: FormBuilder,
     private movieService: MovieService,
@@ -33,6 +36,8 @@ export class FilterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.ui.setLoading(true);
+
     this.filterForm = this.fb.group({
       year: [null],
       genre: [null],

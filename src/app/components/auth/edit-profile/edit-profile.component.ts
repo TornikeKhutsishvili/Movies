@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { UiStateService } from '../../../services/ui-state.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -30,9 +31,13 @@ export class EditProfileComponent implements OnInit {
   passwordValue = '';
   confirmPasswordValue = '';
 
+  private ui = inject(UiStateService);
+
   constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    this.ui.setLoading(true);
+
     const user = this.auth.getUser();
     if (user) {
       this.username.set(user.username ?? '');

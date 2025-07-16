@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { UiStateService } from '../../../services/ui-state.service';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,8 @@ export class LoginComponent implements OnInit {
   error = signal('');
   returnUrl = '/';
 
+  private ui = inject(UiStateService);
+
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
@@ -30,6 +33,8 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.ui.setLoading(true);
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]

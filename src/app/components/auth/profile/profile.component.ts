@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { UiStateService } from '../../../services/ui-state.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,11 +20,15 @@ export class ProfileComponent {
 
   user: any;
 
+  private ui = inject(UiStateService);
+
   constructor(private auth: AuthService, private router: Router) {
     // this.user = this.auth.getUser();
   }
 
   ngOnInit(): void {
+    this.ui.setLoading(true);
+
     this.user = this.auth.getUser();
   }
 

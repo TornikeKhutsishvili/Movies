@@ -5,6 +5,7 @@ import { RegionsService } from '../../services/regions.service';
 import { Regions } from '../../models/regions.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MovieSearchService } from '../../services/movie-search.service';
+import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-regions',
@@ -18,6 +19,7 @@ import { MovieSearchService } from '../../services/movie-search.service';
 })
 export class RegionsComponent {
 
+  private ui = inject(UiStateService);
   private regionsService = inject(RegionsService);
   regionsArray: Regions[] = [];
   actionsMap = new Map<string, ReturnType<typeof signal>>();
@@ -39,6 +41,8 @@ export class RegionsComponent {
   });
 
   ngOnInit(): void {
+    this.ui.setLoading(true);
+
     this.getRegions();
   }
 
