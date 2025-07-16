@@ -24,6 +24,26 @@
   margin: 10px !important;
 }
 
+#auth-links-ul li {
+  list-style: none !important;
+  text-decoration: none !important;
+}
+
+.profile_a {
+  background-color: transparent;
+  border: 1px solid #007ACC;
+  padding: 0.4rem 1rem;
+  color: #007ACC;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.profile_a:hover {
+  background-color: #007ACC;
+  color: white;
+}
+
 .logout-btn {
   background-color: transparent;
   border: 1px solid #ff5252;
