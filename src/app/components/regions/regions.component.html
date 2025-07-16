@@ -38,3 +38,62 @@
 
   </div>
 </div>
+
+
+
+
+
+<!-- Pagination -->
+@if (totalPages.length > 1) {
+  <div class="d-flex justify-content-center mt-4">
+
+    <nav>
+      <ul class="pagination">
+
+        @if (isMobilePagination()) {
+
+          <!-- Mobile version -->
+          <li class="page-item" [class.disabled]="currentPage() === 1">
+            <button type="button" class="page-link" (click)="goToFirstPage()">«</button>
+          </li>
+
+          @for (page of totalPages; track $index) {
+            <li class="page-item"
+                [class.active]="currentPage() === page">
+              <button type="button" class="page-link" (click)="changePage(page)">
+                {{ page }}
+              </button>
+            </li>
+          }
+
+          <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
+            <button type="button" class="page-link" (click)="goToLastPage()">»</button>
+          </li>
+
+        } @else {
+
+          <!-- Desktop version -->
+          <li class="page-item" [class.disabled]="currentPage() === 1">
+            <button type="button" class="page-link" (click)="goToFirstPage()">First</button>
+          </li>
+
+          @for (page of totalPages; track $index) {
+            <li class="page-item"
+                [class.active]="currentPage() === page">
+              <button type="button" class="page-link" (click)="changePage(page)">
+                {{ page }}
+              </button>
+            </li>
+          }
+
+          <li class="page-item" [class.disabled]="currentPage() === totalPages.length">
+            <button type="button" class="page-link" (click)="goToLastPage()">Last</button>
+          </li>
+
+        }
+
+      </ul>
+    </nav>
+
+  </div>
+}

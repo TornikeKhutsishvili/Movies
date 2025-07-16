@@ -60,7 +60,7 @@
     <nav>
       <ul class="pagination">
 
-        @if (isMobilePagination) {
+        @if (isMobilePagination()) {
 
           <!-- Mobile version -->
           <li class="page-item" [class.disabled]="currentPage() === 1">

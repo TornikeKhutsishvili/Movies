@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, computed, inject, OnDestroy, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegionsService } from '../../services/regions.service';
 import { Regions } from '../../models/regions.model';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -11,17 +11,24 @@ import { MovieSearchService } from '../../services/movie-search.service';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './regions.component.html',
   styleUrls: ['./regions.component.css']
 })
-export class RegionsComponent implements OnInit {
+export class RegionsComponent implements OnInit, OnDestroy {
 
+  private platformId = inject(PLATFORM_ID);
   private regionsService = inject(RegionsService);
   regionsArray: Regions[] = [];
   actionsMap = new Map<string, ReturnType<typeof signal>>();
   loading = signal(true);
+
+  // Current page and items per page
+  currentPage = signal(1);
+  itemsPerPage = signal(20);
+  isMobilePagination = signal<boolean>(false);
 
   // search
   private movieSearchService = inject(MovieSearchService);
@@ -38,8 +45,50 @@ export class RegionsComponent implements OnInit {
     );
   });
 
+  // split page
+  paginatedMovies = computed(() => {
+    const start = (this.currentPage() - 1) * this.itemsPerPage();
+    const end = start + this.itemsPerPage();
+    return this.filteredRegions().slice(start, end);
+  });
+
+  // Total pages array for iteration
+  get totalPages(): number[] {
+    const totalItems = this.filteredRegions().length;
+    const pageCount = Math.ceil(totalItems / this.itemsPerPage());
+    return Array.from({ length: pageCount }, (_, i) => i + 1);
+  }
+
+  // Navigation helpers
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages.length) {
+      this.currentPage.set(page);
+      if (isPlatformBrowser(this.platformId)) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  }
+
+  goToFirstPage(): void {
+    this.currentPage.set(1);
+  }
+
+  goToLastPage(): void {
+    this.currentPage.set(this.totalPages.length);
+  }
+
+  constructor() {
+    this.checkPaginationView = this.checkPaginationView.bind(this);
+  }
+
   ngOnInit(): void {
     this.getRegions();
+
+    if (isPlatformBrowser(this.platformId)) {
+      // responsive pagination toggle
+      this.checkPaginationView();
+      window.addEventListener('resize', this.checkPaginationView);
+    }
   }
 
   getRegions() {
@@ -64,6 +113,19 @@ export class RegionsComponent implements OnInit {
 
   getActionSignal(regionName: string) {
     return this.actionsMap.get(regionName)!;
+  }
+
+
+  ngOnDestroy(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.checkPaginationView);
+    }
+  }
+
+  checkPaginationView(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isMobilePagination.set(window.innerWidth < 420);
+    }
   }
 
 }
