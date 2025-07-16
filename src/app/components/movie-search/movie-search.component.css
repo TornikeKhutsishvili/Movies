@@ -26,10 +26,11 @@
 }
 
 
-@media (max-width: 1080px) {
+/* responsive */
+@media (max-width: 1085px) {
   .search-input {
-    min-width: 100px;
-    max-width: 145px;
+    min-width: 90px;
+    max-width: 135px;
   }
 }
 
