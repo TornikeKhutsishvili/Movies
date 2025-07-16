@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, effect, inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { Component, computed, effect, inject, OnDestroy, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieDetail } from '../../models/movieAPI.model';
 import { RouterLink } from '@angular/router';
@@ -26,7 +26,7 @@ import { ModalComponent } from "../modal/modal.component";
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.css']
 })
-export class MovieListComponent implements OnInit {
+export class MovieListComponent implements OnInit, OnDestroy {
 
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);

@@ -67,32 +67,10 @@
 
 
 
-
-<!-- modal -->
-<!-- @if (selectedMovie) {
-  <div class="custom-modal">
-    <div class="modal-content"> -->
-
-      <!-- main -->
-      <!-- <button type="button" class="close-btn" (click)="closeModal()">×</button>
-      <img [src]="selectedMovie.posterMedium" [alt]="selectedMovie.title" />
-      <h2 style="color: #007ACC;">{{ selectedMovie.title }}</h2> -->
-
-      <!-- pulse animation -->
-      <!-- <app-pulse-animation id="pulsAnim"></app-pulse-animation> -->
-
-      <!-- movie duration -->
-      <!-- <app-movie-duration id="movieDurat" [runtimeMinutes]="selectedMovie.runtime_minutes"></app-movie-duration>
-
-    </div>
-  </div>
-} -->
-
-
-
 <!-- Pagination -->
 @if (totalPages.length > 1) {
   <div class="d-flex justify-content-center mt-4">
+
     <nav>
       <ul class="pagination">
 
@@ -152,5 +130,6 @@
 
       </ul>
     </nav>
+
   </div>
 }

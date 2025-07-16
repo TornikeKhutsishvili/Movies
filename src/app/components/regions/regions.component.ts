@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RegionsService } from '../../services/regions.service';
 import { Regions } from '../../models/regions.model';
@@ -16,7 +16,7 @@ import { MovieSearchService } from '../../services/movie-search.service';
   templateUrl: './regions.component.html',
   styleUrls: ['./regions.component.css']
 })
-export class RegionsComponent {
+export class RegionsComponent implements OnInit {
 
   private regionsService = inject(RegionsService);
   regionsArray: Regions[] = [];
