@@ -1,5 +1,5 @@
-body {
-  min-height: 100vh;
+.auth-container-main {
+  min-height: 80vh;
 }
 
 .auth-container {
