@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -16,17 +16,16 @@ export class MovieDurationComponent implements OnInit {
 
   @Input() runtimeMinutes: number = 0;
 
-  formattedDuration: string = '00:00:00';
-
-  progressWidth: number = 0;
+  formattedDuration = signal<string>('00:00:00');
+  progressWidth = signal<number>(0);
 
   ngOnInit(): void {
     if (!this.runtimeMinutes || this.runtimeMinutes === 0) {
-      this.formattedDuration = '01:30:45';
-      this.progressWidth = this.getProgressWidth(90);
+      this.formattedDuration.set('01:30:45');
+      this.progressWidth.set(this.getProgressWidth(90));
     } else {
-      this.formattedDuration = this.formatTime(this.runtimeMinutes);
-      this.progressWidth = this.getProgressWidth(this.runtimeMinutes);
+      this.formattedDuration.set(this.formatTime(this.runtimeMinutes));
+      this.progressWidth.set(this.getProgressWidth(this.runtimeMinutes));
     }
   }
 

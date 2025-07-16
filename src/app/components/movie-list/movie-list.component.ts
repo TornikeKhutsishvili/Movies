@@ -37,8 +37,8 @@ export class MovieListComponent implements OnInit {
   private favouriteService = inject(FavouritesService);
   private ui = inject(UiStateService);
 
-  isLoading = true;
-  searchText: string = '';
+  isLoading = signal(true);
+  searchText = signal<string>('');
   favoriteMovies: Set<string> = new Set();
   watchlistMovies: Set<string> = new Set();
   movie = signal<MovieDetail[]>([]);
@@ -137,7 +137,7 @@ export class MovieListComponent implements OnInit {
       // movies
       this.movieService.getNewTitlesWithPosters().subscribe(res => {
         this.movie.set(res);
-        this.isLoading = false;
+        this.isLoading.set(false);
         this.movieFilterService.setFilteredMovies(res);
       });
 
@@ -193,17 +193,6 @@ export class MovieListComponent implements OnInit {
       this.isMobilePagination = window.innerWidth < 420;
     }
   }
-
-  // modal
-  // selectedMovie: MovieDetail | null = null;
-
-  // openModal(movie: MovieDetail): void {
-  //   this.selectedMovie = movie;
-  // }
-
-  // closeModal(): void {
-  //   this.selectedMovie = null;
-  // }
 
 
   // modal

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
@@ -20,12 +20,12 @@ import { UiStateService } from '../../services/ui-state.service';
 export class FilterComponent implements OnInit {
 
   filterForm!: FormGroup;
-  movies: MovieDetail[] = [];
+  movies = signal<MovieDetail[]>([]);
 
-  years: number[] = [];
-  genres: string[] = [];
-  ratings: string[] = [];
-  languages: string[] = [];
+  years = signal<number[]>([]);
+  genres = signal<string[]>([]);
+  ratings = signal<string[]>([]);
+  languages = signal<string[]>([]);
 
   private ui = inject(UiStateService);
 
@@ -48,14 +48,14 @@ export class FilterComponent implements OnInit {
     });
 
     this.movieService.getNewTitlesWithPosters().subscribe(data => {
-      this.movies = data;
+      this.movies.set(data);
 
-      this.years = Array.from(new Set(data.map(m => m.year))).sort((a, b) => b - a);
-      this.genres = Array.from(new Set(data.flatMap(m => m.genre_names ?? []))).sort();
-      this.ratings = Array.from(new Set(data.map(m => m.us_rating).filter(r => r))).sort();
-      this.languages = Array.from(new Set(data.map(m => m.original_language).filter(l => l))).sort();
+      this.years.set(Array.from(new Set(data.map(m => m.year))).sort((a, b) => b - a));
+      this.genres.set(Array.from(new Set(data.flatMap(m => m.genre_names ?? []))).sort());
+      this.ratings.set(Array.from(new Set(data.map(m => m.us_rating).filter(r => r))).sort());
+      this.languages.set(Array.from(new Set(data.map(m => m.original_language).filter(l => l))).sort());
 
-      this.movieFilterService.setFilteredMovies(this.movies);
+      this.movieFilterService.setFilteredMovies(this.movies());
     });
   }
 
@@ -64,7 +64,7 @@ export class FilterComponent implements OnInit {
     const minRuntime = this.filterForm.value.minRuntime ? +this.filterForm.value.minRuntime : null;
     const maxRuntime = this.filterForm.value.maxRuntime ? +this.filterForm.value.maxRuntime : null;
 
-    const filtered = this.movies.filter(movie => {
+    const filtered = this.movies().filter(movie => {
       const matchYear = year ? movie.year === +year : true;
       const matchGenre = genre ? movie.genre_names?.includes(genre) : true;
       const matchRating = rating ? movie.us_rating === rating : true;
@@ -80,13 +80,13 @@ export class FilterComponent implements OnInit {
 
   resetFilters() {
     this.filterForm.reset();
-    this.movieFilterService.setFilteredMovies(this.movies);
+    this.movieFilterService.setFilteredMovies(this.movies());
   }
 
 
-  showFilters: boolean = false;
+  showFilters = signal<boolean>(false);
   toggleFilters(): void {
-    this.showFilters = !this.showFilters;
+    this.showFilters.set(!this.showFilters());
   }
 
 }

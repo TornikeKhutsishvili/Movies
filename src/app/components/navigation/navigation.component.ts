@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigationEnd, Router, RouterLink, RouterModule } from '@angular/router';
 import { UiStateService } from '../../services/ui-state.service';
@@ -27,18 +27,18 @@ export class NavigationComponent implements OnInit{
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
 
-  darkMode = this.themeService.darkMode;
-  loading = this.ui.loading;
-  error = this.ui.error;
+  darkMode = computed(() => this.themeService.darkMode());
+  loading = computed(() => this.ui.loading());
+  error = computed(() => this.ui.error());
 
-  navbarOpen = false;
+  navbarOpen = signal(false);
 
   toggleNavbar() {
-    this.navbarOpen = !this.navbarOpen;
+    this.navbarOpen.set(!this.navbarOpen);
   }
 
   closeNavbar() {
-    this.navbarOpen = false;
+    this.navbarOpen.set(false);
   }
 
   toggleTheme() {

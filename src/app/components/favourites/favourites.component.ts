@@ -29,7 +29,7 @@ export class FavouritesComponent implements OnInit, OnDestroy {
   private favouriteService = inject(FavouritesService);
   private movieSearchService = inject(MovieSearchService);
   readonly groupedFavourites = signal<Record<string, MovieDetail[]>>({});
-  activeCardId: string | null = null;
+  activeCardId = signal<string | null>(null);
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -105,10 +105,10 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      this.activeCardId = id;
+      this.activeCardId.set(id);
 
       setTimeout(() => {
-        this.activeCardId = null;
+        this.activeCardId.set(null);
       }, 2000);
     }
   }

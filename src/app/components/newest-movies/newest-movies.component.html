@@ -1,4 +1,4 @@
-<div class="newest-movies-container" *ngIf="!isLoading">
+<div class="newest-movies-container" *ngIf="!isLoading()">
   <div class="movie-flex">
     @for (movie of displayedMovies(); track movie.id) {
       <div class="movie-card" (click)="openModal(movie)">

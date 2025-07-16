@@ -1,3 +1,25 @@
+<!-- Loader -->
+@if (loading()) {
+  <ng-container>
+    <div class="spinner-border text-primary m-3" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </ng-container>
+}
+
+<!-- Error -->
+@if (error()) {
+  <ng-container>
+    <div class="alert alert-danger m-3" role="alert">
+      {{ error() }}
+    </div>
+  </ng-container>
+}
+
+<!-- Navigation only if not loading -->
+@if (!loading()) {
+
+<!-- Start of Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/">🎬 MoviesX</a>
@@ -6,13 +28,13 @@
       class="navbar-toggler"
       type="button"
       (click)="toggleNavbar()"
-      [attr.aria-expanded]="navbarOpen"
+      [attr.aria-expanded]="navbarOpen()"
       aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div [ngClass]="{ 'collapse': true, 'navbar-collapse': true, 'show': navbarOpen }" id="navbarNav">
+    <div [ngClass]="{ 'collapse': true, 'navbar-collapse': true, 'show': navbarOpen() }" id="navbarNav">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="nav-link active" routerLink="/home" routerLinkActive="active" (click)="closeNavbar()">Home</a>
@@ -58,21 +80,6 @@
     </div>
   </div>
 </nav>
+<!-- End of Navigation -->
 
-<!-- Loader -->
-@if (loading()) {
-  <ng-container>
-    <div class="spinner-border text-primary m-3" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </ng-container>
-}
-
-<!-- Error -->
-@if (error()) {
-  <ng-container>
-    <div class="alert alert-danger m-3" role="alert">
-      {{ error() }}
-    </div>
-  </ng-container>
 }

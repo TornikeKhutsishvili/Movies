@@ -25,7 +25,7 @@ export class TopMoviesComponent implements OnInit {
   private movieService = inject(MovieService);
   private movieSearchService = inject(MovieSearchService);
   private ui = inject(UiStateService);
-  isLoading = true;
+  isLoading = signal(true);
 
   topMovies = signal<MovieDetail[]>([]);
   selectedMovie = signal<MovieDetail | null>(null);
@@ -51,11 +51,11 @@ export class TopMoviesComponent implements OnInit {
       this.movieService.getNewTitlesWithPosters().subscribe({
         next: (movies: MovieDetail[]) => {
           this.topMovies.set(movies);
-          this.isLoading = false;
+          this.isLoading.set(false);
         },
         error: (error) => {
           console.error('Error fetching top movies:', error);
-          this.isLoading = false;
+          this.isLoading.set(false);
         }
       });
 

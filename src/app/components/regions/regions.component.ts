@@ -23,7 +23,7 @@ export class RegionsComponent {
   private regionsService = inject(RegionsService);
   regionsArray: Regions[] = [];
   actionsMap = new Map<string, ReturnType<typeof signal>>();
-  loading = true;
+  loading = signal(true);
 
   // search
   private movieSearchService = inject(MovieSearchService);
@@ -47,7 +47,8 @@ export class RegionsComponent {
   }
 
   getRegions() {
-    this.loading = true;
+    this.loading.set(true);
+
     this.regionsService.getAllRegions().subscribe({
       next: (data: Regions[]) => {
         this.regionsArray = data;
@@ -56,11 +57,11 @@ export class RegionsComponent {
             this.actionsMap.set(region.name, signal(''));
           }
         });
-        this.loading = false;
+        this.loading.set(false);
       },
       error: (err: any) => {
         console.error('Error loading regions:', err);
-        this.loading = false;
+        this.loading.set(false);
       }
     });
   }

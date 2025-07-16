@@ -21,11 +21,12 @@ export class ActorsComponent {
 
   private ui = inject(UiStateService);
   private actorsService = inject(ActorsService);
+
   actorsList = signal<Actors[]>([]);
   actionsMap = new Map<string, ReturnType<typeof signal>>();
   loading = signal(true);
   error = signal(false);
-  selectedActorId: number | null = null;
+  selectedActorId = signal<number | null>(null);
 
   // search
   private movieSearchService = inject(MovieSearchService);
@@ -65,7 +66,7 @@ export class ActorsComponent {
   }
 
   selectActor(id: number): void {
-    this.selectedActorId = id;
+    this.selectedActorId.set(id);
     console.log("Selected Actor ID:", id);
   }
 

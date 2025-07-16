@@ -1,7 +1,7 @@
 <div class="duration-container">
   <span class="start-time">00:00:00</span>
   <div class="progress-bar-background">
-    <div class="progress-bar-fill" [style.width.%]="progressWidth"></div>
+    <div class="progress-bar-fill" [style.width.%]="progressWidth()"></div>
   </div>
-  <span class="end-time">{{ formattedDuration }}</span>
+  <span class="end-time">{{ formattedDuration() }}</span>
 </div>

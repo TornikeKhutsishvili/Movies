@@ -1,11 +1,11 @@
 <!-- Toggle Filter button -->
 <div class="toggle-button-wrapper m-0 mb-1">
   <button type="button" class="toggle-filter-btn btn-sm" (click)="toggleFilters()">
-    {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
+    {{ showFilters() ? 'Hide Filters' : 'Show Filters' }}
   </button>
 </div>
 
-@if (showFilters) {
+@if (showFilters()) {
   <div class="filter-container mb-4" [formGroup]="filterForm">
 
     <div class="filter-row">
