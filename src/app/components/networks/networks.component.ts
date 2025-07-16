@@ -5,7 +5,6 @@ import { NetworksService } from '../../services/networks.service';
 import { Networks } from '../../models/networksAPI.model';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-networks',
@@ -19,7 +18,6 @@ import { UiStateService } from '../../services/ui-state.service';
 })
 export class NetworksComponent implements OnInit {
 
-  private ui = inject(UiStateService);
   private networksService = inject(NetworksService);
   networkArray = signal<Networks[]>([]);
   actionsMap = signal<Map<number, WritableSignal<string>>>(new Map());
@@ -44,8 +42,6 @@ export class NetworksComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.ui.setLoading(true);
-
     this.getNetworks();
   }
 

@@ -11,7 +11,6 @@ import { FavouritesService } from '../../services/favourites.service';
 import { WatchlistService } from '../../services/watch-list.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ModalComponent } from "../modal/modal.component";
-import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-movie-list',
@@ -35,7 +34,6 @@ export class MovieListComponent implements OnInit {
   private movieFilterService = inject(MovieFilterService);
   private movieSearchService = inject(MovieSearchService);
   private favouriteService = inject(FavouritesService);
-  private ui = inject(UiStateService);
 
   isLoading = signal(true);
   searchText = signal<string>('');
@@ -131,8 +129,6 @@ export class MovieListComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.ui.setLoading(true);
-
     if (isPlatformBrowser(this.platformId)) {
       // movies
       this.movieService.getNewTitlesWithPosters().subscribe(res => {

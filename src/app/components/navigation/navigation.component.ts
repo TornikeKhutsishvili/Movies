@@ -31,6 +31,8 @@ export class NavigationComponent implements OnInit{
   loading = computed(() => this.ui.loading());
   error = computed(() => this.ui.error());
 
+  isLoading = signal(true);
+
   navbarOpen = signal(false);
 
   toggleNavbar() {
@@ -46,8 +48,6 @@ export class NavigationComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.ui.setLoading(true);
-
     if (isPlatformBrowser(this.platformId)) {
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {

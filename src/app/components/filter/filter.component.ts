@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
 import { MovieFilterService } from '../../services/movie-filter.service';
-import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-filter',
@@ -27,17 +26,14 @@ export class FilterComponent implements OnInit {
   ratings = signal<string[]>([]);
   languages = signal<string[]>([]);
 
-  private ui = inject(UiStateService);
-
   constructor(
     private fb: FormBuilder,
     private movieService: MovieService,
     private movieFilterService: MovieFilterService
   ) {}
 
-  ngOnInit(): void {
-    this.ui.setLoading(true);
 
+  ngOnInit(): void {
     this.filterForm = this.fb.group({
       year: [null],
       genre: [null],
@@ -59,6 +55,7 @@ export class FilterComponent implements OnInit {
     });
   }
 
+
   applyFilter() {
     const { year, genre, rating, language } = this.filterForm.value;
     const minRuntime = this.filterForm.value.minRuntime ? +this.filterForm.value.minRuntime : null;
@@ -77,6 +74,7 @@ export class FilterComponent implements OnInit {
 
     this.movieFilterService.setFilteredMovies(filtered);
   }
+
 
   resetFilters() {
     this.filterForm.reset();

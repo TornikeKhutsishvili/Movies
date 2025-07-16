@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
 import { interval, Subscription } from 'rxjs';
-import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-carusel',
@@ -27,13 +26,9 @@ export class CaruselComponent implements OnInit, OnDestroy {
   slideInterval = signal<number>(4000);
   intervalSub?: Subscription;
 
-  private ui = inject(UiStateService);
-
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.ui.setLoading(true);
-
     this.updateVisibleCount();
     window.addEventListener('resize', this.updateVisibleCount);
 

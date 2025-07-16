@@ -9,7 +9,6 @@ import { CaruselComponent } from '../carusel/carusel.component';
 import { TopMoviesComponent } from '../top-movies/top-movies.component';
 import { NewestMoviesComponent } from "../newest-movies/newest-movies.component";
 import { ModalComponent } from "../modal/modal.component";
-import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +29,6 @@ export class HomeComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
   private movieSearchService = inject(MovieSearchService);
-  private ui = inject(UiStateService);
 
   isLoading = signal(true);
   searchText = signal<string>('');
@@ -57,7 +55,6 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.ui.setLoading(true);
 
     if (isPlatformBrowser(this.platformId)) {
       // movies

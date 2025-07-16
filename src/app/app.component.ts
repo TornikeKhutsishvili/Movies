@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from "./components/navigation/navigation.component";
@@ -20,21 +20,11 @@ import { UiStateService } from './services/ui-state.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
   title = 'Movies';
 
-  private ui = inject(UiStateService);
-
   ngOnInit(): void {
-    this.ui.setLoading(true);
 
-    setTimeout(() => {
-      this.ui.setLoading(false);
-    }, 4000);
   }
 
-  get isLoading() {
-    return this.ui.isLoading();
-  }
-
+  constructor() {}
 }

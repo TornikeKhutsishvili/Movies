@@ -8,7 +8,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ModalComponent } from "../modal/modal.component";
-import { UiStateService } from '../../services/ui-state.service';
 
 declare const bootstrap: any;
 
@@ -50,11 +49,7 @@ export class FavouritesComponent implements OnInit, OnDestroy {
     return query ? this.filteredServiceResults() : this.uniqueFavourites();
   });
 
-  private ui = inject(UiStateService);
-
   ngOnInit(): void {
-    this.ui.setLoading(true);
-
     this.loadGroupedFavorites();
 
     if (isPlatformBrowser(this.platformId)) {

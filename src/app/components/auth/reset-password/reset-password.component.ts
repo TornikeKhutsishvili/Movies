@@ -3,7 +3,6 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
-import { UiStateService } from '../../../services/ui-state.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -23,13 +22,7 @@ export class ResetPasswordComponent {
   error = signal('');
   success = signal(false);
 
-  private ui = inject(UiStateService);
-
   constructor(private auth: AuthService, private router: Router) {}
-
-  ngOnInit() {
-    this.ui.setLoading(true);
-  }
 
   reset(): void {
     const user = this.auth.getUserByEmail(this.email());
