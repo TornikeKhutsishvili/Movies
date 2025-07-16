@@ -47,8 +47,8 @@ export class MovieListComponent implements OnInit, OnDestroy {
 
   // Current page and items per page
   currentPage = signal(1);
-  itemsPerPage = 18;
-  isMobilePagination: boolean = false;
+  itemsPerPage = signal(20);
+  isMobilePagination = signal<boolean>(false);
 
   displayedMovies = computed(() => {
     const filtered = this.filteredMovies();
@@ -60,15 +60,15 @@ export class MovieListComponent implements OnInit, OnDestroy {
 
   // split page
   paginatedMovies = computed(() => {
-    const start = (this.currentPage() - 1) * this.itemsPerPage;
-    const end = start + this.itemsPerPage;
+    const start = (this.currentPage() - 1) * this.itemsPerPage();
+    const end = start + this.itemsPerPage();
     return this.displayedMovies().slice(start, end);
   });
 
   // Total pages array for iteration
   get totalPages(): number[] {
     const totalItems = this.displayedMovies().length;
-    const pageCount = Math.ceil(totalItems / this.itemsPerPage);
+    const pageCount = Math.ceil(totalItems / this.itemsPerPage());
     return Array.from({ length: pageCount }, (_, i) => i + 1);
   }
 
@@ -76,6 +76,9 @@ export class MovieListComponent implements OnInit, OnDestroy {
   changePage(page: number): void {
     if (page >= 1 && page <= this.totalPages.length) {
       this.currentPage.set(page);
+      if (isPlatformBrowser(this.platformId)) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   }
 
@@ -186,7 +189,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
 
   checkPaginationView(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.isMobilePagination = window.innerWidth < 420;
+      this.isMobilePagination.set(window.innerWidth < 420);
     }
   }
 

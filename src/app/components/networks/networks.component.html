@@ -19,7 +19,7 @@
     }
 
     @if(!loading() && filteredNetworks().length > 0){
-      @for (item of filteredNetworks(); track $index ) {
+      @for (item of paginatedMovies(); track $index ) {
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch mb-4">
           <div class="card shadow text-center w-100">
             <div class="card-body">
