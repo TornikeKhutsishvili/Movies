@@ -2,13 +2,14 @@
   <div class="movie-flex">
     @for (movie of displayedMovies(); track movie.id) {
       <div class="movie-card" (click)="openModal(movie)">
-        <img [src]="movie.posterMedium" [alt]="movie.title" />
+        <img [src]="movie.posterMedium" [alt]="movie.title" [title]="movie.title" />
         <h3>{{ movie.title }}</h3>
         <!-- <p>{{ movie.release_date }}</p> -->
       </div>
     }
   </div>
 </div>
+
 
 <!-- Modal -->
 <div class="custom-modal" *ngIf="selectedMovie() as movie">

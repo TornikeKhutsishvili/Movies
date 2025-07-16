@@ -16,6 +16,7 @@ import { distinctUntilChanged, filter, of, switchMap } from 'rxjs';
   styleUrls: ['./movie-search.component.css']
 })
 export class MovieSearchComponent implements OnInit {
+
   titleControl = new FormControl('');
   private movieSearchService = inject(MovieSearchService);
 
@@ -29,4 +30,5 @@ export class MovieSearchComponent implements OnInit {
         this.movieSearchService.setSearchQuery(value);
       });
   }
+
 }

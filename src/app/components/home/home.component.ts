@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, inject, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Movie, MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
@@ -26,16 +26,14 @@ import { NewestMoviesComponent } from "../newest-movies/newest-movies.component"
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
   private movieSearchService = inject(MovieSearchService);
 
-  click = signal(0);
-
-  isLoading = true;
-  searchText: string = '';
+  isLoading = signal(true);
+  searchText = signal<string>('');
   movie = signal<Movie[]>([]);
   moviedetail = signal<MovieDetail[]>([]);
 
@@ -47,8 +45,8 @@ export class HomeComponent {
     this.moviedetail().filter(m => m.original_language === 'fr' && !!m.posterMedium)
   );
 
-  readonly filteredMovies = signal<Movie[]>([]);
-  searchedMovies = signal<Movie[]>([]);
+  readonly filteredMovies = signal<MovieDetail[]>([]);
+  readonly searchedMovies = signal<MovieDetail[]>([]);
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
 
   displayedMovies = computed(() => {
@@ -65,7 +63,7 @@ export class HomeComponent {
       this.movieService.getNewTitlesWithPosters().subscribe(res => {
         this.moviedetail.set(res);
         this.movie.set(res);
-        this.isLoading = false;
+        this.isLoading.set(false);
       });
 
       // search
@@ -73,11 +71,11 @@ export class HomeComponent {
         this.movieSearchService.updateFilteredMovies(this.movie());
       });
 
-      this.movieSearchService.filteredMovies$.subscribe(searched => {
-        this.searchedMovies.set(searched);
-      });
-
     }
+  }
+
+  onSearchChange(): void {
+    this.movieSearchService.setSearchQuery(this.searchText());
   }
 
 

@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, ElementRef, inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigationEnd, Router, RouterLink, RouterModule } from '@angular/router';
 import { UiStateService } from '../../services/ui-state.service';
@@ -54,4 +54,5 @@ export class NavigationComponent implements OnInit{
       });
     }
   }
+
 }

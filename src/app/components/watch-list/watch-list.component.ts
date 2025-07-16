@@ -24,6 +24,7 @@ declare const bootstrap: any;
   styleUrls: ['./watch-list.component.css']
 })
 export class WatchListComponent implements OnInit {
+
   watchlist = signal<Movie[]>([]);
 
   constructor(private watchlistService: WatchlistService) {}

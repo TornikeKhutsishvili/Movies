@@ -3,7 +3,7 @@
   <div class="movie-flex">
     @for (movie of highRatedMovies(); track movie.id) {
       <div class="movie-card" (click)="openModal(movie)">
-        <img [src]="movie.posterMedium" [alt]="movie.title" />
+        <img [src]="movie.posterMedium" [alt]="movie.title" [title]="movie.title" />
         <h3>{{ movie.title }}</h3>
         <p>⭐ {{ movie.user_rating }}</p>
       </div>

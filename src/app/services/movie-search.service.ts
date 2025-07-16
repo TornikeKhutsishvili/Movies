@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class MovieSearchService {
+
   private searchQuerySubject = new BehaviorSubject<string>('');
   searchQuery$ = this.searchQuerySubject.asObservable();
 
@@ -26,4 +27,5 @@ export class MovieSearchService {
 
     this.filteredMoviesSubject.next(filtered);
   }
+
 }
