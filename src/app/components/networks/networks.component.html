@@ -3,7 +3,7 @@
 
   <div class="row">
 
-    @if(loading){
+    @if(loading()){
       <div class="text-center my-4">
         <div class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -11,13 +11,13 @@
       </div>
     }
 
-    @if(!loading && filteredNetworks().length === 0){
+    @if(!loading() && filteredNetworks().length === 0){
       <div class="text-center text-muted">
         No networks found.
       </div>
     }
 
-    @if(!loading && filteredNetworks().length > 0){
+    @if(!loading() && filteredNetworks().length > 0){
       @for (item of filteredNetworks(); track $index ) {
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch mb-4">
           <div class="card shadow text-center w-100">

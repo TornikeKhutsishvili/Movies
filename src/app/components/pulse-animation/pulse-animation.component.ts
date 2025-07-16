@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
+    FormsModule
   ],
   templateUrl: './pulse-animation.component.html',
   styleUrls: ['./pulse-animation.component.css']

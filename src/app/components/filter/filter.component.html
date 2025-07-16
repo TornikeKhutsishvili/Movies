@@ -14,7 +14,7 @@
         <label for="yearSelect">Year:</label>
         <select id="yearSelect" formControlName="year">
           <option [ngValue]="null">All</option>
-          @for(year of years; track $index){
+          @for(year of years(); track $index){
             <option [ngValue]="year">{{ year }}</option>
           }
         </select>
@@ -25,7 +25,7 @@
         <label for="genreSelect">Genre:</label>
         <select id="genreSelect" formControlName="genre">
           <option [ngValue]="null">All</option>
-          @for (genre of genres; track $index) {
+          @for (genre of genres(); track $index) {
             <option [ngValue]="genre">{{ genre }}</option>
           }
         </select>
@@ -36,7 +36,7 @@
         <label for="ratingSelect">US Rating:</label>
         <select id="ratingSelect" formControlName="rating">
           <option [ngValue]="null">All</option>
-          @for (rating of ratings; track $index) {
+          @for (rating of ratings(); track $index) {
             <option [ngValue]="rating">{{ rating }}</option>
           }
         </select>
@@ -49,7 +49,7 @@
         <label for="languageSelect">Language:</label>
         <select id="languageSelect" formControlName="language">
           <option [ngValue]="null">All</option>
-          @for (lang of languages; track $index) {
+          @for (lang of languages(); track $index) {
             <option [ngValue]="lang">{{ lang }}</option>
           }
         </select>

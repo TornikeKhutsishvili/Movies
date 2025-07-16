@@ -19,12 +19,7 @@ import { UiStateService } from '../../services/ui-state.service';
 })
 export class CaruselComponent implements OnInit, OnDestroy {
 
-  // @Input() movies: MovieDetail[] = [];
-  @Input() set moviesInput(value: MovieDetail[]) {
-    this.movies.set(value);
-  }
-  movies = signal<MovieDetail[]>([]);
-
+  @Input() movies: MovieDetail[] = [];
   @Output() movieClicked = new EventEmitter<MovieDetail>();
 
   currentIndex = signal<number>(0);
@@ -45,7 +40,7 @@ export class CaruselComponent implements OnInit, OnDestroy {
     if (this.movies.length === 0) {
       this.movieService.getNewTitlesWithPosters().subscribe(data => {
         // this.movies = data.filter(m => m.posterMedium);
-        this.movies.set(data.filter(m => m.posterMedium));
+        this.movies = data.filter(m => m.posterMedium);
         this.startAutoSlide();
       });
     } else {
@@ -93,7 +88,7 @@ export class CaruselComponent implements OnInit, OnDestroy {
     const result: MovieDetail[] = [];
     for (let i = 0; i < this.visibleCount() && this.movies.length > 0; i++) {
       const index = (this.currentIndex() + i) % this.movies.length;
-      result.push(this.movies()[index]);
+      result.push(this.movies[index]);
     }
     return result;
   }

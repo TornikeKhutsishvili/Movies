@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NetworksService } from '../../services/networks.service';
 import { Networks } from '../../models/networksAPI.model';
@@ -17,7 +17,7 @@ import { UiStateService } from '../../services/ui-state.service';
   templateUrl: './networks.component.html',
   styleUrls: ['./networks.component.css']
 })
-export class NetworksComponent {
+export class NetworksComponent implements OnInit {
 
   private ui = inject(UiStateService);
   private networksService = inject(NetworksService);
@@ -34,7 +34,7 @@ export class NetworksComponent {
   readonly filteredNetworks = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
     if(!query){
-      return this.networkArray;
+      return this.networkArray();
     }
 
     return this.networkArray().filter(networkFilt =>

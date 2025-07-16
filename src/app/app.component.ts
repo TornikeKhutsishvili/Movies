@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
 
     setTimeout(() => {
       this.ui.setLoading(false);
-    }, 3000);
+    }, 4000);
   }
 
   get isLoading() {
