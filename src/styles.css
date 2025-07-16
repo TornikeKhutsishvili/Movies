@@ -62,9 +62,9 @@ body.dark-mode::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(18, 18, 18, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   z-index: -1;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
 }
 
 
@@ -133,6 +133,15 @@ body.dark-mode #watchlistH5,
 body.dark-mode #groupKeyLength,
 body.dark-mode #groupKey {
   color: #cccccc !important;
+}
+
+body.dark-mode .auth-container,
+body.dark-mode .edit-profile-container {
+  color: #000 !important;
+}
+
+body.dark-mode #editProf {
+  color: #fff !important;
 }
 
 #pulsAnim {

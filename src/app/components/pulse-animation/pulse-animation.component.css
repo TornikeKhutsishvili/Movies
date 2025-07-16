@@ -1,6 +1,7 @@
 .main_enjoy-video-bottom {
+  box-sizing: border-box;
   position: absolute;
-  width: 100.5%;
+  width: 94.1%;
 }
 
 .main_enjoy-video-bottom a {

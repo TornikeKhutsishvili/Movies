@@ -24,7 +24,8 @@
   margin: 10px !important;
 }
 
-#auth-links-ul li {
+.profile_li {
+  margin-right: 10px;
   list-style: none !important;
   text-decoration: none !important;
 }
@@ -45,6 +46,7 @@
 }
 
 .logout-btn {
+  margin-right: 10px;
   background-color: transparent;
   border: 1px solid #ff5252;
   padding: 0.4rem 1rem;
