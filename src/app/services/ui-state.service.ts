@@ -13,6 +13,10 @@ export class UiStateService {
     this.loading.set(state);
   }
 
+  setLoaded() {
+    this.setLoading(false);
+  }
+
   setError(message: string | null) {
     this.error.set(message);
   }

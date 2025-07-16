@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
 import { interval, Subscription } from 'rxjs';
+import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-carusel',
@@ -26,6 +27,8 @@ export class CaruselComponent implements OnInit, OnDestroy {
   slideInterval = signal<number>(4000);
   intervalSub?: Subscription;
 
+  private ui = inject(UiStateService);
+
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
@@ -34,12 +37,13 @@ export class CaruselComponent implements OnInit, OnDestroy {
 
     if (this.movies.length === 0) {
       this.movieService.getNewTitlesWithPosters().subscribe(data => {
-        // this.movies = data.filter(m => m.posterMedium);
         this.movies = data.filter(m => m.posterMedium);
         this.startAutoSlide();
+        this.ui.setLoaded();
       });
     } else {
       this.startAutoSlide();
+      this.ui.setLoaded();
     }
   }
 

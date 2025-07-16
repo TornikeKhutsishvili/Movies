@@ -6,6 +6,7 @@ import { MovieDetail } from '../../models/movieAPI.model';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { ModalComponent } from "../modal/modal.component";
+import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-top-movies',
@@ -23,6 +24,8 @@ export class TopMoviesComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
   private movieSearchService = inject(MovieSearchService);
+
+  private ui = inject(UiStateService);
   isLoading = signal(true);
 
   topMovies = signal<MovieDetail[]>([]);
@@ -48,10 +51,12 @@ export class TopMoviesComponent implements OnInit {
         next: (movies: MovieDetail[]) => {
           this.topMovies.set(movies);
           this.isLoading.set(false);
+          this.ui.setLoaded();
         },
         error: (error) => {
           console.error('Error fetching top movies:', error);
           this.isLoading.set(false);
+          this.ui.setLoaded();
         }
       });
 

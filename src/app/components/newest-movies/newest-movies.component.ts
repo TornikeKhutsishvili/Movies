@@ -6,6 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { MovieSearchService } from '../../services/movie-search.service';
 import { MovieService } from '../../services/movie.service';
 import { ModalComponent } from "../modal/modal.component";
+import { UiStateService } from '../../services/ui-state.service';
 
 @Component({
   selector: 'app-newest-movies',
@@ -23,6 +24,8 @@ export class NewestMoviesComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
   private movieSearchService = inject(MovieSearchService);
+
+  private ui = inject(UiStateService);
   isLoading = signal(true);
 
   newestMovies = signal<MovieDetail[]>([]);
@@ -49,10 +52,12 @@ export class NewestMoviesComponent implements OnInit {
         next: (movies: MovieDetail[]) => {
           this.newestMovies.set(movies);
           this.isLoading.set(false);
+          this.ui.setLoaded();
         },
         error: (error) => {
           console.error('Error fetching newest movies:', error);
           this.isLoading.set(false);
+          this.ui.setLoaded();
         }
       });
 

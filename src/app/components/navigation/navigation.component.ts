@@ -31,8 +31,6 @@ export class NavigationComponent implements OnInit{
   loading = computed(() => this.ui.loading());
   error = computed(() => this.ui.error());
 
-  isLoading = signal(true);
-
   navbarOpen = signal(false);
 
   toggleNavbar() {
