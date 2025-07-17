@@ -43,7 +43,7 @@ export class TopMoviesComponent implements OnInit {
     const searched = this.searchedMovies();
     const search = this.searchQuery().trim();
 
-    return search ? searched : this.topMovies();
+    return search ? searched : this.highRatedMovies();
   });
 
   ngOnInit(): void {
@@ -67,6 +67,7 @@ export class TopMoviesComponent implements OnInit {
         this.movieSearchService.updateFilteredMovies(this.topMovies());
       });
 
+      // filtered results
       this.movieSearchService.filteredMovies$.subscribe(searched => {
         this.searchedMovies.set(searched);
       });

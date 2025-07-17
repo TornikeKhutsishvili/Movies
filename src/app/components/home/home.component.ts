@@ -68,6 +68,11 @@ export class HomeComponent implements OnInit {
         this.movieSearchService.updateFilteredMovies(this.moviedetail());
       });
 
+      // filtered results
+      this.movieSearchService.filteredMovies$.subscribe(filtered => {
+        this.searchedMovies.set(filtered);
+      });
+
     }
   }
 

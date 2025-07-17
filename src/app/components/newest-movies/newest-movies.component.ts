@@ -68,6 +68,11 @@ export class NewestMoviesComponent implements OnInit {
         this.movieSearchService.updateFilteredMovies(this.newestMovies());
       });
 
+      // filtered results
+      this.movieSearchService.filteredMovies$.subscribe(filtered => {
+        this.searchedMovies.set(filtered);
+      });
+
     }
   }
 
