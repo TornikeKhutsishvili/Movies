@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-
 * {
   transition: all 0.3s ease;
 }
@@ -104,7 +103,7 @@ body.dark-mode h5 {
 body.dark-mode input,
 body.dark-mode textarea,
 body.dark-mode select {
-  background-color: #2c2c2c;
+  background-color: #2c2c2c !important;
   color: #fff !important;
   border: 1px solid #444;
 }
@@ -151,4 +150,8 @@ body.dark-mode #editProf {
 
 #movieDurat {
   margin-top: -53px;
+}
+
+#editProf {
+  color: #007ACC
 }

@@ -3,13 +3,6 @@
   <div class="edit-profile-container">
     <h2 id="editProf">Edit Profile 📝</h2>
 
-    <!-- Profile Image Upload -->
-    <div class="profile-photo">
-      <img [src]="profileImage() || 'assets/default-avatar.png'" alt="Profile Photo" />
-      <label for="photoUpload" class="upload-label">📷 Upload Photo</label>
-      <input type="file" id="photoUpload" (change)="onPhotoSelected($event)" accept="image/*" />
-    </div>
-
     <form (ngSubmit)="save()" #profileForm="ngForm">
       <div class="form-group">
         <input

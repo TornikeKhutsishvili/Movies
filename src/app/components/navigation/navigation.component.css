@@ -69,6 +69,9 @@
   border-left: 1px solid #ccc;
 }
 
+.logout-btn {
+  margin-top: 5px;
+}
 
 
 /* responsive */
@@ -120,19 +123,42 @@
   .theme_btn {
     position: absolute;
 
-    width: 7%;
-    bottom: 8px;
-    right: 11px;
+    width: 6%;
+    top: 11px;
+    right: 75px;
+    height: 40px !important;
 
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
+  .profile_li,
+  .logout-btn {
+    width: 100%;
+  }
+
+  .profile_li {
+    margin-left: 10px;
+    text-align: center;
+  }
+
+  .logout-btn {
+    margin: 0;
+  }
+
+  .profile_and_logout {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
 }
 
 @media (max-width: 520px) {
-  
+
   .search {
     width: 85%;
   }

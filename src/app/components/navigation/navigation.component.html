@@ -61,10 +61,12 @@
 
       <!-- register and login -->
       <ng-container *ngIf="auth.isLoggedIn(); else guestLinks">
-        <li class="nav-item profile_li">
-          <a class="nav-link profile_a" [routerLink]="['/profile']" [routerLinkActive]="['active']">👤 Profile</a>
-        </li>
-        <button type="button" class="logout-btn" (click)="logout()">🚪 Logout</button>
+        <div class="profile_and_logout">
+          <li class="nav-item profile_li">
+            <a class="nav-link profile_a" [routerLink]="['/profile']" [routerLinkActive]="['active']">👤 Profile</a>
+          </li>
+          <button type="button" class="logout-btn" (click)="logout()">🚪 Logout</button>
+        </div>
       </ng-container>
 
       <!-- register and login -->

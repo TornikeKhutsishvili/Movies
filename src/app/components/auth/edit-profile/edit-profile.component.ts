@@ -23,7 +23,6 @@ export class EditProfileComponent implements OnInit {
   email = signal('');
   success = signal(false);
   showPassword = signal(false);
-  profileImage = signal<string | ArrayBuffer | null>(null);
   errorMessage = signal('');
 
   usernameValue = '';
@@ -37,22 +36,10 @@ export class EditProfileComponent implements OnInit {
     if (user) {
       this.username.set(user.username ?? '');
       this.email.set(user.email ?? '');
-      this.profileImage.set(user.profileImage ?? null);
 
       this.usernameValue = this.username();
       this.passwordValue = '';
       this.confirmPasswordValue = '';
-    }
-  }
-
-  onPhotoSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.profileImage.set(reader.result);
-      };
-      reader.readAsDataURL(file);
     }
   }
 
@@ -99,7 +86,6 @@ export class EditProfileComponent implements OnInit {
       ...user,
       username: this.username(),
       password: this.password(),
-      profileImage: this.profileImage() || user.profileImage,
     };
 
     try {
