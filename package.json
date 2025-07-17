@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "build:ssr": "ng build && ng run movies:server",
     "serve:ssr:Movies": "node dist/movies/server/server.mjs"
   },
   "private": true,
