@@ -33,14 +33,14 @@ export class NavigationComponent implements OnInit{
   loading = computed(() => this.ui.loading());
   error = computed(() => this.ui.error());
 
-  navbarOpen = signal(false);
+  navbarOpen = false;
 
   toggleNavbar() {
-    this.navbarOpen.set(!this.navbarOpen);
+    this.navbarOpen = !this.navbarOpen;
   }
 
   closeNavbar() {
-    this.navbarOpen.set(false);
+    this.navbarOpen = false;
   }
 
   toggleTheme() {

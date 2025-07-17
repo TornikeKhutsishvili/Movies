@@ -42,3 +42,11 @@
     max-width: 115px;
   }
 }
+
+@media (max-width: 992px) {
+  #search-input-id {
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+  }
+}

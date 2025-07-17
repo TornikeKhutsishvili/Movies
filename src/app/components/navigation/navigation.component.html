@@ -28,14 +28,14 @@
       class="navbar-toggler"
       type="button"
       (click)="toggleNavbar()"
-      [attr.aria-expanded]="navbarOpen()"
+      [attr.aria-expanded]="navbarOpen"
       aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div [ngClass]="{ 'collapse': true, 'navbar-collapse': true, 'show': navbarOpen() }" id="navbarNav">
-      <ul class="navbar-nav me-auto">
+    <div [ngClass]="{ 'collapse': true, 'navbar-collapse': true, 'show': navbarOpen }" id="navbarNav">
+      <ul class="navbar-nav me-auto" id="navbar-nav-id">
         <li class="nav-item">
           <a class="nav-link active" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="closeNavbar()">Home</a>
         </li>
@@ -81,10 +81,10 @@
 
       <!-- movie-search -->
       <div class="d-flex align-items-center me-3 search">
-        <app-movie-search></app-movie-search>
+        <app-movie-search id="movie_search"></app-movie-search>
       </div>
 
-      <button type="button" class="btn btn-outline-light" style="height: 42px;" (click)="toggleTheme()">
+      <button type="button" class="btn btn-outline-light theme_btn" style="height: 42px;" (click)="toggleTheme()">
         {{ darkMode() ? '🌙' : '☀️' }}
       </button>
     </div>

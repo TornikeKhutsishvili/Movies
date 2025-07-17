@@ -77,3 +77,109 @@
     font-size: 15px;
   }
 }
+
+@media (max-width: 992px) {
+
+  .navbar-nav {
+    flex-direction: row;
+  }
+
+  .navbar-nav li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .login_li,
+  .register_li {
+    border: 1px solid #ccc;
+  }
+
+  .login_li {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+  }
+
+  .register_li {
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+  }
+
+  .search {
+    width: 90%;
+    margin-left: 10px;
+  }
+
+  #movie_search {
+    width: 100%;
+  }
+
+  .navbar {
+    position: relative;
+  }
+
+  .theme_btn {
+    position: absolute;
+
+    width: 7%;
+    bottom: 8px;
+    right: 11px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
+
+@media (max-width: 520px) {
+  
+  .search {
+    width: 85%;
+  }
+
+  .theme_btn {
+    width: auto;
+  }
+
+}
+
+@media (max-width: 468px) {
+
+  .search {
+    width: 80%;
+  }
+
+  #navbar-nav-id {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 10px;
+  }
+
+}
+
+@media (max-width: 340px) {
+
+  .search {
+    width: 75%;
+  }
+
+}
+
+@media (max-width: 320px) {
+
+  .search {
+    width: 70%;
+  }
+
+}
+
+@media (max-width: 268px) {
+
+  .search {
+    width: 65%;
+  }
+
+}

@@ -21,8 +21,7 @@ export class MovieSearchComponent implements OnInit {
   private movieSearchService = inject(MovieSearchService);
 
   ngOnInit(): void {
-    this.titleControl.valueChanges
-      .pipe(
+    this.titleControl.valueChanges.pipe(
         filter(value => value !== null && value !== undefined),
         distinctUntilChanged()
       )

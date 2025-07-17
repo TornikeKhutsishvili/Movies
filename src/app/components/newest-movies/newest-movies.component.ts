@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, Input, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MovieDetail } from '../../models/movieAPI.model';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -20,6 +20,8 @@ import { UiStateService } from '../../services/ui-state.service';
   styleUrls: ['./newest-movies.component.css']
 })
 export class NewestMoviesComponent implements OnInit {
+
+  // @Input() movies: MovieDetail[] = [];
 
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
