@@ -1,10 +1,8 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, computed, inject, Input, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MovieService } from '../../services/movie.service';
 import { MovieDetail } from '../../models/movieAPI.model';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { MovieSearchService } from '../../services/movie-search.service';
 import { ModalComponent } from "../modal/modal.component";
 import { UiStateService } from '../../services/ui-state.service';
 
@@ -21,30 +19,15 @@ import { UiStateService } from '../../services/ui-state.service';
 })
 export class TopMoviesComponent implements OnInit {
 
-  @Input() movies: MovieDetail[] = [];
-
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
-  private movieSearchService = inject(MovieSearchService);
-
   private ui = inject(UiStateService);
   isLoading = signal(true);
 
   topMovies = signal<MovieDetail[]>([]);
-  selectedMovie = signal<MovieDetail | null>(null);
-  searchedMovies = signal<MovieDetail[]>([]);
-  readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
-
   readonly highRatedMovies = computed(() =>
     this.topMovies().filter(m => parseFloat(m.user_rating || '0') >= 8 && !!m.posterMedium)
   );
-
-  displayedMovies = computed(() => {
-    const searched = this.searchedMovies();
-    const search = this.searchQuery().trim();
-
-    return search ? searched : this.highRatedMovies();
-  });
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -60,16 +43,6 @@ export class TopMoviesComponent implements OnInit {
           this.isLoading.set(false);
           this.ui.setLoaded();
         }
-      });
-
-      // search
-      this.movieSearchService.searchQuery$.subscribe(() => {
-        this.movieSearchService.updateFilteredMovies(this.topMovies());
-      });
-
-      // filtered results
-      this.movieSearchService.filteredMovies$.subscribe(searched => {
-        this.searchedMovies.set(searched);
       });
 
     }

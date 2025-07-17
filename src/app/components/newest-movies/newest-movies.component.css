@@ -26,7 +26,8 @@
   transition: transform 0.2s ease;
   text-align: center;
   padding-bottom: 16px;
-  width: 220px;
+  flex: 1 1 180px;
+  max-width: 220px;
 }
 
 .movie-card img {
@@ -54,17 +55,9 @@
 
 
 @media (max-width: 559px) {
-  .movie-card {
-    width: 100%;
-    max-width: 455px;
-    min-height: 370px;
-  }
 
   .movie-card img {
     min-height: 300px;
   }
 
-  .movie-flex {
-    justify-content: center;
-  }
 }

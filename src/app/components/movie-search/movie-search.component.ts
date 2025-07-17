@@ -26,7 +26,7 @@ export class MovieSearchComponent implements OnInit {
         distinctUntilChanged()
       )
       .subscribe(value => {
-        this.movieSearchService.setSearchQuery(value);
+        this.movieSearchService.setSearchQuery(value.trim());
       });
   }
 

@@ -1,7 +1,7 @@
 <div class="carousel-container">
   <div class="carousel-slide d-flex justify-content-center gap-2">
 
-    @for(movie of displayedMovies(); track $index) {
+    @for(movie of visibleMovies; track $index) {
       <div class="poster-wrapper" (click)="onMovieClick(movie)">
         <img
           [src]="movie.posterMedium"
