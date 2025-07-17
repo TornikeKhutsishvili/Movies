@@ -1,7 +1,7 @@
-[build]
-  command = "npm run build:ssr"
-  publish = "dist/movies/browser"
-  functions = "netlify/functions"
+[[redirects]]
+  from = "/*"
+  to = "/movies"
+  status = 200
 
 [[plugins]]
   package = "@netlify/angular-runtime"
