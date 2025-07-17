@@ -31,7 +31,6 @@ export class CaruselComponent implements OnInit, OnDestroy {
 
   private ui = inject(UiStateService);
   private movieSearchService = inject(MovieSearchService);
-  searchText = signal<string>('');
 
   readonly searchedMovies = signal<MovieDetail[]>([]);
   readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });

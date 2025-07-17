@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
   private movieSearchService = inject(MovieSearchService);
 
   isLoading = signal(true);
-  searchText = signal<string>('');
   moviedetail = signal<MovieDetail[]>([]);
 
   englishMovies = computed(() =>
