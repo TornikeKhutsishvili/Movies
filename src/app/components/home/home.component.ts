@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
     const searched = this.searchedMovies();
     const search = this.searchQuery().trim();
 
-    return search ? searched : this.filteredMovies();
+    return search ? searched : this.moviedetail();
   });
 
 
@@ -71,9 +71,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onSearchChange(): void {
-    this.movieSearchService.setSearchQuery(this.searchText());
-  }
 
 
   // modal

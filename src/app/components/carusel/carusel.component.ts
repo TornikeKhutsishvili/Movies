@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, signal } from '@angular/core';
+import { Component, computed, EventEmitter, inject, Input, OnDestroy, OnInit, Output, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MovieDetail } from '../../models/movieAPI.model';
 import { MovieService } from '../../services/movie.service';
 import { interval, Subscription } from 'rxjs';
 import { UiStateService } from '../../services/ui-state.service';
+import { MovieSearchService } from '../../services/movie-search.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-carusel',
@@ -28,6 +30,18 @@ export class CaruselComponent implements OnInit, OnDestroy {
   intervalSub?: Subscription;
 
   private ui = inject(UiStateService);
+  private movieSearchService = inject(MovieSearchService);
+  searchText = signal<string>('');
+
+  readonly searchedMovies = signal<MovieDetail[]>([]);
+  readonly searchQuery = toSignal(this.movieSearchService.searchQuery$, { initialValue: '' });
+
+  displayedMovies = computed(() => {
+    const searched = this.searchedMovies();
+    const search = this.searchQuery().trim();
+
+    return search ? searched : this.visibleMovies;
+  });
 
   constructor(private movieService: MovieService) {}
 
@@ -45,6 +59,17 @@ export class CaruselComponent implements OnInit, OnDestroy {
       this.startAutoSlide();
       this.ui.setLoaded();
     }
+
+    // search query
+    this.movieSearchService.searchQuery$.subscribe(() => {
+      this.movieSearchService.updateFilteredMovies(this.movies);
+    });
+
+    // filtered results
+    this.movieSearchService.filteredMovies$.subscribe(filtered => {
+      this.searchedMovies.set(filtered);
+    });
+
   }
 
   ngOnDestroy(): void {

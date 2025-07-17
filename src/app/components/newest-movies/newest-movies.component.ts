@@ -21,7 +21,7 @@ import { UiStateService } from '../../services/ui-state.service';
 })
 export class NewestMoviesComponent implements OnInit {
 
-  // @Input() movies: MovieDetail[] = [];
+  @Input() movies: MovieDetail[] = [];
 
   private platformId = inject(PLATFORM_ID);
   private movieService = inject(MovieService);
