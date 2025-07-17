@@ -62,4 +62,18 @@ export class NavigationComponent implements OnInit{
     this.router.navigate(['/login']);
   }
 
+
+
+  // Signal to track the current URL
+  currentUrl = signal(this.router.url);
+
+  constructor() {
+    // Listen to route changes
+    this.router.events.subscribe(() => {
+      this.currentUrl.set(this.router.url);
+    });
+  }
+
+  isHomePage = computed(() => this.currentUrl().startsWith('/home') || this.currentUrl() === '/');
+
 }

@@ -80,7 +80,7 @@
       </ng-template>
 
       <!-- movie-search -->
-      <div class="d-flex align-items-center me-3 search">
+      <div class="d-flex align-items-center me-3 search" *ngIf="!isHomePage()">
         <app-movie-search id="movie_search"></app-movie-search>
       </div>
 
