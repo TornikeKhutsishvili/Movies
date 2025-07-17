@@ -28,25 +28,28 @@
 
 /* responsive */
 @media (max-width: 1085px) {
+
   .search-input {
     min-width: 90px;
     max-width: 135px;
   }
+
 }
 
 @media (max-width: 1024px) {
-  .search-input {
-    margin: 0 !important;
 
+  .search-input {
+    box-sizing: border-box !important;
     min-width: 70px;
     max-width: 115px;
   }
+
 }
 
 @media (max-width: 992px) {
+
   #search-input-id {
     max-width: 100%;
-    min-width: 100%;
-    width: 100%;
   }
+
 }
