@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from "./components/navigation/navigation.component";
 import { FooterComponent } from "./components/footer/footer.component";
-import { UiStateService } from './services/ui-state.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,8 @@ import { UiStateService } from './services/ui-state.service';
     FormsModule,
     RouterOutlet,
     NavigationComponent,
-    FooterComponent
+    FooterComponent,
+    NgxPaginationModule
 ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']

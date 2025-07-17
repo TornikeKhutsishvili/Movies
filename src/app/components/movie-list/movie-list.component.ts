@@ -158,7 +158,6 @@ export class MovieListComponent implements OnInit, OnDestroy {
       const currentWatchlist = this.watchlistService.getWatchlist();
       this.watchlistMovies = new Set(currentWatchlist.map(m => m.imdb_id));
 
-
       // subscribe changes, that realtime updates in watchlistMovies
       this.watchlistService.watchlist$.subscribe(movies => {
         this.watchlistMovies = new Set(movies.map(m => m.imdb_id));
