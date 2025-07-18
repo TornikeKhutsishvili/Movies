@@ -22,6 +22,9 @@ export class ActorsService {
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
 
+  // workaround for the issue with the API key switching every 25 days
+  // This method will switch the API key every 25 days
+
   private getApiKey(): string {
     let index = 0;
 
@@ -33,10 +36,10 @@ export class ActorsService {
       index = currentIndexStr ? parseInt(currentIndexStr, 10) : 0;
       const lastSwitch = lastSwitchStr ? new Date(lastSwitchStr) : new Date(0);
 
-      const oneMonthLater = new Date(lastSwitch);
-      oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+      const diffInMs = now.getTime() - lastSwitch.getTime();
+      const diffInDays = diffInMs / (1000 * 60 * 60 * 24); // ms → days
 
-      if (now >= oneMonthLater) {
+      if (diffInDays >= 25) {
         index = (index + 1) % this.apiKey.length;
         localStorage.setItem(this.currentIndexKey, index.toString());
         localStorage.setItem(this.lastSwitchKey, now.toISOString());

@@ -24,6 +24,39 @@ export class MovieService {
 
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {}
 
+
+
+  // The following method is commented out because it was switching the API key every month.
+
+  // private getApiKey(): string {
+  //   let index = 0;
+
+  //   if (isPlatformBrowser(this.platformId)) {
+  //     const now = new Date();
+  //     const lastSwitchStr = localStorage.getItem(this.lastSwitchKey);
+  //     const currentIndexStr = localStorage.getItem(this.currentIndexKey);
+
+  //     index = currentIndexStr ? parseInt(currentIndexStr, 10) : 0;
+  //     const lastSwitch = lastSwitchStr ? new Date(lastSwitchStr) : new Date(0);
+
+  //     const oneMonthLater = new Date(lastSwitch);
+  //     oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+
+  //     if (now >= oneMonthLater) {
+  //       index = (index + 1) % this.apiKey.length;
+  //       localStorage.setItem(this.currentIndexKey, index.toString());
+  //       localStorage.setItem(this.lastSwitchKey, now.toISOString());
+  //     }
+  //   }
+
+  //   return this.apiKey[index];
+  // }
+
+
+
+  // workaround for the issue with the API key switching every 25 days
+  // This method will switch the API key every 25 days
+
   private getApiKey(): string {
     let index = 0;
 
@@ -35,10 +68,10 @@ export class MovieService {
       index = currentIndexStr ? parseInt(currentIndexStr, 10) : 0;
       const lastSwitch = lastSwitchStr ? new Date(lastSwitchStr) : new Date(0);
 
-      const oneMonthLater = new Date(lastSwitch);
-      oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+      const diffInMs = now.getTime() - lastSwitch.getTime();
+      const diffInDays = diffInMs / (1000 * 60 * 60 * 24); // ms → days
 
-      if (now >= oneMonthLater) {
+      if (diffInDays >= 25) {
         index = (index + 1) % this.apiKey.length;
         localStorage.setItem(this.currentIndexKey, index.toString());
         localStorage.setItem(this.lastSwitchKey, now.toISOString());
@@ -47,6 +80,7 @@ export class MovieService {
 
     return this.apiKey[index];
   }
+
 
   getNewTitlesWithPosters(): Observable<MovieDetail[]> {
     if (!this.cache$) {
@@ -69,6 +103,7 @@ export class MovieService {
     }
     return this.cache$;
   }
+
 
   getMovieById(id: string): Observable<MovieDetail> {
     const apiKey = this.getApiKey();
