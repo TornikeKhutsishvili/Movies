@@ -91,7 +91,6 @@ body.dark-mode #watch-list{
 }
 
 body.dark-mode label,
-body.dark-mode .search-input,
 body.dark-mode #filter-title {
   color: #000000 !important;
 }
