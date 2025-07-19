@@ -135,6 +135,7 @@ Dark mode toggle
 
 ## 👨‍💻 Author
 Tornike Khutsishvili
+
 🌐 LinkedIn: https://www.linkedin.com/in/tornike-khutsishvili-ab1153193/ 
 
 
