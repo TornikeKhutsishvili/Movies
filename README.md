@@ -94,8 +94,11 @@ src/
 
 ## 🧪 Future Improvements
 User authentication system
+
 Pagination for search results
+
 Genre-based filtering
+
 Dark mode toggle
 
 
