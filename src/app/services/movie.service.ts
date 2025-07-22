@@ -10,9 +10,9 @@ import { isPlatformBrowser } from '@angular/common';
 export class MovieService {
 
   private apiKey = [
+    'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8',
     't0XNBuNEaL4lMfCVvx90ks41SrlQlWynqX5gqGB3',
     'EFCY2h2VghuMcuVW60TvMyWN9glnfkDhg1QKgvrk',
-    'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8',
   ];
 
 

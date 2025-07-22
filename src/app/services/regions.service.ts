@@ -10,10 +10,11 @@ import { isPlatformBrowser } from '@angular/common';
 export class RegionsService {
 
   private apiKey = [
+    'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8',
     't0XNBuNEaL4lMfCVvx90ks41SrlQlWynqX5gqGB3',
     'EFCY2h2VghuMcuVW60TvMyWN9glnfkDhg1QKgvrk',
-    'nYKWjq7aJRd5Q8xKkUyFSGGtMPfuBO2JCk8OUia8',
   ];
+
 
   private baseUrl = 'https://api.watchmode.com/v1';
   private readonly lastSwitchKey = 'api_key_last_switch';
@@ -50,7 +51,6 @@ export class RegionsService {
 
     return this.apiKey[index];
   }
-
 
   // get regions
   getAllRegions(): Observable<Regions[]> {
